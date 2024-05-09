@@ -1,0 +1,2221 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>kami-rst-publisher README</title>
+<style type="text/css">
+
+/* CSS3_ style sheet for the output of Docutils HTML5 writer.  */
+/* Generic responsive design for all screen sizes.                         */
+/*                                                                         */
+/* :Author: Günter Milde                                                   */
+/*                                                                         */
+/* :Id: $Id: responsive.css 9079 2022-06-19 14:00:56Z milde $                                                               */
+/* :Copyright: © 2021 Günter Milde.                                        */
+/* :License: Released under the terms of the `2-Clause BSD license`_,      */
+/*    in short:                                                            */
+/*                                                                         */
+/*    Copying and distribution of this file, with or without modification, */
+/*    are permitted in any medium without royalty provided the copyright   */
+/*    notice and this notice are preserved.                                */
+/*                                                                         */
+/*    This file is offered as-is, without any warranty.                    */
+/*                                                                         */
+/* .. _2-Clause BSD license: http://www.spdx.org/licenses/BSD-2-Clause     */
+/* .. _CSS3: https://www.w3.org/Style/CSS/                                 */
+
+/* Note:     								   */
+/* This style sheet is provisional:					   */
+/* the API is not settled and may change with any minor Docutils version.  */
+
+
+
+/* General Settings */
+/* ================ */
+
+
+* { box-sizing: border-box; }
+
+body {
+  background-color: #fafaf6;
+  margin: auto;
+  --field-indent: 6.6em; /* indent of fields in field lists */
+  --sidebar-margin-right: 0; /* adapted in media queries below */
+}
+main {
+  counter-reset: figure table;
+}
+body > * {
+  background-color: white;
+  line-height: 1.6;
+  padding: 0.5rem calc(29% - 7.2rem); /* go from 5% to 15% (8.15em/54em) */
+  margin: auto;
+  max-width: 100rem;
+}
+sup, sub { /* avoid additional inter-line space for lines with sup/sub */
+  line-height: 1;
+}
+
+/* Vertical Space (Parskip) */
+p, ol, ul, dl, li,
+div.line-block,
+.topic,
+.footnote, .citation,
+div > math,
+table {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+h1, h2, h3, h4, h5, h6,
+dl > dd, details > p:last-child {
+  margin-bottom: 0.5em;
+}
+
+/* Indented Blocks */
+blockquote, figure, .topic {
+  margin: 1em 2%;
+  padding-left: 1em;
+}
+div.line-block div.line-block,
+pre, dd, dl.option-list {
+  margin-left: calc(2% + 1em);
+}
+
+/* Object styling */
+/* ============== */
+
+footer, header {
+  font-size: small;
+}
+
+/* Frontmatter */
+div.dedication {
+  padding: 0;
+  margin: 1.4em 0;
+  font-style: italic;
+  font-size: large;
+}
+.dedication p.topic-title {
+  display: none;
+}
+
+blockquote p.attribution,
+.topic p.attribution {
+  text-align: right;
+}
+
+/* Table of Contents */
+nav.contents ul {
+  padding-left: 1em;
+}
+ul.auto-toc > li > p { /* hanging indent */
+  padding-left: 1em;
+  text-indent: -1em;
+}
+main > nav.contents  ul:not(.auto-toc) {
+  list-style-type: square;
+}
+main > nav.contents  ul ul:not(.auto-toc) {
+  list-style-type: disc;
+}
+main > nav.contents  ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B29\ ';
+}
+main > nav.contents  ul ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B1D\ ';
+}
+main > nav.contents  ul ul ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B2A\ ';
+}
+nav.contents ul > li::marker {
+  color: grey;
+}
+
+/* Transitions */
+hr {
+  margin: 1em 10%;
+}
+
+/* Lists */
+
+ul, ol {
+  padding-left: 1.1em; /* indent by bullet width (Firefox, DejaVu fonts) */
+}
+dl.field-list > dd,
+dl.docinfo > dd {
+  margin-left: var(--field-indent); /* adapted in media queries or HTML */
+}
+dl.option-list > dd {
+  margin-left: 20%;
+}
+/* run-in: start field-body on same line after long field names */
+dl.field-list.run-in > dd p {
+  display: block;
+}
+/* "description style" like in most dictionaries, encyclopedias etc. */
+dl.description {
+  display: flow-root;
+}
+dl.description > dt {
+  clear: left;
+  float: left;
+  margin: 0;
+  padding: 0;
+  padding-right: 0.3em;
+  font-weight: bold;
+}
+dl.description > dd:after {
+  display: table;
+  content: "";
+  clear: left; /* clearfix for empty descriptions */
+}
+/* start lists nested in description/field lists on new line */
+dd > dl:first-child,
+dd > ul:first-child,
+dd > ol:first-child {
+  clear: left;
+}
+
+/* disclosures */
+details { padding-left: 1em; }
+summary { margin-left: -1em; }
+
+/* Footnotes and Citations */
+.footnote {
+  font-size: small;
+}
+
+/* Images, Figures, and Tables */
+img {
+  display: block;
+}
+p > img, p > a > img,
+figure > img, figure > a > img {
+  display: inline;
+}
+
+figcaption,
+table > caption {
+  /*   font-size: small; */
+  font-style: italic;
+}
+figcaption > .legend {
+  font-size: small;
+  font-style: initial;
+}
+figure.numbered > figcaption > p:before {
+  counter-increment: figure;
+  content: "Figure " counter(figure) ": ";
+  font-weight: bold;
+  font-style: initial;
+}
+
+table tr {
+  text-align: left;
+  vertical-align: baseline;
+}
+table.booktabs { /* "booktabs" style (no vertical lines) */
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+}
+table.booktabs * {
+  border: 0;
+}
+table.booktabs th {
+  border-bottom: thin solid;
+}
+table.numbered > caption:before {
+  counter-increment: table;
+  content: "Table " counter(table) ": ";
+  font-weight: bold;
+  font-style: initial;
+}
+
+/* Admonitions and System Messages */
+.admonition,
+div.system-message {
+  border: thin solid silver;
+  margin: 1em 2%;
+  padding: 0.5em 1em;
+}
+.caution p.admonition-title,
+.attention p.admonition-title,
+.danger p.admonition-title,
+.warning p.admonition-title,
+div.error {
+  color: maroon;
+}
+div.system-message > p > span.literal {
+  overflow-wrap: break-word;
+}
+
+/* Literal and Code */
+pre.literal-block, pre.doctest{
+  padding: 0.2em;
+  overflow-x: auto;
+}
+.literal-block, .doctest, span.literal {
+  background-color: #f6f9f8;
+}
+.system-message span.literal {
+  background-color: inherit;
+}
+
+/* basic highlighting: for a complete scheme, see */
+/* https://docutils.sourceforge.io/sandbox/stylesheets/ */
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+/* Hyperlink References */
+a {
+  text-decoration: none; /* for chromium */
+  /* Wrap links at any place, if this is the only way to prevent overflow */
+  overflow-wrap: break-word;
+}
+.contents a, a.toc-backref, a.citation-reference {
+  overflow-wrap: inherit;
+}
+/* Undecorated Links (see also minimal.css) */
+/* a.citation-reference, */
+.citation a.fn-backref {
+  color: inherit;
+}
+a:hover {
+  text-decoration: underline;
+}
+*:hover > a.toc-backref:after {
+  content: " \2191"; /* ↑ UPWARDS ARROW */
+  color: grey;
+}
+*:hover > a.self-link:after {
+  content: "\1F517"; /* LINK SYMBOL */
+  color: grey;
+  font-size: smaller;
+  margin-left: 0.2em;
+}
+/* highlight the target of the current URL */
+section:target > h2, section:target > h3, section:target > h4,
+section:target > h5, section:target > h6,
+.contents :target,
+.contents:target > .topic-title,
+[role="doc-biblioentry"]:target > .label,
+[role="doc-biblioref"]:target,
+[role="note"]:target, /* Docutils 0.18 ... 0.19 */
+[role="doc-footnote"]:target, /* Docutils >= 0.20 */
+[role="doc-noteref"]:target {
+  background-color: #d2e6ec;
+}
+
+/* Block Alignment */
+/* Let content flow to the side of aligned images and figures */
+
+/* no floats around this elements */
+footer, header, hr,
+h1, h2, h3 {
+  clear: both;
+}
+
+img.align-left,
+video.align-left,
+figure.align-left,
+table.align-left {
+  margin-left: 0;
+  padding-left: 0;
+  margin-right: 0.5em;
+  clear: left;
+  float: left;
+}
+img.align-right,
+video.align-right,
+figure.align-right,
+table.align-right {
+  margin-left: 0.5em;
+  margin-right: 0;
+  clear: right;
+  float: right;
+}
+
+/* Margin Elements */
+/* see below for screen size dependent rules */
+.sidebar,
+.marginal,
+.admonition.marginal {
+  max-width: 40%;
+  border: none;
+  background-color: #efefea;
+  margin: 0.5em var(--sidebar-margin-right) 0.5em 1em;
+  padding: 0.5em;
+  padding-left: 0.7em;
+  clear: right;
+  float: right;
+  font-size: small;
+}
+.sidebar {
+  width: 40%;
+}
+
+/* Math */
+/* for math-output=MathML (for math-output=HTML, see math.css) */
+math .boldsymbol {
+  font-weight: bold;
+}
+mstyle.mathscr, mi.mathscr {
+  font-family: STIX;
+}
+
+/* Adaptive page layout */
+/* ==================== */
+
+@media (max-width: 30em) {
+  /* Smaller margins and no floating elements for small screens */
+  /* (main text less than 40 characters/line) */
+  body > * {
+    padding: 0.5rem 5%;
+    line-height: 1.4
+  }
+  .sidebar,
+  .marginal,
+  .admonition.marginal {
+    width: auto;
+    max-width: 100%;
+    float: none;
+  }
+  dl.option-list,
+  pre {
+    margin-left: 0;
+  }
+  body {
+    --field-indent: 4em;
+  }
+  dl.field-list.narrow, dl.docinfo, dl.option-list {
+    --field-indent: 2.4em;
+  }
+  pre, pre * {
+  font-size: 0.9em;
+  /* overflow: auto; */
+  }
+}
+
+@media (min-width: 54em) {
+  /* Move ToC to the left */
+  /* Main text width before: 70% ≙ 35em ≙ 75…95 chrs (Dejavu/Times) */
+  /*                  after:      ≳ 30em ≙ 54…70 chrs (Dejavu/Times) */
+  body.with-toc {
+    padding-left: 8%;
+  }
+  body.with-toc > * {
+    margin-left: 0;
+    padding-left: 22rem; /* fallback for webkit */
+    padding-left: min(22%, 22rem);
+    padding-right: 7%;
+  }
+  main > nav.contents { /* global ToC */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(25%, 25em);
+    height: 100vh;
+    margin: 0;
+    background-color: #fafaf6;
+    padding: 1em 2% 0 2%;
+    overflow: auto;
+  }
+  main > nav.contents > * {
+    padding-left: 0;
+    line-height: 1.4;
+  }
+  main > nav.contents a {
+  color: inherit;
+  }
+}
+
+@media (min-width: 70em) {
+  body {
+    --field-indent: 9em;
+  }
+}
+
+@media (min-width: 77em) {
+  /* Move marginalia to 6rem from right border       */
+  /* .sidebar,                                       */
+  /* .marginal,                                      */
+  /* .admonition.marginal {                          */
+  /*   margin-right: calc(6rem - 15%);               */
+  /* }                                               */
+  /* BUG: margin is calculated for break point width */
+  /* workaround: variable + many breakpoints         */
+  body > * {
+    padding-left: 18%;
+    padding-right: 28%; /* fallback for webkit */
+    padding-right: min(28%, 28rem);
+    --sidebar-margin-right: -20rem;
+  }
+  /* limit main text to ~ 50em ≙ 85…100 characters DejaVu rsp. …120 Times */
+  body.with-toc > * {
+    padding-left: min(22%, 22rem);
+    padding-right: calc(78% - 50rem); /* fallback for webkit */
+    padding-right: min(78% - 50rem, 28rem);
+    --sidebar-margin-right: 0;
+  }
+}
+
+@media (min-width: 85em) {
+  body.with-toc > * {
+    --sidebar-margin-right: -9rem;
+  }
+}
+
+@media (min-width: 90em) {
+  /* move marginalia into the margin */
+  body > * {
+    padding-left: min(22%, 22rem);
+    --sidebar-margin-right: -23rem;
+  }
+  body.with-toc > * {
+    --sidebar-margin-right: -14rem;
+  }
+}
+
+@media (min-width: 99em) {
+  /* move marginalia out of main text area */
+  body.with-toc > * {
+    --sidebar-margin-right: -20rem;
+  }
+  body > *, body.with-toc > * { /* for webkit */
+    padding-left: 22rem;
+    padding-right: 28rem;
+  }
+  .admonition.marginal,
+  .marginal {
+    width: 40%; /* make marginal figures, ... "full width" */
+  }
+}
+
+@media (min-width: 104em) {
+  body.with-toc > * {
+    --sidebar-margin-right: -23rem;
+  }
+}
+
+</style>
+<style type="text/css">
+
+/* PUBLISHED BY kami_rst_publisher.#3-0 */
+/* kami_html5.css for kami-rst-publisher by kamiLeL */
+/* applied with responsive.css of docutils */
+
+
+
+/* General Settings */
+
+body, body > * {
+  line-height: 1.75;  /* line spacing */
+  font-family: "Literata 12pt", Georgia; /* dominant font */
+  background-color: #FAFFFD; /* background color */
+}
+
+
+
+/* Table of Contents */
+
+nav.contents ul > li::marker {
+  color: #000000;
+}
+
+main > nav.contents,
+.sidebar {
+  background-color: #F7EDD9;
+}
+
+
+
+/* Title, Subtitle, & Headings */
+
+h1, p.subtitle, nav * {
+  font-family: "Raleway", Verdana; /* Titles, Subtitles, & ToC font */
+}
+
+p.subtitle { /* Subtitle setting */
+  font-size: 133%;
+  margin-bottom: 1em;
+  margin-top: -0.5em;
+}
+
+h2, h3, h4, h5, h6,
+p.rubric,
+p.sidebar-title,
+p.admonition-title,
+p.topic-title, /* Toc Heading */
+th /* Table Header */
+{
+  font-family: "Atkinson Hyperlegible", "Trebuchet MS";
+}
+
+/* ToC line height */
+nav * {
+  line-height: 0.9;
+}
+
+
+/* Heading Font Size */
+
+h1 {
+  font-size: 200%; /* Title */
+}
+
+h2 { /* Heading 1 */
+  text-align: center;  /* center-aligned */
+  font-size: 180%;
+}
+
+h3 { /* Heading 2 */
+  font-size: 150%;
+}
+
+h4, h5, h6 { /* Heading 3,4,5 */
+  font-size: 120%;
+}
+
+h5, h6 { /* Heading 4,5 */
+  font-weight: normal; /* de-bolding */
+}
+
+h6 { /* Heading 5 */
+  font-style: italic;
+}
+
+p.rubric,
+p.sidebar-title,
+p.admonition-title,
+p.topic-title{ /* Various Headings */
+  font-size: larger;
+  font-weight: bold;
+}
+
+p.rubric {
+  font-size: 120%;
+  color: #585858
+}
+
+
+
+/* List */
+
+ol.arabic     { list-style: decimal }
+ol.loweralpha { list-style: lower-alpha }
+ol.lowerroman { list-style: lower-roman }
+
+ol, ul{
+  line-height: 1.25;
+}
+
+ol {
+  font-family: "Playfair Display", Georgia; /* List Numbering font */
+}
+
+ol p, ul p{
+  font-family: "Literata 12pt Light", Georgia;
+}
+
+/* Special Text */
+
+blockquote > *,
+.line-block > *{ /* Quotation & Line Block */
+  font-family: "Cormorant Garamond Medium", Garamond;
+  font-size: larger;
+}
+
+.literal-block, span.literal, /* Literals */
+.system-message > *{
+  font-family: "Fira Code Kami", "Courier New";
+  font-size: small;
+  background-color: #EBF2F0;
+  color: #006642;
+}
+
+
+
+/* Tables */
+
+table { /* Single Line table border */
+  border-collapse: collapse;
+}
+
+td, th {
+  border: thin solid silver;
+  padding: 0 1ex;
+}
+
+
+
+/* Hyperlink & Footnotes */
+
+.footnote-list { /* Vertical Line on the Left of Footnotes */
+  border-left: solid medium #006642;
+  padding-left: 0.25em;
+}
+
+.fn-bracket {
+  font-size: 0; /* remove [] of Footnote links */
+}
+
+.footnote-reference { /* Footnote reference formatting */
+  font-size: 85%;
+  vertical-align: top;
+}
+
+a {
+  color: inherit;  /* reference same color as normal text */
+}
+
+.footnote-reference,
+.reference { /* in-text reference */
+  color: #006642;
+}
+
+a:hover,
+*:hover > a.toc-backref:after,
+*:hover > a.self-link:after,
+a:active{
+  color: #FFA500 /* active hyperlink color */
+}
+
+section:target > h2, section:target > h3, section:target > h4,
+section:target > h5, section:target > h6,
+.contents :target,
+.contents:target > .topic-title,
+[role="doc-biblioentry"]:target > .label,
+[role="doc-biblioref"]:target,
+[role="note"]:target, /* Docutils 0.18 ... 0.19 */
+[role="doc-footnote"]:target, /* Docutils >= 0.20 */
+[role="doc-noteref"]:target {
+  background-color: #FFE0A6; /* selected hyperlink color */
+}
+
+
+
+/* Customized Class */
+
+.kami-KScode,
+.kami-KSproxy,
+.kami-KSsup,
+.kami-KSTag {
+  font-family: "Fira Code Kami", "Courier New";
+  color: #FF3B08;
+}
+
+.kami-KScode,
+.kami-KSproxy{
+  font-size: smaller;
+}
+
+.kami-KSTag{
+  font-size: 60%
+}
+
+.kami-KSsup{
+  vertical-align: super;
+  font-size: 50%;
+}
+
+.kami-ArabicNumber,
+.kami-RomanNumeral{
+  font-family: "Playfair Display", Georgia;
+}
+
+
+
+/* Admonitions and System Messages */
+
+.admonition,
+.system-message{
+  margin: 1em 2em;
+  border: thin solid;
+  padding: 0.5em 1em;
+}
+
+.caution p.admonition-title,
+.attention p.admonition-title,
+.danger p.admonition-title,
+.error p.admonition-title,
+.warning p.admonition-title{
+  color: #FF3B08;
+}
+
+.system-message > * {
+  color: red;
+  font-weight: bold;
+}
+
+.system-message {
+  border: thin solid red;
+  background-color: #FFCCCC;
+}
+
+</style>
+<style type="text/css">
+
+/* kami_html5_dark.css for kami-rst-publisher by kamiLeL */
+/* applied with kami_html5.css & with responsive.css of docutils */
+
+
+
+/* General Settings */
+
+body, body > * {
+  background-color: #262421; /* background color */
+  color: #F7FFFC; /* dominant font color */
+}
+
+strong {
+  color: #99FFDB;
+}
+
+
+
+/* Table of Contents */
+
+nav.contents ul > li::marker {
+  color: #FFFFFF;
+}
+
+main > nav.contents,
+.sidebar {
+  background-color: #143328;
+}
+
+
+
+/* Title, Subtitle, & Headings */
+
+
+
+/* Heading Font Size */
+
+h2, h3 { /* Heading 1 & 2 */
+  color: #FFDD88;
+}
+
+h4, h5, h6 { /* Heading 3,4,5 */
+  color: #F6C548;
+}
+
+p.rubric {
+  color: #E59E5C;
+}
+
+
+
+/* List */
+
+
+
+/* Special Text */
+
+.literal-block, span.literal, /* Literals */
+.system-message > *{
+  background-color: #373226;
+  color: #F2EADB;
+}
+
+
+
+/* Tables */
+
+
+
+/* Hyperlink & Footnotes */
+
+.footnote-list { /* Vertical Line on the Left of Footnotes */
+  border-left: solid medium #E5D8C3;
+}
+
+.footnote-reference,
+.reference { /* in-text reference */
+  color: #E5D8C3;
+}
+
+a:hover,
+*:hover > a.toc-backref:after,
+*:hover > a.self-link:after,
+a:active{
+  color: #00FFA5 /* active hyperlink color */
+}
+
+section:target > h2, section:target > h3, section:target > h4,
+section:target > h5, section:target > h6,
+.contents :target,
+.contents:target > .topic-title,
+[role="doc-biblioentry"]:target > .label,
+[role="doc-biblioref"]:target,
+[role="note"]:target, /* Docutils 0.18 ... 0.19 */
+[role="doc-footnote"]:target, /* Docutils >= 0.20 */
+[role="doc-noteref"]:target {
+  background-color: #00593A; /* selected hyperlink color */
+}
+
+
+
+/* Customized Class */
+
+.kami-KScode,
+.kami-KSproxy,
+.kami-KSsup,
+.kami-KSTag {
+  color: #FFA500;
+}
+
+
+
+/* Admonitions and System Messages */
+
+.caution p.admonition-title,
+.attention p.admonition-title,
+.danger p.admonition-title,
+.error p.admonition-title,
+.warning p.admonition-title{
+  color: #00FFA5;
+}
+
+</style>
+<style type="text/css">
+
+/*
+*   math2html: convert LaTeX equations to HTML output.
+*
+*   Copyright (C) 2009,2010 Alex Fernández
+*                 2021      Günter Milde
+*
+*   Released under the terms of the `2-Clause BSD license'_, in short:
+*   Copying and distribution of this file, with or without modification,
+*   are permitted in any medium without royalty provided the copyright
+*   notice and this notice are preserved.
+*   This file is offered as-is, without any warranty.
+*
+* .. _2-Clause BSD license: http://www.spdx.org/licenses/BSD-2-Clause
+*
+*   Based on eLyXer: convert LyX source files to HTML output.
+*   http://elyxer.nongnu.org/
+*
+*
+* CSS file for LaTeX formulas.
+*
+* References: http://www.zipcon.net/~swhite/docs/math/math.html
+*             http://www.cs.tut.fi/~jkorpela/math/
+*/
+
+/* Formulas */
+.formula {
+	text-align: center;
+	margin: 1.2em 0;
+	line-height: 1.4;
+}
+span.formula {
+	white-space: nowrap;
+}
+div.formula {
+	padding: 0.5ex;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Basic features */
+a.eqnumber {
+	display: inline-block;
+	float: right;
+	clear: right;
+	font-weight: bold;
+}
+span.unknown {
+	color: #800000;
+}
+span.ignored, span.arraydef {
+	display: none;
+}
+.phantom {
+	visibility: hidden;
+}
+.formula i {
+	letter-spacing: 0.1ex;
+}
+
+/* Alignment */
+.align-left, .align-l {
+	text-align: left;
+}
+.align-right, .align-r {
+	text-align: right;
+}
+.align-center, .align-c {
+	text-align: center;
+}
+
+/* Structures */
+span.hspace {
+	display: inline-block;
+}
+span.overline, span.bar {
+	text-decoration: overline;
+}
+.fraction, .fullfraction, .textfraction {
+	display: inline-block;
+	vertical-align: middle;
+	text-align: center;
+}
+span.formula .fraction,
+.textfraction,
+span.smallmatrix {
+	font-size: 80%;
+	line-height: 1;
+}
+span.numerator {
+	display: block;
+	line-height: 1;
+}
+span.denominator {
+	display: block;
+	line-height: 1;
+	padding: 0ex;
+	border-top: thin solid;
+}
+.formula sub, .formula sup {
+	font-size: 80%;
+}
+sup.numerator, sup.unit {
+	vertical-align: 80%;
+}
+sub.denominator, sub.unit {
+	vertical-align: -20%;
+}
+span.smallsymbol {
+	font-size: 75%;
+	line-height: 75%;
+}
+span.boldsymbol {
+	font-weight: bold;
+}
+span.sqrt {
+	display: inline-block;
+	vertical-align: middle;
+	padding: 0.1ex;
+}
+sup.root {
+	position: relative;
+	left: 1.4ex;
+}
+span.radical {
+	display: inline-block;
+	padding: 0ex;
+	/* font-size: 160%; for DejaVu, not required with STIX */
+	line-height: 100%;
+	vertical-align: top;
+	vertical-align: middle;
+}
+
+span.root {
+	display: inline-block;
+	border-top: thin solid;
+	padding: 0ex;
+	vertical-align: middle;
+}
+div.formula .bigoperator,
+.displaystyle .bigoperator,
+.displaystyle .bigoperator {
+	line-height: 120%;
+	font-size: 140%;
+	padding-right: 0.2ex;
+}
+span.fraction .bigoperator,
+span.scriptstyle .bigoperator {
+	line-height: inherit;
+	font-size: inherit;
+	padding-right: 0;
+}
+span.bigdelimiter {
+	display: inline-block;
+}
+span.bigdelimiter.size1 {
+	transform: scale(1, 1.2);
+	line-height: 1.2;
+}
+span.bigdelimiter.size2 {
+	transform: scale(1, 1.62);
+	line-height: 1.62%;
+
+}
+span.bigdelimiter.size3 {
+	transform: scale(1, 2.05);
+	line-height: 2.05%;
+}
+span.bigdelimiter.size4 {
+	transform: scale(1, 2.47);
+	line-height: 2.47%;
+}
+/* vertically stacked sub and superscript */
+span.scripts {
+	display: inline-table;
+	vertical-align: middle;
+	padding-right: 0.2ex;
+}
+.script {
+	display: table-row;
+	text-align: left;
+	line-height: 150%;
+}
+span.limits {
+	display: inline-table;
+	vertical-align: middle;
+}
+.limit {
+	display: table-row;
+	line-height: 99%;
+}
+sup.limit, sub.limit {
+	line-height: 100%;
+}
+span.embellished,
+span.embellished > .base {
+	display: inline-block;
+}
+span.embellished > sup,
+span.embellished > sub {
+	display: inline-block;
+	font-size: 100%;
+	position: relative;
+	bottom: 0.3em;
+	width: 0px;
+}
+span.embellished > sub {
+	top: 0.4em;
+}
+
+/* Environments */
+span.array, span.bracketcases, span.binomial, span.environment {
+	display: inline-table;
+	text-align: center;
+	vertical-align: middle;
+}
+span.arrayrow, span.binomrow {
+	display: table-row;
+	padding: 0;
+	border: 0;
+}
+span.arraycell, span.bracket, span.case, span.binomcell, span.environmentcell {
+	display: table-cell;
+	padding: 0ex 0.2ex;
+	line-height: 1; /* 99%; */
+	border: 0ex;
+}
+.environment.align > .arrayrow > .arraycell.align-l {
+	padding-right: 2em;
+}
+
+/* Inline binomials */
+span.binom {
+	display: inline-block;
+	vertical-align: middle;
+	text-align: center;
+	font-size: 80%;
+}
+span.binomstack {
+	display: block;
+	padding: 0em;
+}
+
+/* Over- and underbraces */
+span.overbrace {
+	border-top: 2pt solid;
+}
+span.underbrace {
+	border-bottom: 2pt solid;
+}
+
+/* Stackrel */
+span.stackrel {
+	display: inline-block;
+	text-align: center;
+}
+span.upstackrel {
+	display: block;
+	padding: 0em;
+	font-size: 80%;
+	line-height: 64%;
+	position: relative;
+	top: 0.15em;
+
+}
+span.downstackrel {
+	display: block;
+	vertical-align: bottom;
+	padding: 0em;
+}
+
+/* Fonts */
+.formula {
+	font-family: STIX, "DejaVu Serif", "DejaVu Math TeX Gyre", serif;
+}
+span.radical,   /* ensure correct size of square-root sign */
+span.integral { /* upright integral signs for better alignment of indices */
+	font-family: "STIXIntegralsUp", STIX;
+	/* font-size: 115%; match apparent size with DejaVu */
+}
+span.bracket {
+  /* some "STIX" and "DejaVu Math TeX Gyre" bracket pieces don't fit */
+	font-family: "DejaVu Serif", serif;
+}
+span.mathsf, span.textsf {
+	font-family: sans-serif;
+}
+span.mathrm, span.textrm {
+	font-family: STIX, "DejaVu Serif", "DejaVu Math TeX Gyre", serif;
+}
+span.mathtt, span.texttt {
+	font-family: monospace;
+}
+span.text, span.textnormal,
+span.mathsf, span.mathtt, span.mathrm {
+	font-style: normal;
+}
+span.fraktur {
+	font-family: "Lucida Blackletter", eufm10, blackletter;
+}
+span.blackboard {
+	font-family: Blackboard, msbm10, serif;
+}
+span.scriptfont {
+	font-family: "Monotype Corsiva", "Apple Chancery", "URW Chancery L", cursive;
+	font-style: italic;
+}
+span.mathscr {
+  font-family: MathJax_Script, rsfs10,  cursive;
+  font-style: italic;
+}
+span.textsc {
+	font-variant: small-caps;
+}
+span.textsl {
+	font-style: oblique;
+}
+
+/* Colors */
+span.colorbox {
+	display: inline-block;
+	padding: 5px;
+}
+span.fbox {
+	display: inline-block;
+	border: thin solid black;
+	padding: 2px;
+}
+span.boxed, span.framebox {
+	display: inline-block;
+	border: thin solid black;
+	padding: 5px;
+}
+
+</style>
+</head>
+<body class="with-toc">
+<main id="kami-rst-publisher-readme">
+<h1 class="title">kami-rst-publisher README</h1>
+
+<nav class="contents" id="contents" role="doc-toc">
+<p class="topic-title"><a class="reference internal" href="#top">Contents</a></p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#span-class-kami-romannumeral-i-span-usage" id="toc-entry-1"><span class="kami-RomanNumeral">I</span> usage</a></p>
+<ul>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-1-span-python-package" id="toc-entry-2"><span class="kami-ArabicNumber">1</span> Python package</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-2-span-api" id="toc-entry-3"><span class="kami-ArabicNumber">2</span> API</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-3-span-python-cli" id="toc-entry-4"><span class="kami-ArabicNumber">3</span> Python CLI</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-4-span-stylesheets" id="toc-entry-5"><span class="kami-ArabicNumber">4</span> stylesheets</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#span-class-kami-romannumeral-ii-span-rst" id="toc-entry-6"><span class="kami-RomanNumeral">II</span> rST</a></p>
+<ul>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-1-span-paragraph" id="toc-entry-7"><span class="kami-ArabicNumber">1</span> paragraph</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-2-span-indentation" id="toc-entry-8"><span class="kami-ArabicNumber">2</span> indentation</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-3-span-text-style" id="toc-entry-9"><span class="kami-ArabicNumber">3</span> text style</a></p>
+<ul>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-3-1-span-italics" id="toc-entry-10"><span class="kami-ArabicNumber">3.1</span> italics</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-3-2-span-bold" id="toc-entry-11"><span class="kami-ArabicNumber">3.2</span> bold</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-3-3-span-subscript-superscript" id="toc-entry-12"><span class="kami-ArabicNumber">3.3</span> subscript &amp; superscript</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-3-4-span-math" id="toc-entry-13"><span class="kami-ArabicNumber">3.4</span> math</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-4-span-heading" id="toc-entry-14"><span class="kami-ArabicNumber">4</span> heading</a></p>
+<ul>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-4-1-span-title" id="toc-entry-15"><span class="kami-ArabicNumber">4.1</span> title</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-4-2-span-section-heading" id="toc-entry-16"><span class="kami-ArabicNumber">4.2</span> section heading</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-4-3-span-section-heading-reference" id="toc-entry-17"><span class="kami-ArabicNumber">4.3</span> section heading reference</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-4-4-span-blank-lines-before-heading" id="toc-entry-18"><span class="kami-ArabicNumber">4.4</span> blank lines before heading</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-5-span-list" id="toc-entry-19"><span class="kami-ArabicNumber">5</span> list</a></p>
+<ul>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-5-1-span-bullet-list" id="toc-entry-20"><span class="kami-ArabicNumber">5.1</span> bullet list</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-5-2-span-enumerated-list" id="toc-entry-21"><span class="kami-ArabicNumber">5.2</span> enumerated list</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-6-span-table" id="toc-entry-22"><span class="kami-ArabicNumber">6</span> table</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-7-span-footnote" id="toc-entry-23"><span class="kami-ArabicNumber">7</span> footnote</a></p>
+<ul>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-7-1-span-numerical-footnote" id="toc-entry-24"><span class="kami-ArabicNumber">7.1</span> numerical footnote</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-7-2-span-symbolic-footnote" id="toc-entry-25"><span class="kami-ArabicNumber">7.2</span> symbolic footnote</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-8-span-transition" id="toc-entry-26"><span class="kami-ArabicNumber">8</span> transition</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-9-span-comment" id="toc-entry-27"><span class="kami-ArabicNumber">9</span> comment</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-10-span-escaping" id="toc-entry-28"><span class="kami-ArabicNumber">10</span> escaping</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-11-span-hyperlink" id="toc-entry-29"><span class="kami-ArabicNumber">11</span> hyperlink</a></p>
+<ul>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-11-1-span-reference-name" id="toc-entry-30"><span class="kami-ArabicNumber">11.1</span> reference name</a></p>
+<ul>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-11-1-1-span-simple-reference-name" id="toc-entry-31"><span class="kami-ArabicNumber">11.1.1</span> simple reference name</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-11-1-2-span-phrase-reference" id="toc-entry-32"><span class="kami-ArabicNumber">11.1.2</span> phrase-reference</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-11-2-span-hyperlink-syntax" id="toc-entry-33"><span class="kami-ArabicNumber">11.2</span> hyperlink syntax</a></p>
+<ul>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-11-2-1-span-named-hyperlink-reference-target" id="toc-entry-34"><span class="kami-ArabicNumber">11.2.1</span> named hyperlink reference &amp; target</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-11-2-2-span-anonymous-hyperlink-reference-target" id="toc-entry-35"><span class="kami-ArabicNumber">11.2.2</span> anonymous hyperlink reference &amp; target</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#span-class-kami-romannumeral-iii-span-rst-directives" id="toc-entry-36"><span class="kami-RomanNumeral">III</span> rST directives</a></p>
+<ul>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-1-span-table-of-content" id="toc-entry-37"><span class="kami-ArabicNumber">1</span> table of content</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-2-span-admonitions" id="toc-entry-38"><span class="kami-ArabicNumber">2</span> admonitions</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-3-span-rubric" id="toc-entry-39"><span class="kami-ArabicNumber">3</span> rubric</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-4-span-sidebar" id="toc-entry-40"><span class="kami-ArabicNumber">4</span> sidebar</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#span-class-kami-romannumeral-iv-span-literal-quotation" id="toc-entry-41"><span class="kami-RomanNumeral">IV</span> literal &amp; quotation</a></p>
+<ul>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-1-span-inline-literal" id="toc-entry-42"><span class="kami-ArabicNumber">1</span> inline literal</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-2-span-literal-block" id="toc-entry-43"><span class="kami-ArabicNumber">2</span> literal block</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-3-span-block-quote" id="toc-entry-44"><span class="kami-ArabicNumber">3</span> block quote</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-4-span-epigraph" id="toc-entry-45"><span class="kami-ArabicNumber">4</span> epigraph</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-5-span-line-block" id="toc-entry-46"><span class="kami-ArabicNumber">5</span> line block</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#span-class-kami-romannumeral-v-span-native-role" id="toc-entry-47"><span class="kami-RomanNumeral">V</span> native role</a></p>
+<ul>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-1-span-smart-role" id="toc-entry-48"><span class="kami-ArabicNumber">1</span> smart role</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-2-span-tag-role" id="toc-entry-49"><span class="kami-ArabicNumber">2</span> tag role</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#span-class-kami-romannumeral-vi-span-native-directive" id="toc-entry-50"><span class="kami-RomanNumeral">VI</span> native directive</a></p>
+<ul>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-1-span-tag-directive" id="toc-entry-51"><span class="kami-ArabicNumber">1</span> tag directive</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-2-span-subtitle-directive" id="toc-entry-52"><span class="kami-ArabicNumber">2</span> subtitle directive</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#span-class-kami-romannumeral-vii-span-style-guide" id="toc-entry-53"><span class="kami-RomanNumeral">VII</span> style guide</a></p>
+<ul>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-1-span-comprehensibility-principle" id="toc-entry-54"><span class="kami-ArabicNumber">1</span> comprehensibility principle</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-2-span-document-structure" id="toc-entry-55"><span class="kami-ArabicNumber">2</span> document structure</a></p></li>
+<li><p><a class="reference internal" href="#span-class-kami-arabicnumber-3-span-heading-numbering" id="toc-entry-56"><span class="kami-ArabicNumber">3</span> heading numbering</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<p><span class="docutils literal"><span class="pre">kami-rst-publisher</span></span> is a personalized tool based on <span class="docutils literal">docutils</span> and <em>reStructuredText</em>.</p>
+<p>This README have four parts:</p>
+<ol class="arabic simple">
+<li><p><strong>usage</strong> § <a class="reference internal" href="#i">I</a>: how to use kami-rst-publisher</p></li>
+<li><p><strong>rST</strong> part § <a class="reference internal" href="#ii">II</a>, <a class="reference internal" href="#iii">III</a>,  &amp; <a class="reference internal" href="#iv">IV</a>: i.e. reStructuredText. This part is a study note of <em>rST</em> standard. It will also define <em>preference</em> in expression varieties</p></li>
+<li><p><strong>native</strong> part § <a class="reference internal" href="#v">V</a> &amp; § <a class="reference internal" href="#vi">VI</a>: <em>roles</em> and <em>directives</em> implemented by <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span></p></li>
+<li><p><strong>style guide</strong> § <a class="reference internal" href="#vii">VII</a>: the less-technical specifications of documentation</p></li>
+</ol>
+<p>Docutils Project Documentation <a class="brackets" href="#docutil" id="footnote-reference-1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> (abbr. <em>docutil</em>) and Python Developler's Guide <a class="brackets" href="#python" id="footnote-reference-2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> (abbr. <em>doc python</em>) are heavily referenced.</p>
+<section id="span-class-kami-romannumeral-i-span-usage">
+<span id="i"></span><h2><a class="toc-backref" href="#toc-entry-1" role="doc-backlink"><span class="kami-RomanNumeral">I</span> usage</a></h2>
+<p>Use <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span> as Python package or by a CLI, v.i.</p>
+<section id="span-class-kami-arabicnumber-1-span-python-package">
+<h3><a class="toc-backref" href="#toc-entry-2" role="doc-backlink"><span class="kami-ArabicNumber">1</span> Python package</a></h3>
+<p>Use <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span> as Python code:</p>
+<pre class="literal-block">from docutils.core import publish_file
+from kami-rst-publisher import init_publisher
+
+init_publisher()
+
+publish_file(...)</pre>
+</section>
+<section id="span-class-kami-arabicnumber-2-span-api">
+<h3><a class="toc-backref" href="#toc-entry-3" role="doc-backlink"><span class="kami-ArabicNumber">2</span> API</a></h3>
+<p>An API (defined in <span class="docutils literal">./kami_rst_publisher/rst2html_file.py</span>) can be used for publish raw rST plain text into html 5 file(s).</p>
+<p>One can use in Python:</p>
+<pre class="literal-block">from kami_rst_publisher import init_publisher
+from kami_rst_publisher import Rst2htmlFile, Rst2htmlFileBatch, Rst2htmlFileRecursive
+
+init_publisher()
+
+Rst2htmlFile(src, dest)</pre>
+<p>Check <em>docstring</em> for each classes.</p>
+</section>
+<section id="span-class-kami-arabicnumber-3-span-python-cli">
+<h3><a class="toc-backref" href="#toc-entry-4" role="doc-backlink"><span class="kami-ArabicNumber">3</span> Python CLI</a></h3>
+<p>One could use a CLI defined in <span class="docutils literal">./kami_rst_publisher/cli.py</span></p>
+<p>Run with python:</p>
+<pre class="literal-block">python3 -m kami_rst_publisher.cli ...</pre>
+<p>And its <em>help</em> file:</p>
+<pre class="literal-block">usage: (kami rST publisher)publisher-cli.py [-h] [-b] [-r] [-c [WAIT]] [-l] [-v] [-s [SUFFIX]] [-f FILTER]
+                                            SOURCE [DESTINATION]
+
+personalized rST publisher based on docutils but with extra roles &amp; directives
+
+positional arguments:
+  SOURCE                SOURCE of rST text, file or directory path
+  DESTINATION           DESTINATION of rendered .html file(s), file or directory path. Rendered file will be saved
+                        alongside with SOURCE if not given
+
+options:
+  -h, --help            show this help message and exit
+  -b, --batch           render any file with name fullmatching (regex) FILTER in a directory SOURCE. SOURCE &amp;
+                        DESTINATION should be directory path. FILTER default to &quot;.+\.rst&quot;, but can be set by -f
+  -r, --recursive       like -b, but recursively into each sub-folder of SOURCE. This flag overwrites -b. DESTINATION
+                        is not used when -r
+  -c [WAIT], --continuous [WAIT]
+                        render all changed files once every WAIT seconds. WAIT default to 5.0.
+  -l, --light           render in light mode
+  -v, --verbose
+  -s [SUFFIX], --suffix [SUFFIX]
+                        SUFFIX for rendered file. Default to &quot;.R&quot;
+  -f FILTER, --filter FILTER
+                        with -b or -r, set FILTER for file matching. Default to &quot;.+\.rst&quot;</pre>
+</section>
+<section id="span-class-kami-arabicnumber-4-span-stylesheets">
+<h3><a class="toc-backref" href="#toc-entry-5" role="doc-backlink"><span class="kami-ArabicNumber">4</span> stylesheets</a></h3>
+<p>There are two render styles:</p>
+<ul class="simple">
+<li><p>light mode: apply stylesheet <span class="docutils literal">responsive.css</span> &amp; <span class="docutils literal">kami_html5.css</span></p></li>
+<li><p>dark mode: apply stylesheet <span class="docutils literal">responsive.css</span>, <span class="docutils literal">kami_html5.css</span>, &amp; <span class="docutils literal">kami_html5_dark.css</span></p></li>
+</ul>
+<p>These stylesheets will utilize these typefaces for desired looking;</p>
+<ul class="simple">
+<li><p><span class="docutils literal">Literata 12pt</span></p></li>
+<li><p><span class="docutils literal">Atkinson Hyperlegible</span></p></li>
+<li><p><span class="docutils literal">Raleway</span></p></li>
+<li><p><span class="docutils literal">Cormorant Garamond Medium</span></p></li>
+<li><p><span class="docutils literal">Fira Code Kami</span></p></li>
+<li><p><span class="docutils literal">Playfair Display</span></p></li>
+</ul>
+</section>
+</section>
+<section id="span-class-kami-romannumeral-ii-span-rst">
+<span id="ii"></span><h2><a class="toc-backref" href="#toc-entry-6" role="doc-backlink"><span class="kami-RomanNumeral">II</span> rST</a></h2>
+<section id="span-class-kami-arabicnumber-1-span-paragraph">
+<h3><a class="toc-backref" href="#toc-entry-7" role="doc-backlink"><span class="kami-ArabicNumber">1</span> paragraph</a></h3>
+<p><strong>Paragraph</strong> is the basic element for text. Paragraphs consist of blocks of left-aligned text with no markup indicating any other body element.</p>
+<p>Blank lines are used to separate paragraphs from each other and from other elements. Multiple blank lines are functionally equivalent to single blank line.</p>
+<pre class="literal-block">a single line paragraph
+
+second paragraph
+with multiple lines
+
+
+
+Another paragraph with multiple blank lines before it</pre>
+<p>※ <em>doc python</em>, “The maximum line length is 80 characters for normal text”. However <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span> prefers <strong>not</strong> to follow such convention. I.e. one should put text of the same paragraph formatted in a single line.</p>
+</section>
+<section id="span-class-kami-arabicnumber-2-span-indentation">
+<h3><a class="toc-backref" href="#toc-entry-8" role="doc-backlink"><span class="kami-ArabicNumber">2</span> indentation</a></h3>
+<p>Space character is used for indentation rather than tabs. It is used to provoke certain functions of rST such as lists, block quotes, etc. <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span> uses <strong>4 spaces</strong> for indentation.</p>
+<p>This is an example of list, which requires indentation to provoke:</p>
+<pre class="literal-block">- first item
+
+  - sub-level item in first iem
+
+- second item</pre>
+<p>Several elements (e.g. lists, footnotes, etc.) require both a marker and indentation, therefore intentation might varies (※ <em>docutil</em>.) E.g.:</p>
+<pre class="literal-block">- a bullet list's second line
+  start aligned with text
+
+      and additional indentation within should be additional 4 spaces, therefore 2+4=6 in total
+
+.. [1] and elements such as footnote's second line
+   aligned left with the bracket (i.e. 3 spaces)</pre>
+<p>As shown in these examples, number of spaces used for indentation might not be multiple of 4.</p>
+<p>※ <em>doc python</em>, “All reST files use an indentation of 3 spaces”, but <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span> prefers to use 4 spaces as the default.</p>
+<p>※ <em>docutil</em>, tab, form feeds, and vertical tabs would be automatically converted, but <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span> prefers to not use these functions. I.e. only space character shall be used.</p>
+</section>
+<section id="span-class-kami-arabicnumber-3-span-text-style">
+<h3><a class="toc-backref" href="#toc-entry-9" role="doc-backlink"><span class="kami-ArabicNumber">3</span> text style</a></h3>
+<section id="span-class-kami-arabicnumber-3-1-span-italics">
+<h4><a class="toc-backref" href="#toc-entry-10" role="doc-backlink"><span class="kami-ArabicNumber">3.1</span> italics</a></h4>
+<p><em>Italics</em> is for texts that should be understood literally. It is also used for book, movie, magazine titles etc.</p>
+<p><em>example text in italics</em></p>
+<p>※ <em>docutil</em>, a interpreted text role <span class="docutils literal"><span class="pre">:title-reference:</span></span> is used for titles of materials. But <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span> simpliy use italics for such function.</p>
+</section>
+<section id="span-class-kami-arabicnumber-3-2-span-bold">
+<h4><a class="toc-backref" href="#toc-entry-11" role="doc-backlink"><span class="kami-ArabicNumber">3.2</span> bold</a></h4>
+<p><strong>Bold</strong> is for emphasizing the meaning of the text.</p>
+<p><strong>example text in bold</strong></p>
+</section>
+<section id="span-class-kami-arabicnumber-3-3-span-subscript-superscript">
+<h4><a class="toc-backref" href="#toc-entry-12" role="doc-backlink"><span class="kami-ArabicNumber">3.3</span> subscript &amp; superscript</a></h4>
+<p>Subscript and superscript are possible by:</p>
+<pre class="literal-block">normal text :subscript:`subscript text` :superscript:'superscript text'
+
+or as normal :sub:`subs` :sup:`sups`</pre>
+<p>rendered as:</p>
+<blockquote>
+<p>normal text <sub>subscript text</sub> <sup>superscript text</sup></p>
+<p>or as normal <sub>subs</sub> <sup>sups</sup></p>
+</blockquote>
+</section>
+<section id="span-class-kami-arabicnumber-3-4-span-math">
+<h4><a class="toc-backref" href="#toc-entry-13" role="doc-backlink"><span class="kami-ArabicNumber">3.4</span> math</a></h4>
+<p>Express mathematical notation in <em>LaTeX math syntax</em> without math delimiters <span class="docutils literal">$ $</span>.</p>
+<p>E.g.:</p>
+<pre class="literal-block">:math:`f(x)=ax^2+bx+c`</pre>
+<p>Rendered as:</p>
+<blockquote>
+<p><span class="formula"><i>f</i>(<i>x</i>) = <i>ax</i><sup>2</sup> + <i>bx</i> + <i>c</i></span></p>
+</blockquote>
+</section>
+</section>
+<section id="span-class-kami-arabicnumber-4-span-heading">
+<h3><a class="toc-backref" href="#toc-entry-14" role="doc-backlink"><span class="kami-ArabicNumber">4</span> heading</a></h3>
+<section id="span-class-kami-arabicnumber-4-1-span-title">
+<h4><a class="toc-backref" href="#toc-entry-15" role="doc-backlink"><span class="kami-ArabicNumber">4.1</span> title</a></h4>
+<p>The title of the entire document should be formatted as:</p>
+<pre class="literal-block">==========
+Main Title
+==========</pre>
+</section>
+<section id="span-class-kami-arabicnumber-4-2-span-section-heading">
+<h4><a class="toc-backref" href="#toc-entry-16" role="doc-backlink"><span class="kami-ArabicNumber">4.2</span> section heading</a></h4>
+<p>Six levels of section headings are available in <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span>:</p>
+<pre class="literal-block">primary heading
+###############
+content could be placed after heading w/o any blank line
+
+secondary heading
+=================
+
+tertiary heading
+----------------
+
+quaternary heading
+~~~~~~~~~~~~~~~~~~
+
+quinary heading
+***************
+
+senary heading
+^^^^^^^^^^^^^^</pre>
+<p>There does not exist an universal standard for order of symbols among rST realizations. <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span> has decide to use the symbol order shown above for section headings. (The order of symbols used by <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span> is different with <em>docutil</em>.) Likely, there does not exist any standard on whether a overline is required. <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span> require overline for title, but prohibit overline usage for headings.</p>
+<p>Optionally, blank lines might be added before headings if the document is relative long. Number of lines are defined in § <a class="reference internal" href="#i-4-4">I.4.4</a>. This provide a visual clearity of the document structure.</p>
+<p>※ <em>docutil</em>, “A blank line after a title is optional.” <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span> prefers to not having blank line after the heading.</p>
+</section>
+<section id="span-class-kami-arabicnumber-4-3-span-section-heading-reference">
+<span id="i-4-3"></span><h4><a class="toc-backref" href="#toc-entry-17" role="doc-backlink"><span class="kami-ArabicNumber">4.3</span> section heading reference</a></h4>
+<p>In rST, section headings themselves are already <em>anonymous hyperlink targets</em>, but it is a good practice to make <em>named hyperlink target</em> (※ § <a class="reference internal" href="#i-11-2-1">I.11.2.1</a>) e.g.:</p>
+<pre class="literal-block">.. _I:
+
+`I` primary heading
+###################
+
+.. _I.1:
+
+secondary heading
+=================
+
+.. _I.1.1:
+
+tertiary heading
+----------------</pre>
+<p>And these can be referenced by:</p>
+<pre class="literal-block">please see `I`_, `I.1`_, and `I.1.1`_</pre>
+<p>This is only required if the section is referenced in the document. Do not create unnessary hyperlink target if the section is never referenced in the document.</p>
+<p>These explicit hyperlink target should be considered <em>blank lines</em> regarding blank lines before headings.</p>
+</section>
+<section id="span-class-kami-arabicnumber-4-4-span-blank-lines-before-heading">
+<span id="i-4-4"></span><h4><a class="toc-backref" href="#toc-entry-18" role="doc-backlink"><span class="kami-ArabicNumber">4.4</span> blank lines before heading</a></h4>
+<table>
+<thead>
+<tr><th class="head"><p>heading</p></th>
+<th class="head"><p>symbol</p></th>
+<th class="head"><p>medium</p></th>
+<th class="head"><p>long</p></th>
+</tr>
+</thead>
+<tbody>
+<tr><td><p>primary</p></td>
+<td><p>###</p></td>
+<td><p>13</p></td>
+<td><p>34</p></td>
+</tr>
+<tr><td><p>secondary</p></td>
+<td><p>===</p></td>
+<td><p>5</p></td>
+<td><p>13</p></td>
+</tr>
+<tr><td><p>tertiary</p></td>
+<td><p>---</p></td>
+<td><p>3</p></td>
+<td><p>5</p></td>
+</tr>
+<tr><td><p>quaternary</p></td>
+<td><p>~~~</p></td>
+<td><p>2</p></td>
+<td><p>3</p></td>
+</tr>
+<tr><td><p>quinary</p></td>
+<td><p>***</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr><td><p>senary</p></td>
+<td><p>^^^</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+</tbody>
+</table>
+<p>One should pick the <em>medium</em> or <em>long</em> sequence to use regarding the textual length of the document.</p>
+<p>These numbers are selected from the Fibonacci sequence: <strong>1</strong>, <strong>1</strong>, <strong>2</strong>, <strong>3</strong>, <strong>5</strong>, 8, <strong>13</strong>, 21, <strong>34</strong>, ~</p>
+</section>
+</section>
+<section id="span-class-kami-arabicnumber-5-span-list">
+<h3><a class="toc-backref" href="#toc-entry-19" role="doc-backlink"><span class="kami-ArabicNumber">5</span> list</a></h3>
+<section id="span-class-kami-arabicnumber-5-1-span-bullet-list">
+<h4><a class="toc-backref" href="#toc-entry-20" role="doc-backlink"><span class="kami-ArabicNumber">5.1</span> bullet list</a></h4>
+<p>The syntax of the bullet list is:</p>
+<pre class="literal-block">this is a bullet list:
+
+- 1st item (after a blank line)
+- 2nd item
+
+  - sub item (after a blank line)
+- 3rd item (blank line not required)
+
+continuing paragraph</pre>
+<p>In <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span>, it is preferable to use <span class="docutils literal">-</span> for all levels of nested list.</p>
+<p>※ <em>docutil</em>, blank line before first item is required. Blank line between items (between <span class="docutils literal">1st item</span> and <span class="docutils literal">2nd item</span>.) Blank line for return to last level list (between <span class="docutils literal">sub item</span> and <span class="docutils literal">3rd item</span>) are optional, they are also optional in <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span>.</p>
+</section>
+<section id="span-class-kami-arabicnumber-5-2-span-enumerated-list">
+<h4><a class="toc-backref" href="#toc-entry-21" role="doc-backlink"><span class="kami-ArabicNumber">5.2</span> enumerated list</a></h4>
+<p>There are two sets of preferred syntax of enumerated list by <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span>. By using Arabic numerals:</p>
+<pre class="literal-block">preceding paragraph
+
+1. first item
+2. second item
+3. third item
+
+continuing paragraph</pre>
+<p>Or by using lower-case Roman numerals:</p>
+<pre class="literal-block">preceding paragraph
+
+(i) first item
+(ii) second item
+(iii) third item
+
+continuing paragraph</pre>
+<p>Or by using lower-case letters:</p>
+<pre class="literal-block">preceding paragraph
+
+(a) first item
+(b) second item
+(c) third item
+
+continuing paragraph</pre>
+<p>Auto-enumerator can be evoked to automatically generate next entry:</p>
+<pre class="literal-block">2. second item
+#. third item
+#. fourth item</pre>
+<p>And <strong>nested</strong> enumerated list is also possible:</p>
+<pre class="literal-block">1. first item
+2. second item
+
+    (a) a item
+    (b) b item
+    (c) c item
+
+3. third item</pre>
+</section>
+</section>
+<section id="span-class-kami-arabicnumber-6-span-table">
+<h3><a class="toc-backref" href="#toc-entry-22" role="doc-backlink"><span class="kami-ArabicNumber">6</span> table</a></h3>
+<p>A table might be drawn as a simple table:</p>
+<pre class="literal-block">=====  =====  ======
+   Inputs     Output
+------------  ------
+  A      B    A or B
+=====  =====  ======
+False  False  False
+True   False  True
+=====  =====  ======
+
+=====  =====
+col 1  col 2
+=====  =====
+1      Second column of row 1.
+2      - Second column of row 2.
+       - Second item in bullet
+         list
+\      Row 3; column 1 will be empty.
+=====  =====</pre>
+<p>rendered as:</p>
+<blockquote>
+<table>
+<thead>
+<tr><th class="head" colspan="2"><p>Inputs</p></th>
+<th class="head"><p>Output</p></th>
+</tr>
+<tr><th class="head"><p>A</p></th>
+<th class="head"><p>B</p></th>
+<th class="head"><p>A or B</p></th>
+</tr>
+</thead>
+<tbody>
+<tr><td><p>False</p></td>
+<td><p>False</p></td>
+<td><p>False</p></td>
+</tr>
+<tr><td><p>True</p></td>
+<td><p>False</p></td>
+<td><p>True</p></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><th class="head"><p>col 1</p></th>
+<th class="head"><p>col 2</p></th>
+</tr>
+</thead>
+<tbody>
+<tr><td><p>1</p></td>
+<td><p>Second column of row 1.</p></td>
+</tr>
+<tr><td><p>2</p></td>
+<td><ul class="simple">
+<li><p>Second column of row 2.</p></li>
+<li><p>Second item in bullet
+list</p></li>
+</ul>
+</td>
+</tr>
+<tr><td><p></p></td>
+<td><p>Row 3; column 1 will be empty.</p></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>Or grid tables:</p>
+<pre class="literal-block">+------------------------+------------+----------+----------+
+| Header row, column 1   | Header 2   | Header 3 | Header 4 |
+| (header rows optional) |            |          |          |
++========================+============+==========+==========+
+| body row 1, column 1   | column 2   | column 3 | column 4 |
++------------------------+------------+----------+----------+
+| body row 2             | Cells may span columns.          |
++------------------------+------------+---------------------+
+| body row 3             | Cells may  | - Table cells       |
++------------------------+ span rows. | - contain           |
+| body row 4             |            | - body elements.    |
++------------------------+------------+---------------------+</pre>
+<p>rendered as</p>
+<blockquote>
+<table>
+<thead>
+<tr><th class="head"><p>Header row, column 1
+(header rows optional)</p></th>
+<th class="head"><p>Header 2</p></th>
+<th class="head"><p>Header 3</p></th>
+<th class="head"><p>Header 4</p></th>
+</tr>
+</thead>
+<tbody>
+<tr><td><p>body row 1, column 1</p></td>
+<td><p>column 2</p></td>
+<td><p>column 3</p></td>
+<td><p>column 4</p></td>
+</tr>
+<tr><td><p>body row 2</p></td>
+<td colspan="3"><p>Cells may span columns.</p></td>
+</tr>
+<tr><td><p>body row 3</p></td>
+<td rowspan="2"><p>Cells may
+span rows.</p></td>
+<td colspan="2" rowspan="2"><ul class="simple">
+<li><p>Table cells</p></li>
+<li><p>contain</p></li>
+<li><p>body elements.</p></li>
+</ul>
+</td>
+</tr>
+<tr><td><p>body row 4</p></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+</section>
+<section id="span-class-kami-arabicnumber-7-span-footnote">
+<span id="i-7-1"></span><h3><a class="toc-backref" href="#toc-entry-23" role="doc-backlink"><span class="kami-ArabicNumber">7</span> footnote</a></h3>
+<section id="span-class-kami-arabicnumber-7-1-span-numerical-footnote">
+<h4><a class="toc-backref" href="#toc-entry-24" role="doc-backlink"><span class="kami-ArabicNumber">7.1</span> numerical footnote</a></h4>
+<p>Numerical footnote is consistent through the entire document.</p>
+<pre class="literal-block">There are 300 of them [1]_ , but none of them is male [2]_. Thirdly [#]_.
+
+Another research showed that. [#labelled_footnote]_
+
+continuing paragraph
+
+.. Footnote
+
+.. [1] footnote content 1
+
+.. [2] footnote content 2
+
+.. [#] footnote content 3
+
+.. [#labelled_footnote] footnote labelled</pre>
+<p>Labelled footnote is prefereable when the document is lengthy. Labelled footnote shall have a simple reference name (※ § <a class="reference internal" href="#i-11-1-1">I.11.1.1</a>,) and it is suggested to use <span class="kami-KScode">KS.Syb.MinUdr</span> to concatenate multiple words.</p>
+<p>Despite footnote could be placed anywhere in the document, <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span> prefers numerical footnote always placed at the end of the document, after main content. Placing a comment <span class="docutils literal">.. Footnote</span> before the list of footnote contents:</p>
+<pre class="literal-block">main content of document
+
+.. Footnote
+
+.. [1] footnote content 1
+
+.. [2] footnote content 2</pre>
+</section>
+<section id="span-class-kami-arabicnumber-7-2-span-symbolic-footnote">
+<h4><a class="toc-backref" href="#toc-entry-25" role="doc-backlink"><span class="kami-ArabicNumber">7.2</span> symbolic footnote</a></h4>
+<p>Symbolic footnote is used mostly as local footnote.</p>
+<pre class="literal-block">First [*]_, second [*]_, and third [*]_
+
+.. [*] footnote content 1
+
+.. [*] footnote content 2
+
+.. [*] footnote content 3
+
+continuing paragraph</pre>
+<p>For symbolic footnote, it is suggested to put the footnote content as close to the footnote symbol as possible. Be careful each time use footnote, number of reference and targets (footnote content) should be matched.</p>
+</section>
+</section>
+<section id="span-class-kami-arabicnumber-8-span-transition">
+<h3><a class="toc-backref" href="#toc-entry-26" role="doc-backlink"><span class="kami-ArabicNumber">8</span> transition</a></h3>
+<p>Transition is used to mark a subtle separation between paragraph or between paragraphs. Syntax of transition is 4 or more repeated <span class="docutils literal">-</span>. It is suggested to use 4 of them in most cases.</p>
+<pre class="literal-block">first pargraph(s)
+
+----
+
+second paragraph(s)
+
+---------------
+
+third pargraph(s)</pre>
+<p>※ <em>docutil</em>, a transition should not begin or end a section or document, nor should two transitions be immediately adjacent.</p>
+</section>
+<section id="span-class-kami-arabicnumber-9-span-comment">
+<h3><a class="toc-backref" href="#toc-entry-27" role="doc-backlink"><span class="kami-ArabicNumber">9</span> comment</a></h3>
+<p><strong>Comment</strong> is the invisible content after render.</p>
+<pre class="literal-block">.. this is a comment
+
+..
+   this is also a comment</pre>
+</section>
+<section id="span-class-kami-arabicnumber-10-span-escaping">
+<h3><a class="toc-backref" href="#toc-entry-28" role="doc-backlink"><span class="kami-ArabicNumber">10</span> escaping</a></h3>
+<p><span class="docutils literal">\</span> is used to override the special meaning of markup characters. E.g.</p>
+<pre class="literal-block">\*escape* vs. *escape*
+
+\``with`` vs. ``with``
+
+\\ vs. \</pre>
+<p>The previous code will be rendered as:</p>
+<blockquote>
+<p>*escape* vs. <em>escape</em></p>
+<p>``with`` vs. <span class="docutils literal">with</span></p>
+<p>\ vs. </p>
+</blockquote>
+<p><span class="docutils literal">\</span> is also used to place inline literals within a single word:</p>
+<pre class="literal-block">**KS**\ *Mark*\ ``up``</pre>
+<p>Which will be rendred as:</p>
+<blockquote>
+<p><strong>KS</strong><em>LML</em><span class="docutils literal">KS</span></p>
+</blockquote>
+</section>
+<section id="span-class-kami-arabicnumber-11-span-hyperlink">
+<h3><a class="toc-backref" href="#toc-entry-29" role="doc-backlink"><span class="kami-ArabicNumber">11</span> hyperlink</a></h3>
+<p>Despite used extensively in most rST realizations, <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span> prefers to minimize the usage of hyperlink for <strong>comprehensiblility</strong> (※ § <a class="reference internal" href="#vii-1">VII.1</a>). Heavily relying on hyperlink will result confusion when the document is viewed in forms (e.g. printed paper) those do not support hyperlink. Documents are suggested to explicitly write the reference in text, and using hyperlink only as gimmick and tool.</p>
+<p>The function of hyperlink is used in <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span> only in cases of:</p>
+<ul class="simple">
+<li><p>section heading reference (※ § <a class="reference internal" href="#i-4-3">I.4.3</a>)</p></li>
+<li><p>footnote (※ § <a class="reference internal" href="#i-7-1">I.7.1</a>)</p></li>
+</ul>
+<section id="span-class-kami-arabicnumber-11-1-span-reference-name">
+<h4><a class="toc-backref" href="#toc-entry-30" role="doc-backlink"><span class="kami-ArabicNumber">11.1</span> reference name</a></h4>
+<p><em>Reference name</em> is not an element, but rather a technical identification for cross-referencing elements.</p>
+<p>“Reference names are whitespace-neutral and case-insensitive.”※<em>docutil</em>, which means:</p>
+<ul class="simple">
+<li><p>multiple whitespace characters(e.g. space, tab, newline, etc.) become single space character</p></li>
+<li><p>majuscule letter get converted to miniscule</p></li>
+</ul>
+<section id="span-class-kami-arabicnumber-11-1-1-span-simple-reference-name">
+<span id="i-11-1-1"></span><h5><a class="toc-backref" href="#toc-entry-31" role="doc-backlink"><span class="kami-ArabicNumber">11.1.1</span> simple reference name</a></h5>
+<p>“Simple reference names are single words consisting of alphanumerics plus isolated (no two adjacent) internal hyphens, underscores, periods, colons and plus signs; no whitespace or other characters are allowed.”※<em>docutil</em> In regex:</p>
+<pre class="literal-block">[A-Za-z0-9-_.:+]*</pre>
+<p>(but no adjacent “-”, and case is not significant)</p>
+</section>
+<section id="span-class-kami-arabicnumber-11-1-2-span-phrase-reference">
+<h5><a class="toc-backref" href="#toc-entry-32" role="doc-backlink"><span class="kami-ArabicNumber">11.1.2</span> phrase-reference</a></h5>
+<p>“Reference names using punctuation or whose names are phrases (two or more space-separated words) are called &quot;phrase-references&quot;.” ※<em>docutil</em></p>
+<pre class="literal-block">Want to learn about `my favorite programming language`_?
+
+.. __: http://www.python.org</pre>
+</section>
+</section>
+<section id="span-class-kami-arabicnumber-11-2-span-hyperlink-syntax">
+<h4><a class="toc-backref" href="#toc-entry-33" role="doc-backlink"><span class="kami-ArabicNumber">11.2</span> hyperlink syntax</a></h4>
+<p>Hyperlink reference &amp; target should not be used carelessly in <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span> documents. There are only serveral special cases where hyperlinks are used. This section merely records the syntax of such functionality, therefore it can be used in those special cases.</p>
+<section id="span-class-kami-arabicnumber-11-2-1-span-named-hyperlink-reference-target">
+<span id="i-11-2-1"></span><h5><a class="toc-backref" href="#toc-entry-34" role="doc-backlink"><span class="kami-ArabicNumber">11.2.1</span> named hyperlink reference &amp; target</a></h5>
+<pre class="literal-block">please see link1_ or see `this link`_ (phrase reference)
+
+.. _link1:
+.. _this link:
+
+para1 or other elements</pre>
+</section>
+<section id="span-class-kami-arabicnumber-11-2-2-span-anonymous-hyperlink-reference-target">
+<h5><a class="toc-backref" href="#toc-entry-35" role="doc-backlink"><span class="kami-ArabicNumber">11.2.2</span> anonymous hyperlink reference &amp; target</a></h5>
+<pre class="literal-block">please see this section__ or see `this section`__
+
+.. __: anonymous-hyperlink-target-link-block
+.. or alternative syntax
+__ anonymous-hyperlink-target-link-block</pre>
+<p>“the first anonymous reference will link to the first anonymous target” and “it is recommended that targets be kept close to references.” ※<em>docutil</em></p>
+</section>
+</section>
+</section>
+</section>
+<section id="span-class-kami-romannumeral-iii-span-rst-directives">
+<span id="iii"></span><h2><a class="toc-backref" href="#toc-entry-36" role="doc-backlink"><span class="kami-RomanNumeral">III</span> rST directives</a></h2>
+<p><a class="brackets" href="#rst-directives" id="footnote-reference-3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a></p>
+<section id="span-class-kami-arabicnumber-1-span-table-of-content">
+<span id="iii-1"></span><h3><a class="toc-backref" href="#toc-entry-37" role="doc-backlink"><span class="kami-ArabicNumber">1</span> table of content</a></h3>
+<pre class="literal-block">.. contents::</pre>
+<p>Or with alterantive title:</p>
+<pre class="literal-block">.. contents:: Table of Content</pre>
+</section>
+<section id="span-class-kami-arabicnumber-2-span-admonitions">
+<h3><a class="toc-backref" href="#toc-entry-38" role="doc-backlink"><span class="kami-ArabicNumber">2</span> admonitions</a></h3>
+<p>There are different types of admonitions:</p>
+<ul class="simple">
+<li><p><span class="docutils literal">attention</span></p></li>
+<li><p><span class="docutils literal">caution</span></p></li>
+<li><p><span class="docutils literal">danger</span></p></li>
+<li><p><span class="docutils literal">error</span></p></li>
+<li><p><span class="docutils literal">hint</span></p></li>
+<li><p><span class="docutils literal">important</span></p></li>
+<li><p><span class="docutils literal">note</span></p></li>
+<li><p><span class="docutils literal">tip</span></p></li>
+<li><p><span class="docutils literal">warning</span></p></li>
+</ul>
+<p>E.g. for <span class="docutils literal">note</span>:</p>
+<pre class="literal-block">.. note::
+
+    content of note</pre>
+<p>Rendered as:</p>
+<aside class="admonition note">
+<p class="admonition-title">Note</p>
+<p>cotent of note</p>
+</aside>
+<hr class="docutils" />
+<p>There are also a <em>generic</em> admonitions:</p>
+<pre class="literal-block">.. admonition:: title of admonition
+
+    content of it</pre>
+<p>Rendered as:</p>
+<aside class="admonition admonition-title-of-admonition">
+<p class="admonition-title">title of admonition</p>
+<p>content of it</p>
+</aside>
+</section>
+<section id="span-class-kami-arabicnumber-3-span-rubric">
+<h3><a class="toc-backref" href="#toc-entry-39" role="doc-backlink"><span class="kami-ArabicNumber">3</span> rubric</a></h3>
+<p>Rubric work as a heading yet it is not part of the document structure:</p>
+<pre class="literal-block">.. rubric:: subtitle for this part</pre>
+<p>Rendered as:</p>
+<p class="rubric">subtitle for this part</p>
+</section>
+<section id="span-class-kami-arabicnumber-4-span-sidebar">
+<h3><a class="toc-backref" href="#toc-entry-40" role="doc-backlink"><span class="kami-ArabicNumber">4</span> sidebar</a></h3>
+<pre class="literal-block">.. sidebar:: sidebar heading (ad lib)
+
+    content 1st line
+    content 1st line continue
+
+    content 2nd line</pre>
+<p>Rendered as:</p>
+<aside class="sidebar">
+<p class="sidebar-title">sidebar heading (ad lib)</p>
+<p>content 1st line
+content 1st line continue</p>
+<p>content 2nd line</p>
+</aside>
+</section>
+</section>
+<section id="span-class-kami-romannumeral-iv-span-literal-quotation">
+<span id="iv"></span><h2><a class="toc-backref" href="#toc-entry-41" role="doc-backlink"><span class="kami-RomanNumeral">IV</span> literal &amp; quotation</a></h2>
+<section id="span-class-kami-arabicnumber-1-span-inline-literal">
+<h3><a class="toc-backref" href="#toc-entry-42" role="doc-backlink"><span class="kami-ArabicNumber">1</span> inline literal</a></h3>
+<p><span class="docutils literal">Literals</span> is used for “code samples” (※ <em>doc python</em>), link, etc. It is a even-more-literal text style than italics, for its content should not be interpreted nor changed at all.</p>
+<p>E.g.</p>
+<pre class="literal-block">The function ``foo`` is defined as ...</pre>
+<p>Rendered as:</p>
+<blockquote>
+<p>The function <span class="docutils literal">foo</span> is defined as ...</p>
+</blockquote>
+<p>※ <em>docutil</em>, all white space character (including line breaks) is preserved in literal. Also, blank lines are required before and after a literal block.</p>
+<p>A <span class="docutils literal">code</span> role is available in some rST realizations, but using literal text style is preferable in <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span>.</p>
+</section>
+<section id="span-class-kami-arabicnumber-2-span-literal-block">
+<h3><a class="toc-backref" href="#toc-entry-43" role="doc-backlink"><span class="kami-ArabicNumber">2</span> literal block</a></h3>
+<p>It is similar to inline literals (v.s.):</p>
+<pre class="literal-block">the example code is shown as following
+::
+
+    a blank line is required before the content
+
+    1 + 1 = 2
+
+or with '::' placed at the end of the line::
+
+    1 + 1 = 2
+
+continuing paragraph</pre>
+</section>
+<section id="span-class-kami-arabicnumber-3-span-block-quote">
+<h3><a class="toc-backref" href="#toc-entry-44" role="doc-backlink"><span class="kami-ArabicNumber">3</span> block quote</a></h3>
+<pre class="literal-block">preceding paragraph
+
+    &quot;It is my business to **know** things.  That is my trade.&quot;
+
+continuing paragraph</pre>
+<p>※ <em>docutil</em>, All markup processing (for body elements and inline markup) continues within the block quote.</p>
+</section>
+<section id="span-class-kami-arabicnumber-4-span-epigraph">
+<h3><a class="toc-backref" href="#toc-entry-45" role="doc-backlink"><span class="kami-ArabicNumber">4</span> epigraph</a></h3>
+<p>It is similar to block quote, but could attribute to author.:</p>
+<pre class="literal-block">.. epigraph::
+
+    &quot;Ignorance, the root and stem of every evil.&quot;
+
+    -- Plato</pre>
+<p>Rendered as:</p>
+<blockquote class="epigraph">
+<p>&quot;Ignorance, the root and stem of every evil.&quot;</p>
+<p class="attribution">—Plato</p>
+</blockquote>
+</section>
+<section id="span-class-kami-arabicnumber-5-span-line-block">
+<h3><a class="toc-backref" href="#toc-entry-46" role="doc-backlink"><span class="kami-ArabicNumber">5</span> line block</a></h3>
+<p>Line block will keep line structure of the quote, useful for poetry, lyrics, etc.</p>
+<pre class="literal-block">| Lend us a couple of bob till Thursday.
+| I'm absolutely skint.
+| But I'm expecting a postal order and I can pay you back
+  as soon as it comes.
+| Love, Ewan</pre>
+<p>Rendered as:</p>
+<div class="line-block">
+<div class="line">Lend us a couple of bob till Thursday.</div>
+<div class="line">I'm absolutely skint.</div>
+<div class="line">But I'm expecting a postal order and I can pay you back
+as soon as it comes.</div>
+<div class="line">Love, Ewan</div>
+</div>
+</section>
+</section>
+<section id="span-class-kami-romannumeral-v-span-native-role">
+<span id="v"></span><h2><a class="toc-backref" href="#toc-entry-47" role="doc-backlink"><span class="kami-RomanNumeral">V</span> native role</a></h2>
+<section id="span-class-kami-arabicnumber-1-span-smart-role">
+<h3><a class="toc-backref" href="#toc-entry-48" role="doc-backlink"><span class="kami-ArabicNumber">1</span> smart role</a></h3>
+<p>The <em>smart role</em> could be used by:</p>
+<pre class="literal-block">:smart:`smart content`</pre>
+<p>But it is often convenient to set the default role to it at the begining of each document:</p>
+<pre class="literal-block">.. default-role:: smart
+
+`smart content`</pre>
+<p>It has various functions:</p>
+<ul class="simple">
+<li><p>KScode: start with <span class="docutils literal">KS.</span> or the text is <span class="docutils literal">KS</span>, render as KScode</p></li>
+<li><p>KSproxy: start with <span class="docutils literal">.</span>, render as KSproxy</p></li>
+<li><p>number: v.i., render with number-specific typeface</p></li>
+<li><p>fallback: render like bold</p></li>
+</ul>
+<p>The criteria of <em>number</em> is to start with:</p>
+<ul class="simple">
+<li><p>Arabic number 0~9,</p></li>
+<li><p>Roman numeral component: <span class="docutils literal">OIVXL</span>, or</p></li>
+<li><p>lower case of them</p></li>
+</ul>
+<p>(For Roman numeral, the possible range for it is 0~89, i.e. <span class="kami-RomanNumeral">O</span> to <span class="kami-RomanNumeral">LXXXIX</span>)</p>
+<hr class="docutils" />
+<p>E.g.:</p>
+<pre class="literal-block">KScode e.g. `KS.abc.def`
+
+KSproxy e.g. `.abc.def`
+
+number e.g. `3`, `3.2`, `III`, `iv`
+
+fallback e.g. `abc`</pre>
+<p>render as:</p>
+<blockquote>
+<p>KScode e.g. <span class="kami-KScode">KS.abc.def</span></p>
+<p>KSproxy e.g. <span class="kami-KSsup">p</span><span class="kami-KSproxy">.abc.def</span></p>
+<p>number e.g. <span class="kami-ArabicNumber">3</span>, <span class="kami-ArabicNumber">3.2</span>, <span class="kami-RomanNumeral">III</span>, <span class="kami-RomanNumeral">iv</span></p>
+<p>fallback e.g. <strong>abc</strong></p>
+</blockquote>
+</section>
+<section id="span-class-kami-arabicnumber-2-span-tag-role">
+<h3><a class="toc-backref" href="#toc-entry-49" role="doc-backlink"><span class="kami-ArabicNumber">2</span> tag role</a></h3>
+<pre class="literal-block">:tag:`example_tag`</pre>
+<p>render as:</p>
+<blockquote>
+<p><span class="kami-KSsup">T</span><span class="docutils literal">example_tag</span></p>
+</blockquote>
+</section>
+</section>
+<section id="span-class-kami-romannumeral-vi-span-native-directive">
+<span id="vi"></span><h2><a class="toc-backref" href="#toc-entry-50" role="doc-backlink"><span class="kami-RomanNumeral">VI</span> native directive</a></h2>
+<section id="span-class-kami-arabicnumber-1-span-tag-directive">
+<h3><a class="toc-backref" href="#toc-entry-51" role="doc-backlink"><span class="kami-ArabicNumber">1</span> tag directive</a></h3>
+<p>The tag directive could be used by:</p>
+<pre class="literal-block">.. tag:: example_tag
+
+.. tag:: example_proper{
+    content_of_proper_tag
+    }
+
+.. tag::
+    example_proper{
+        content_of_proper_tag
+    }</pre>
+<p>Rendered as:</p>
+<span class="kami-KSTag">KS.Tag</span><pre class="literal-block">example_tag</pre>
+<span class="kami-KSTag">KS.Tag</span><pre class="literal-block">example_proper{
+    content_of_proper_tag
+}</pre>
+<span class="kami-KSTag">KS.Tag</span><pre class="literal-block">example_proper{
+    content_of_proper_tag
+}</pre>
+</section>
+<section id="span-class-kami-arabicnumber-2-span-subtitle-directive">
+<span id="vi-2"></span><h3><a class="toc-backref" href="#toc-entry-52" role="doc-backlink"><span class="kami-ArabicNumber">2</span> subtitle directive</a></h3>
+<p>Give the subtitle of the article, e.g.:</p>
+<pre class="literal-block">=====
+title
+=====
+
+.. subtitle:: The Subtitle</pre>
+<p>or multiple lines:</p>
+<pre class="literal-block">.. subtitle:: The 1st Line Subtitle
+
+    2nd Line
+    3rd Line</pre>
+</section>
+</section>
+<section id="span-class-kami-romannumeral-vii-span-style-guide">
+<span id="vii"></span><h2><a class="toc-backref" href="#toc-entry-53" role="doc-backlink"><span class="kami-RomanNumeral">VII</span> style guide</a></h2>
+<section id="span-class-kami-arabicnumber-1-span-comprehensibility-principle">
+<span id="vii-1"></span><h3><a class="toc-backref" href="#toc-entry-54" role="doc-backlink"><span class="kami-ArabicNumber">1</span> comprehensibility principle</a></h3>
+<p>Considering two <strong>viewing</strong> scenarios:</p>
+<ul class="simple">
+<li><p>preferable method of viewing content is in their <em>fancy form</em> after rendering</p></li>
+<li><p>in <em>raw form</em>, when one could both edit <strong>and</strong> view the content</p></li>
+</ul>
+<p>Therefore, raw content should also be <strong>comprehensible</strong>. In order to achieve this, deisgn choices shall be made to maximize raw text readibility when they would not interfere the functionalities. Implict, murky, or complex structure and design logic should be avoided.</p>
+</section>
+<section id="span-class-kami-arabicnumber-2-span-document-structure">
+<h3><a class="toc-backref" href="#toc-entry-55" role="doc-backlink"><span class="kami-ArabicNumber">2</span> document structure</a></h3>
+<p>A common document structure:</p>
+<ol class="arabic simple">
+<li><p>title</p></li>
+<li><p>subtitle (ad lib): by using <em>subtitle directive</em>, ※ § <a class="reference internal" href="#vi-2">VI.2</a></p></li>
+<li><p>introduction (ad lib): one or more paragraphs introducing the rest of content</p></li>
+<li><p>table of contents (ad lib): ※ § <a class="reference internal" href="#iii-1">III.1</a></p></li>
+<li><p>content managed by headings</p></li>
+<li><p>enclosure: signature, release date, location, etc.</p></li>
+<li><p>appendix (ad lib)</p></li>
+<li><p>bibliography (ad lib)</p></li>
+<li><p>change (ad lib): a list of changes in this version of document</p></li>
+<li><p>designatable (ad lib): a nested list of designatables declared in this document</p></li>
+<li><p>footnote (ad lib): content of footnotes</p></li>
+</ol>
+</section>
+<section id="span-class-kami-arabicnumber-3-span-heading-numbering">
+<h3><a class="toc-backref" href="#toc-entry-56" role="doc-backlink"><span class="kami-ArabicNumber">3</span> heading numbering</a></h3>
+<p>One could use <span class="kami-KScode">KS.Num.Rm.M</span> (Roman numeral in upper case) enclosed in <em>smart role</em> for <em>primary heading</em> numbering:</p>
+<pre class="literal-block">`O` general
+###########
+
+`I` first chapter
+#################
+
+`II` second chapter
+###################</pre>
+<hr class="docutils" />
+<p>Use <span class="kami-KScode">KS.Num.Dec</span> separated by <span class="docutils literal">.</span> for lower level heading numbering:</p>
+<pre class="literal-block">`I` first chapter
+#################
+`1` section 1
+=============
+`1.1` low section 1
+-------------------
+
+`1.2` low section 2
+-------------------
+
+`1.3` low section 3
+-------------------
+`1.3.1` lower section
+~~~~~~~~~~~~~~~~~~~~~</pre>
+<hr class="docutils" />
+<p>Use letter for appendix, etc.:</p>
+<pre class="literal-block">`A` appendix
+############
+
+`B` bibliography
+################
+
+`C` change
+##########
+
+`D` designatable
+################</pre>
+<!-- Footnote -->
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="docutil" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-1">1</a><span class="fn-bracket">]</span></span>
+<p>Q.v. <a class="reference external" href="https://docutils.sourceforge.io/docs/index.html">https://docutils.sourceforge.io/docs/index.html</a></p>
+</aside>
+<aside class="footnote brackets" id="python" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-2">2</a><span class="fn-bracket">]</span></span>
+<p>Q.v. <a class="reference external" href="https://devguide.python.org/documenting/">https://devguide.python.org/documenting/</a></p>
+</aside>
+<aside class="footnote brackets" id="rst-directives" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-3">3</a><span class="fn-bracket">]</span></span>
+<p>Q.v. <a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/directives.html">https://docutils.sourceforge.io/docs/ref/rst/directives.html</a></p>
+</aside>
+</aside>
+</section>
+</section>
+</main>
+</body>
+</html>

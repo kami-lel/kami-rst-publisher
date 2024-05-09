@@ -1,0 +1,121 @@
+/* kami_html5_dark.css for kami-rst-publisher by kamiLeL */
+/* applied with kami_html5.css & with responsive.css of docutils */
+
+
+
+/* General Settings */
+
+body, body > * {
+  background-color: #262421; /* background color */
+  color: #F7FFFC; /* dominant font color */
+}
+
+strong {
+  color: #99FFDB;
+}
+
+
+
+/* Table of Contents */
+
+nav.contents ul > li::marker {
+  color: #FFFFFF;
+}
+
+main > nav.contents,
+.sidebar {
+  background-color: #143328;
+}
+
+
+
+/* Title, Subtitle, & Headings */
+
+
+
+/* Heading Font Size */
+
+h2, h3 { /* Heading 1 & 2 */
+  color: #FFDD88;
+}
+
+h4, h5, h6 { /* Heading 3,4,5 */
+  color: #F6C548;
+}
+
+p.rubric {
+  color: #E59E5C;
+}
+
+
+
+/* List */
+
+
+
+/* Special Text */
+
+.literal-block, span.literal, /* Literals */
+.system-message > *{
+  background-color: #373226;
+  color: #F2EADB;
+}
+
+
+
+/* Tables */
+
+
+
+/* Hyperlink & Footnotes */
+
+.footnote-list { /* Vertical Line on the Left of Footnotes */
+  border-left: solid medium #E5D8C3;
+}
+
+.footnote-reference,
+.reference { /* in-text reference */
+  color: #E5D8C3;
+}
+
+a:hover,
+*:hover > a.toc-backref:after,
+*:hover > a.self-link:after,
+a:active{
+  color: #00FFA5 /* active hyperlink color */
+}
+
+section:target > h2, section:target > h3, section:target > h4,
+section:target > h5, section:target > h6,
+.contents :target,
+.contents:target > .topic-title,
+[role="doc-biblioentry"]:target > .label,
+[role="doc-biblioref"]:target,
+[role="note"]:target, /* Docutils 0.18 ... 0.19 */
+[role="doc-footnote"]:target, /* Docutils >= 0.20 */
+[role="doc-noteref"]:target {
+  background-color: #00593A; /* selected hyperlink color */
+}
+
+
+
+/* Customized Class */
+
+.kami-KScode,
+.kami-KSproxy,
+.kami-KSsup,
+.kami-KSTag {
+  color: #FFA500;
+}
+
+
+
+/* Admonitions and System Messages */
+
+.caution p.admonition-title,
+.attention p.admonition-title,
+.danger p.admonition-title,
+.error p.admonition-title,
+.warning p.admonition-title{
+  color: #00FFA5;
+}
