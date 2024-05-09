@@ -20,22 +20,25 @@ kami-rst-publisher CHANGELOG
 
 version checklist
 #################
-finalize *code*:
+Finalize *code*:
 
 1. check **todo** within code
 
-update *documentation* and *package* management:
+Update *documentation*:
 
-1. ``README.rst``: update with new feature
-2. ``README.R.html``: render
-3. ``setup.cfg``:
+1. ``CHANGELOG.rst``: record changes of this version
+2. ``README.rst``: update with new feature
+3. ``README.R.html``: render (with ``-s`` arg)
+4. ``CHANGELOG.rst``: finalize *version message*
+
+Update versions in *package management*:
+
+1. ``setup.cfg``:
 
    - update ``metadata/version``
    - include non-``.py`` files in ``options.package_data``
 
-4. update version line (1st line) in stylesheet ``kami_html5.css``
-5. ``CHANGELOG.rst``: record changes of this version
-6. ``CHANGELOG.rst``: finalize *version message*
+2. update version line (1st line) in stylesheet ``kami_html5.css``
 
 .. rubric:: commit process
 
@@ -44,7 +47,7 @@ Squash merge ``main`` from ``working``::
     git checkout main
     git merge --squash working
 
-Inspect changes of this release::
+Inspect changes of this version::
 
     git status [-s]
     git diff --cached . [PATH]
