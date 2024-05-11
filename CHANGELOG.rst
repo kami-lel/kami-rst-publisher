@@ -77,6 +77,7 @@ future feature
 ##############
 
 - add ``-d`` option to append date in resulting filename. E.g. ``-d 13`` means add ``.#[02022-03-05]`` as suffix
+- eliminate the need write ``.. default-role:: smart`` for each file
 
 
 
