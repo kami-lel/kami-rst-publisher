@@ -42,24 +42,29 @@ Update versions in *package management*:
 
 .. rubric:: commit process
 
-Squash merge ``main`` from ``working``::
+Make the final commit in ``dev``::
+
+    git checkout dev
+    git commit ...
+
+Squash merge ``main`` from ``dev``::
 
     git checkout main
-    git merge --squash working
+    git merge --squash dev
 
 Inspect changes of this version::
 
     git status [-s]
     git diff --cached . [PATH]
 
-**Commit** with *version message*::
+Make the version commit with *version message* in ``main``::
 
-    git commit
+    git commit -m "..."
 
-Rebase ``working`` branch::
+Catch up ``dev`` branch with the version::
 
-    git checkout working
-    git rebase main
+    git checkout dev
+    git merge main
 
 
 
