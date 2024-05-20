@@ -42,15 +42,16 @@ Update versions in *package management*:
 
 .. rubric:: commit process
 
-Make the final commit in ``dev``::
+Stash aways most recent changes::
 
     git checkout dev
-    git commit ...
+    git stash push
 
 Squash merge ``main`` from ``dev``::
 
     git checkout main
     git merge --squash dev
+    git stash pop
 
 Inspect changes of this version::
 
