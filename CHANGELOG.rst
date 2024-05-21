@@ -65,7 +65,7 @@ Make the version commit with *version message* in ``main``::
 Catch up ``dev`` branch with the version::
 
     git checkout dev
-    git merge main
+    git merge main -X theirs
 
 
 
