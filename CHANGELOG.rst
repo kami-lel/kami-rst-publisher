@@ -18,6 +18,24 @@ kami-rst-publisher CHANGELOG
 
 
 
+3-2
+###
+version message::
+
+    3-2:extract stylesheet_note as a separate file
+
+
+
+
+
+
+
+
+
+
+
+
+
 3-1
 ###
 version message::
