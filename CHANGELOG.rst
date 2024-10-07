@@ -18,62 +18,15 @@ kami-rst-publisher CHANGELOG
 
 
 
-version checklist
-#################
-finalize *code*:
+3-1
+###
+version message::
 
-1. check **todo** within code
+    3-1:remove certain TAG in stylesheet, record issues
 
-update *documentation* and *package* management:
+- kami_rst_publisher/assets/stylesheets/kami_html5.css: remove certain TAG word
+- record issues and future features in their most related files
 
-1. ``README.rst``: update with new feature
-2. ``README.R.html``: render
-3. ``setup.cfg``:
-
-   - update ``metadata/version``
-   - include non-``.py`` files in ``options.package_data``
-
-4. update version line (1st line) in stylesheet ``kami_html5.css``
-5. ``CHANGELOG.rst``: record changes of this version
-6. ``CHANGELOG.rst``: finalize *version message*
-
-.. rubric:: commit process
-
-Squash merge ``main`` from ``working``::
-
-    git checkout main
-    git merge --squash working
-
-Inspect changes of this release::
-
-    git status [-s]
-    git diff --cached . [PATH]
-
-**Commit** with *version message*::
-
-    git commit
-
-Rebase ``working`` branch::
-
-    git checkout working
-    git rebase main
-
-
-
-
-
-
-
-
-
-
-
-
-
-future feature
-##############
-
-- add ``-d`` option to append date in resulting filename. E.g. ``-d 13`` means add ``.#[02022-03-05]`` as suffix
 
 
 
