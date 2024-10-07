@@ -439,7 +439,7 @@ mstyle.mathscr, mi.mathscr {
   /* .admonition.marginal {                          */
   /*   margin-right: calc(6rem - 15%);               */
   /* }                                               */
-  /* BUG: margin is calculated for break point width */
+  /* margin is calculated for break point width      */
   /* workaround: variable + many breakpoints         */
   body > * {
     padding-left: 18%;

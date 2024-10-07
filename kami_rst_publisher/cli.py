@@ -48,6 +48,10 @@ parser.add_argument('-s', '--suffix',
 parser.add_argument('-f', '--filter',
                     action='store',
                     help=r'with -b or -r, set FILTER for file matching. Default to ".+\.rst"')
+# todo -d option to add date
+# e.g. -d 13 means add .#[02022-03-05] as suffix
+
+# todo eliminate the need write ``.. default-role:: smart`` for each file
 
 
 if __name__ == "__main__":

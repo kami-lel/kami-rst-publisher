@@ -444,6 +444,8 @@ senary      ^^^     1       1
 
 One should pick the *medium* or *long* sequence to use regarding the textual length of the document.
 
+*Rubric* should be considered as a level in the heading, the number of blank lines before a rubric should be: that of same level heading minus 1.
+
 These numbers are selected from the Fibonacci sequence: **1**, **1**, **2**, **3**, **5**, 8, **13**, 21, **34**, ~
 
 
