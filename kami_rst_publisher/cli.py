@@ -22,9 +22,9 @@ parser.add_argument('DESTINATION',
 # option
 parser.add_argument('-b', '--batch',
                     action='store_true',
-                    help='render any file with name fullmatching (regex) FILTER in a directory SOURCE. '
+                    help='render any file with name fullmatching (regex) EXPRESSION in a directory SOURCE. '
                          'SOURCE & DESTINATION should be directory path. '
-                         r'FILTER default to ".+\.rst", but can be set by -f')
+                         r'EXPRESSION default to ".+\.rst", but can be set by -f')
 parser.add_argument('-r', '--recursive',
                     action='store_true',
                     help='like -b, but recursively into each sub-folder of SOURCE. '
@@ -45,9 +45,9 @@ parser.add_argument('-s', '--suffix',
                     const='.R',
                     help='SUFFIX for rendered file. Default to ".R"',
                     nargs='?')
-parser.add_argument('-f', '--filter',
+parser.add_argument('-e', '--expression',
                     action='store',
-                    help=r'with -b or -r, set FILTER for file matching. Default to ".+\.rst"')
+                    help=r'with -b or -r, set EXPRESSION for file matching. Default to ".+\.rst"')
 # todo -d option to add date
 # e.g. -d 13 means add .#[02022-03-05] as suffix
 
@@ -66,9 +66,9 @@ if __name__ == "__main__":
 
     # init
     if args.recursive:
-        obj = Rst2htmlFileRecursive(args.SOURCE, args.filter, suffix, lightmode)
+        obj = Rst2htmlFileRecursive(args.SOURCE, args.expression, suffix, lightmode)
     elif args.batch:
-        obj = Rst2htmlFileBatch(args.SOURCE, args.DESTINATION, args.filter, suffix, lightmode)
+        obj = Rst2htmlFileBatch(args.SOURCE, args.DESTINATION, args.expression, suffix, lightmode)
     else:
         obj = Rst2htmlFile(args.SOURCE, args.DESTINATION, suffix, lightmode)
 
