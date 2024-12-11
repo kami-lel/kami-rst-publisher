@@ -1,15 +1,20 @@
 
+STYLESHEET_DIR = "./assets/stylesheets/"  # relative to this file
+# stylesheets in STYLESHEET_DIR
+LIGHTMODE  = ["publisher_version.css", 'responsive.css', "kami_html5.css"]
+DARKMODE = ["publisher_version.css", 'responsive.css', "kami_html5.css",
+        "kami_html5_dark.css"]
+
+
 import os
 from os.path import dirname, abspath, join
 import re
 
 from docutils.core import publish_file
 
-STYLESHEET_DIR = "./assets/stylesheets/"  # relative to this file
 
-# stylesheets in STYLESHEET_DIR
-LIGHTMODE  = ['responsive.css', "kami_html5.css"]
-DARKMODE = ['responsive.css', "kami_html5.css", "kami_html5_dark.css"]
+__all__ = ('Rst2htmlFile', 'Rst2htmlFileBatch', 'Rst2htmlFileRecursive')
+
 
 def create_settings_overrides(light_mode=False):
     opt = {}

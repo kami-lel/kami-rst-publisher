@@ -2,6 +2,9 @@
 from docutils.nodes import literal, strong, raw
 
 
+__all__ = ('smart_role', 'tag_role')
+
+
 def smart_role(role, rawtext, text, lineno, inliner, options={}, content=[]):
     first = text[0]
 

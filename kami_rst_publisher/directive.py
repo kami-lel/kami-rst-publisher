@@ -3,6 +3,9 @@ from docutils.parsers.rst import Directive
 from docutils.nodes import subtitle, literal_block, raw
 
 
+__all__ = ('TagDirective', 'SubtitleDirective')
+
+
 class TagDirective(Directive):
 
     required_arguments = 0

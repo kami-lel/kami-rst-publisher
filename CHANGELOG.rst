@@ -18,6 +18,44 @@ kami-rst-publisher CHANGELOG
 
 
 
+3-3
+###
+version message::
+
+    3-3:update module structure and CLI options
+
+reorganize Python module structure:
+
+- in ``__init__.py``, expose content of and remove function ``init_publisher``, user now initialize publisher by perform a ``import`` of module
+- utilize ``__all__`` in scripts
+
+change to CLI:
+
+- rename option to ``--expressio`` (from ``--filter``)
+- CLI is implement in ``./kami_rst_publisher/__main__.py``, renamed from ``cli.py``
+
+remove useless files:
+
+- test render result ``./tests/test_render.R.html``
+- ``./kami_rst_publisher/docutils.conf``
+
+----
+
+- add color and font setting for subscript and superscript in *stylesheets*
+- use a standlone ``publisher_version.css`` to include publisher version in every rendered ``.html`` file
+
+
+
+
+
+
+
+
+
+
+
+
+
 3-2
 ###
 version message::
