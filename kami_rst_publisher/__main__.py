@@ -2,15 +2,16 @@
 from argparse import ArgumentParser
 from time import sleep
 from datetime import datetime
-from os.path import abspath, join, dirname
 
-from . import init_publisher
+from . import smart_role  # perform an import to init publisher
 from .rst2html_file import Rst2htmlFile, Rst2htmlFileBatch, Rst2htmlFileRecursive
+
 
 parser = ArgumentParser(
     prog='(kami rST publisher)publisher-cli.py',
     description='personalized rST publisher based on docutils but with extra roles & directives'
 )
+
 
 # positional arg
 parser.add_argument('SOURCE',
@@ -55,7 +56,6 @@ parser.add_argument('-e', '--expression',
 
 
 if __name__ == "__main__":
-    init_publisher()
     args = parser.parse_args()
 
     # set dark/light mode

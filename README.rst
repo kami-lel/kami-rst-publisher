@@ -120,38 +120,31 @@ Check *docstring* for each classes.
 
 `3` Python CLI
 ==============
-One could use a CLI defined in ``./kami_rst_publisher/cli.py``
+One could use a CLI defined in ``./kami_rst_publisher/__main__.py``
 
 Run with python::
 
-    python3 -m kami_rst_publisher.cli ...
+    python3 -m kami_rst_publisher ...
 
 And its *help* file::
 
-    usage: (kami rST publisher)publisher-cli.py [-h] [-b] [-r] [-c [WAIT]] [-l] [-v] [-s [SUFFIX]] [-f FILTER]
-                                                SOURCE [DESTINATION]
+    usage: (kami rST publisher)publisher-cli.py [-h] [-b] [-r] [-c [WAIT]] [-l] [-v] [-s [SUFFIX]] [-e EXPRESSION] SOURCE [DESTINATION]
 
     personalized rST publisher based on docutils but with extra roles & directives
 
     positional arguments:
       SOURCE                SOURCE of rST text, file or directory path
-      DESTINATION           DESTINATION of rendered .html file(s), file or directory path. Rendered file will be saved
-                            alongside with SOURCE if not given
+      DESTINATION           DESTINATION of rendered .html file(s), file or directory path. Rendered file will be saved alongside with SOURCE if not given
 
     options:
       -h, --help            show this help message and exit
-      -b, --batch           render any file with name fullmatching (regex) FILTER in a directory SOURCE. SOURCE &
-                            DESTINATION should be directory path. FILTER default to ".+\.rst", but can be set by -f
-      -r, --recursive       like -b, but recursively into each sub-folder of SOURCE. This flag overwrites -b. DESTINATION
-                            is not used when -r
-      -c [WAIT], --continuous [WAIT]
-                            render all changed files once every WAIT seconds. WAIT default to 5.0.
+      -b, --batch           render any file with name fullmatching (regex) EXPRESSION in a directory SOURCE. SOURCE & DESTINATION should be directory path. EXPRESSION default to ".+\.rst", but can be set by -f
+      -r, --recursive       like -b, but recursively into each sub-folder of SOURCE. This flag overwrites -b. DESTINATION is not used when -r
+      -c [WAIT], --continuous [WAIT] render all changed files once every WAIT seconds. WAIT default to 5.0.
       -l, --light           render in light mode
       -v, --verbose
-      -s [SUFFIX], --suffix [SUFFIX]
-                            SUFFIX for rendered file. Default to ".R"
-      -f FILTER, --filter FILTER
-                            with -b or -r, set FILTER for file matching. Default to ".+\.rst"
+      -s [SUFFIX], --suffix [SUFFIX] SUFFIX for rendered file. Default to ".R"
+      -e EXPRESSION, --expression EXPRESSION with -b or -r, set EXPRESSION for file matching. Default to ".+\.rst"
 
 
 

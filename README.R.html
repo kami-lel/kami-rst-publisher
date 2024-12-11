@@ -2,9 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>kami-rst-publisher README</title>
+<style type="text/css">
+
+/* PUBLISHED BY kami_rst_publisher.#3-3 */
+</style>
 <style type="text/css">
 
 /* CSS3_ style sheet for the output of Docutils HTML5 writer.  */
@@ -506,7 +510,6 @@ mstyle.mathscr, mi.mathscr {
 </style>
 <style type="text/css">
 
-/* PUBLISHED BY kami_rst_publisher.#3-1 */
 /* kami_html5.css for kami-rst-publisher by kamiLeL */
 /* applied with responsive.css of docutils */
 
@@ -552,7 +555,8 @@ p.rubric,
 p.sidebar-title,
 p.admonition-title,
 p.topic-title, /* Toc Heading */
-th /* Table Header */
+th, /* Table Header */
+sup, sub /* superscript, subscript */
 {
   font-family: "Atkinson Hyperlegible", "Trebuchet MS";
 }
@@ -637,6 +641,10 @@ blockquote > *,
   font-size: small;
   background-color: #EBF2F0;
   color: #006642;
+}
+
+sup, sub {
+  color: #333333;
 }
 
 
@@ -822,6 +830,10 @@ p.rubric {
 .system-message > *{
   background-color: #373226;
   color: #F2EADB;
+}
+
+sup, sub {
+  color: #CCCCCC;
 }
 
 
@@ -1226,7 +1238,7 @@ span.boxed, span.framebox {
 <h1 class="title">kami-rst-publisher README</h1>
 
 <nav class="contents" id="contents" role="doc-toc">
-<p class="topic-title">Contents</p>
+<p class="topic-title"><a class="reference internal" href="#top">Contents</a></p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#span-class-kami-romannumeral-i-span-usage" id="toc-entry-1"><span class="kami-RomanNumeral">I</span> usage</a></p>
 <ul>
@@ -1336,7 +1348,7 @@ span.boxed, span.framebox {
 <li><p><strong>native</strong> part § <a class="reference internal" href="#v">V</a> &amp; § <a class="reference internal" href="#vi">VI</a>: <em>roles</em> and <em>directives</em> implemented by <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span></p></li>
 <li><p><strong>style guide</strong> § <a class="reference internal" href="#vii">VII</a>: the less-technical specifications of documentation</p></li>
 </ol>
-<p>Docutils Project Documentation <a class="footnote-reference brackets" href="#docutil" id="footnote-reference-1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> (abbr. <em>docutil</em>) and Python Developler's Guide <a class="footnote-reference brackets" href="#python" id="footnote-reference-2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> (abbr. <em>doc python</em>) are heavily referenced.</p>
+<p>Docutils Project Documentation <a class="brackets" href="#docutil" id="footnote-reference-1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> (abbr. <em>docutil</em>) and Python Developler's Guide <a class="brackets" href="#python" id="footnote-reference-2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> (abbr. <em>doc python</em>) are heavily referenced.</p>
 <section id="span-class-kami-romannumeral-i-span-usage">
 <span id="i"></span><h2><a class="toc-backref" href="#toc-entry-1" role="doc-backlink"><span class="kami-RomanNumeral">I</span> usage</a></h2>
 <p>Use <span class="docutils literal"><span class="pre">kami-rst-publisher</span></span> as Python package or by a CLI, v.i.</p>
@@ -1364,34 +1376,27 @@ Rst2htmlFile(src, dest)</pre>
 </section>
 <section id="span-class-kami-arabicnumber-3-span-python-cli">
 <h3><a class="toc-backref" href="#toc-entry-4" role="doc-backlink"><span class="kami-ArabicNumber">3</span> Python CLI</a></h3>
-<p>One could use a CLI defined in <span class="docutils literal">./kami_rst_publisher/cli.py</span></p>
+<p>One could use a CLI defined in <span class="docutils literal">./kami_rst_publisher/__main__.py</span></p>
 <p>Run with python:</p>
-<pre class="literal-block">python3 -m kami_rst_publisher.cli ...</pre>
+<pre class="literal-block">python3 -m kami_rst_publisher ...</pre>
 <p>And its <em>help</em> file:</p>
-<pre class="literal-block">usage: (kami rST publisher)publisher-cli.py [-h] [-b] [-r] [-c [WAIT]] [-l] [-v] [-s [SUFFIX]] [-f FILTER]
-                                            SOURCE [DESTINATION]
+<pre class="literal-block">usage: (kami rST publisher)publisher-cli.py [-h] [-b] [-r] [-c [WAIT]] [-l] [-v] [-s [SUFFIX]] [-e EXPRESSION] SOURCE [DESTINATION]
 
 personalized rST publisher based on docutils but with extra roles &amp; directives
 
 positional arguments:
   SOURCE                SOURCE of rST text, file or directory path
-  DESTINATION           DESTINATION of rendered .html file(s), file or directory path. Rendered file will be saved
-                        alongside with SOURCE if not given
+  DESTINATION           DESTINATION of rendered .html file(s), file or directory path. Rendered file will be saved alongside with SOURCE if not given
 
 options:
   -h, --help            show this help message and exit
-  -b, --batch           render any file with name fullmatching (regex) FILTER in a directory SOURCE. SOURCE &amp;
-                        DESTINATION should be directory path. FILTER default to &quot;.+\.rst&quot;, but can be set by -f
-  -r, --recursive       like -b, but recursively into each sub-folder of SOURCE. This flag overwrites -b. DESTINATION
-                        is not used when -r
-  -c [WAIT], --continuous [WAIT]
-                        render all changed files once every WAIT seconds. WAIT default to 5.0.
+  -b, --batch           render any file with name fullmatching (regex) EXPRESSION in a directory SOURCE. SOURCE &amp; DESTINATION should be directory path. EXPRESSION default to &quot;.+\.rst&quot;, but can be set by -f
+  -r, --recursive       like -b, but recursively into each sub-folder of SOURCE. This flag overwrites -b. DESTINATION is not used when -r
+  -c [WAIT], --continuous [WAIT] render all changed files once every WAIT seconds. WAIT default to 5.0.
   -l, --light           render in light mode
   -v, --verbose
-  -s [SUFFIX], --suffix [SUFFIX]
-                        SUFFIX for rendered file. Default to &quot;.R&quot;
-  -f FILTER, --filter FILTER
-                        with -b or -r, set FILTER for file matching. Default to &quot;.+\.rst&quot;</pre>
+  -s [SUFFIX], --suffix [SUFFIX] SUFFIX for rendered file. Default to &quot;.R&quot;
+  -e EXPRESSION, --expression EXPRESSION with -b or -r, set EXPRESSION for file matching. Default to &quot;.+\.rst&quot;</pre>
 </section>
 <section id="span-class-kami-arabicnumber-4-span-stylesheets">
 <h3><a class="toc-backref" href="#toc-entry-5" role="doc-backlink"><span class="kami-ArabicNumber">4</span> stylesheets</a></h3>
@@ -1907,7 +1912,7 @@ __ anonymous-hyperlink-target-link-block</pre>
 </section>
 <section id="span-class-kami-romannumeral-iii-span-rst-directives">
 <span id="iii"></span><h2><a class="toc-backref" href="#toc-entry-36" role="doc-backlink"><span class="kami-RomanNumeral">III</span> rST directives</a></h2>
-<p><a class="footnote-reference brackets" href="#rst-directives" id="footnote-reference-3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a></p>
+<p><a class="brackets" href="#rst-directives" id="footnote-reference-3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a></p>
 <section id="span-class-kami-arabicnumber-1-span-table-of-content">
 <span id="iii-1"></span><h3><a class="toc-backref" href="#toc-entry-37" role="doc-backlink"><span class="kami-ArabicNumber">1</span> table of content</a></h3>
 <pre class="literal-block">.. contents::</pre>
