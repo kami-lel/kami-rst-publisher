@@ -44,7 +44,8 @@ p.rubric,
 p.sidebar-title,
 p.admonition-title,
 p.topic-title, /* Toc Heading */
-th /* Table Header */
+th, /* Table Header */
+sup, sub /* superscript, subscript */
 {
   font-family: "Atkinson Hyperlegible", "Trebuchet MS";
 }
@@ -129,6 +130,10 @@ blockquote > *,
   font-size: small;
   background-color: #EBF2F0;
   color: #006642;
+}
+
+sup, sub {
+  color: #333333;
 }
 
 

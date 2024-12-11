@@ -61,6 +61,10 @@ p.rubric {
   color: #F2EADB;
 }
 
+sup, sub {
+  color: #CCCCCC;
+}
+
 
 
 /* Tables */
