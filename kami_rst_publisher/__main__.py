@@ -53,6 +53,9 @@ parser.add_argument('-e', '--expression',
 # e.g. -d 13 means add .#[02022-03-05] as suffix
 
 # todo eliminate the need write ``.. default-role:: smart`` for each file
+# TODO allow .md file
+# TODO serve by server
+# FIXME rm batch & continuous option
 
 
 if __name__ == "__main__":

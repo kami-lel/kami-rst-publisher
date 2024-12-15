@@ -1,3 +1,4 @@
+# FIXME move all to publish.py
 
 STYLESHEET_DIR = "./assets/stylesheets/"  # relative to this file
 # stylesheets in STYLESHEET_DIR
