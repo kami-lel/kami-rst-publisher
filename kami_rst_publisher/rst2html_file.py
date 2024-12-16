@@ -1,10 +1,5 @@
 # FIXME move all to publish.py
 
-STYLESHEET_DIR = "./assets/stylesheets/"  # relative to this file
-# stylesheets in STYLESHEET_DIR
-LIGHTMODE  = ["publisher_version.css", 'responsive.css', "kami_html5.css"]
-DARKMODE = ["publisher_version.css", 'responsive.css', "kami_html5.css",
-        "kami_html5_dark.css"]
 
 
 import os
@@ -16,13 +11,6 @@ from docutils.core import publish_file
 
 __all__ = ('Rst2htmlFile', 'Rst2htmlFileBatch', 'Rst2htmlFileRecursive')
 
-
-def create_settings_overrides(light_mode=False):
-    opt = {}
-    stylesheet_dir = abspath(join(dirname(__file__), STYLESHEET_DIR))
-    opt["stylesheet_dirs"] = [stylesheet_dir]
-    opt["stylesheet_path"] = LIGHTMODE if light_mode else DARKMODE
-    return opt
 
 
 class Rst2htmlFile(object):
