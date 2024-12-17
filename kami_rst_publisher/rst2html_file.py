@@ -232,3 +232,42 @@ class Rst2htmlFileRecursive(object):
         else:
             # none of batch obj rendered
             return ""
+
+
+
+
+
+
+if __name__ == "__main__":
+    args = parser.parse_args()
+
+    # set dark/light mode
+    lightmode = bool(args.light)
+
+    # determine suffix
+    suffix = '' if args.suffix is None else args.suffix
+
+    # init
+    if args.recursive:
+        obj = Rst2htmlFileRecursive(args.SOURCE, args.expression, suffix, lightmode)
+    elif args.batch:
+        obj = Rst2htmlFileBatch(args.SOURCE, args.DESTINATION, args.expression, suffix, lightmode)
+    else:
+        obj = Rst2htmlFile(args.SOURCE, args.DESTINATION, suffix, lightmode)
+
+    if args.verbose:
+        print("[{}]".format(datetime.today().isoformat()))
+        print(str(obj))
+
+    while True:
+        obj.render()
+
+        if args.verbose and str(obj):
+            print("[{}]".format(datetime.today().isoformat()))
+            print(str(obj))
+
+        if not args.continuous:
+            # one-time render when not in repeat mode
+            break
+
+        sleep(args.continuous)

@@ -6,25 +6,21 @@
 - web server mode
 
 
-help='like -b, but recursively into each sub-folder of SOURCE. '
-'This flag overwrites -b. '
-'DESTINATION is not used when -r')
+like -b, but recursively into each sub-folder of SOURCE. This flag overwrites -b.
 
 
 """  # TODO doc for main
 
 
 PROGRAM_NAME = 'kami_rst_publisher'
-FILE_ENCODING = 'utf-8'
 
 
-from argparse import ArgumentParser, RawTextHelpFormatter, FileType
+from argparse import ArgumentParser, RawTextHelpFormatter
 from sys import exit
 
 from .cli_file import cli_single_mode_main, cli_recursive_mode_main
 from .cli_web_server import \
         cli_web_server_mode_main, WEB_SERVER_DEFAULT_PORT
-
 
 
 psr = ArgumentParser(prog=PROGRAM_NAME,
@@ -33,11 +29,11 @@ psr = ArgumentParser(prog=PROGRAM_NAME,
 
 # positional arguments
 psr.add_argument('SOURCE',
-        type=FileType('r', encoding=FILE_ENCODING),
+        type=str,
         help='SOURCE of raw text, as file/directory path')
 psr.add_argument('DESTINATION',
         nargs='?',
-        type=FileType('w', encoding=FILE_ENCODING),
+        type=str,
         help= \
 """DESTINATION for rendered files, as file/directory path;
 if absent, rendered files will be saved alongside SOURCE""")
@@ -56,11 +52,17 @@ psr.add_argument('-w', '--web-server',
         metavar='PORT',
         help='enable web server mode, v.s.')
 
-# TODO implement
 psr.add_argument('-s', '--suffix',
         nargs='?',
+        default='',
         const='.R',
-        help= 'append SUFFIX to rendered files; default to ".R"')
+        type=str,
+        help='append SUFFIX to rendered files; default to ".R"')
+
+# TODO expression filter
+# parser.add_argument('-e', '--expression',
+#                     action='store',
+#                     help=r'with -b or -r, set EXPRESSION for file matching. Default to ".+\.rst"')
 
 psr.add_argument('-p', '--render-preset',
         action='store',
@@ -82,17 +84,9 @@ psr.add_argument('-q', '--quiet',
         default=0)
 
 
-# TODO expression filter
-
 # todo -d option to add date
 # e.g. -d 13 means add .#[02022-03-05] as suffix
-
-# todo eliminate the need write ``.. default-role:: smart`` for each file
 # TODO allow .md file
-
-
-
-
 
 
 if __name__ == "__main__":
