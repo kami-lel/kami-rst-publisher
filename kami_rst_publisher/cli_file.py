@@ -8,6 +8,7 @@ DEFAULT_FILTER = r'.+\.rst'
 
 
 import os
+import errno
 
 from docutils.core import publish_file
 
@@ -37,7 +38,7 @@ def cli_single_mode_main(src_arg, dest_arg,
         folder, full_filename = os.path.split(src_path)
         # split filename & extension
         filename, _ = os.path.splitext(full_filename)
-        dest_path = os.path.join(folder, 
+        dest_path = os.path.join(folder,
                 (filename + suffix + RENDERED_FILE_EXTENSION))
 
     dest_info = dest_arg or dest_path  # used in print messgaes, etc.
@@ -70,6 +71,20 @@ def cli_single_mode_main(src_arg, dest_arg,
 
 def cli_recursive_mode_main(src_arg, dest_arg, expression_arg,
         suffix, render_preset, logger):
+
+    root = os.path.realpath(src_arg)  # normalize
+
+    try:
+        for dirpath, _, filename in os.walk(root):
+            pass  # TODO
+
+    except OSError as err:
+        logger.critical("re {} of SOURCE: {}".format(src_arg, err.strerror))
+        exit(err.errno)
+
+    src_paths = []
+    dest_paths = []
+    # discover all files to be rendered
 
 
     raise NotImplementedError  # TODO
