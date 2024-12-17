@@ -15,7 +15,7 @@ from pathlib import Path
 
 
 def determine_parser():
-    return 'restructuredtext'  # TODO
+    return 'restructuredtext'  # TODO allow other formats
 
 
 def create_settings_overrides(render_preset):

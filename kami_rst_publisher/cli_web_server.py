@@ -1,5 +1,5 @@
 """
-implement --web-server option of kami_rst_publisher CLI
+implment web server mode of kami_rst_publisher CLI
 """
 
 
@@ -25,7 +25,6 @@ def generate_html_content_on_http_request():
 
         print('test')
         return opt
-
 
 
     # BUG can not properly publish
@@ -59,9 +58,11 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(html_content)
 
 
-def web_server_main(src_file_arg, port, render_preset_arg):
+def cli_web_server_mode_main(src_file_arg, port, render_preset_arg):
     global src_file_path
     global render_preset
+
+    raise NotImplementedError  # TODO
 
     # create http server
     address = ('', port)
