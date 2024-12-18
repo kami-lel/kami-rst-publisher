@@ -4,8 +4,9 @@ test recursive mode of cli
 
 
 import tempfile
+import os
 
-from single_render_test import run_single_mode
+from single_render_test import run_single_mode, assert_good_rst_render
 from get_filepaths import \
         copy_rst_recursive1_to, copy_rst_recursive2_to, copy_rst_recursive3_to
 
@@ -22,10 +23,16 @@ class TestRender:  #  yes DESTINATION, no suffix
         with (tempfile.TemporaryDirectory() as src_dir,
                 tempfile.TemporaryDirectory() as dest_dir):
 
+            # BUG
+            # HACK
+            src_dir = 'fromfrom'
+            dest_dir = 'toto'
+
             copy_rst_recursive1_to(src_dir)
 
             result = run_recursive_mode(src_dir, dest_dir)
             assert result.returncode == 0
+
 
     def test2(_):
         pass
@@ -45,3 +52,6 @@ class TestAlongside:  #  no DESTINATION, no suffix
 class TestAlongsideSuf:  #  no DESTINATION, yes suffix
     pass  # TODO
 
+
+
+# TODO overwritting warning
