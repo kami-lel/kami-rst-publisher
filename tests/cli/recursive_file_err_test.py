@@ -38,7 +38,6 @@ class TestRoot:  # no permission to root
                     result.stderr)
 
     def test_file(_):  # is a file
-        pass
         with tempfile.NamedTemporaryFile() as temp_file:
             result = run_recursive_mode(temp_file.name)
 
@@ -47,3 +46,24 @@ class TestRoot:  # no permission to root
                     r'CRITICAL re .+ of SOURCE: Not a directory',
                     result.stderr)
 
+
+class TestSubfolder:  # warning with sub-folder
+
+    def test1(_):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            src = os.path.join(temp_dir, 'src')
+            copy_rst_recursive2_to(src)
+            dest = os.path.join(temp_dir, 'dest')
+
+            os.chmod(src, 0o333)  # no read perm
+
+            result = run_recursive_mode(src, dest)
+            # TODO
+
+            assert result.returncode == 13
+            assert re.match( r'CRITICAL re .+ of SOURCE: Permission denied',
+                    result.stderr)
+
+
+class TestFiles:  # warning with files in sub-folders
+    pass

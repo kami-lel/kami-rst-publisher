@@ -8,9 +8,10 @@ DEFAULT_FILTER = r'.+\.rst'
 
 
 import os
+from sys import stderr
+import logging
 
 from docutils.core import publish_file
-import logging
 
 from .cli_utils import determine_parser, create_settings_overrides, \
         PROGRAM_NAME
@@ -91,7 +92,9 @@ def _handle_os_walk_err(err):
         exit(err.errno)
 
     else:  # os error is related to sub-directory
-        pass  # TODO
+        logger.warning('sub-directory {}: {}'
+                .format(os.path.relpath(err.filename, root), err.strerror))
+        # TODO write tests
 
 
 def cli_recursive_mode_main(src_arg, dest_arg, expression_arg,
@@ -111,10 +114,17 @@ def cli_recursive_mode_main(src_arg, dest_arg, expression_arg,
     # discover all files in root
     for dirpath, _, filesnames in os.walk(
             root, onerror=_handle_os_walk_err):
-        for filename in filesnames:
-            print(dirpath, filename)  # TODO implement actual publishing
 
-    # discover all files to be rendered
+        for filename in filesnames:
+            src_path = os.path.join(dirpath, filename)
+            try:  # test access of source files
+                open(src_path, 'r')
+            except OSError as err:
+                logger.warning("file {}: {}"
+                        .format(os.path.relpath(src_path, root), err.strerror))
+                # TODO
+
+            # print(dirpath, filename)
 
 
     logger.debug("finish: recursive mode main")
