@@ -22,8 +22,8 @@ def cli_single_mode_main(src_arg, dest_arg, suffix, render_preset):
     dest_path = _determine_dest_path(dest_arg, src_path, suffix)
     dest_info = dest_arg or dest_path  # used in print messgaes, etc.
 
-    _test_dest_path_access_and_create_if_nonexist(
-            dest_arg, dest_path, dest_info)
+    # test access to dest_path, and create the file if non-existent
+    _test_dest_path_access(dest_path, dest_arg, dest_info)
 
     # perform render
     publish_file(source_path=src_arg,
@@ -66,8 +66,7 @@ def _determine_dest_path(dest_arg, src_path, suffix):
                 (filename + suffix + RENDERED_FILE_EXTENSION))
 
 
-def _test_dest_path_access_and_create_if_nonexist(
-        dest_arg, dest_path, dest_info):
+def _test_dest_path_access(dest_path, dest_arg, dest_info):
     logger = logging.getLogger(PROGRAM_NAME)
 
     if os.path.isfile(dest_path):
