@@ -9,7 +9,8 @@ import shutil
 import re
 from pathlib import Path
 
-from single_render_test import run_single_mode, rst_simple
+from single_render_test import run_single_mode
+from get_filepaths import rst_simple
 
 
 class TestSrcFileErr:  # err related source file
@@ -21,7 +22,7 @@ class TestSrcFileErr:  # err related source file
             result = run_single_mode(src, dest)
             assert result.returncode == 2
             assert re.match(
-                    r'CRITICAL: re .+ of SOURCE: No such file or directory',
+                    r'CRITICAL re .+ of SOURCE: No such file or directory',
                     result.stderr)
 
     def test_src_is_dir(_):
@@ -31,7 +32,7 @@ class TestSrcFileErr:  # err related source file
             result = run_single_mode(src, dest)
             assert result.returncode == 21
             assert re.match(
-                    r'CRITICAL: re .+ of SOURCE: Is a directory',
+                    r'CRITICAL re .+ of SOURCE: Is a directory',
                     result.stderr)
 
     def test_src_no_perm(_):
@@ -45,7 +46,7 @@ class TestSrcFileErr:  # err related source file
             result = run_single_mode(src, dest)
             assert result.returncode == 13
             assert re.match(
-                    r'CRITICAL: re .+ of SOURCE: Permission denied',
+                    r'CRITICAL re .+ of SOURCE: Permission denied',
                     result.stderr)
 
 
@@ -61,7 +62,7 @@ class TestDestFileErr:  # issue w/ destination
             result = run_single_mode(src, dest)
             assert result.returncode == 2
             assert re.match(
-    r'CRITICAL: re .+ of DESTINATION: No such file or directory',
+    r'CRITICAL re .+ of DESTINATION: No such file or directory',
                     result.stderr)
 
     def test_is_dir(_):
@@ -71,7 +72,7 @@ class TestDestFileErr:  # issue w/ destination
             result = run_single_mode(src, temp_dir)
             assert result.returncode == 21
             assert re.match(
-                    r'CRITICAL: re .+ of DESTINATION: Is a directory',
+                    r'CRITICAL re .+ of DESTINATION: Is a directory',
                     result.stderr)
 
     def test_no_perm(_):
@@ -84,7 +85,7 @@ class TestDestFileErr:  # issue w/ destination
             result = run_single_mode(src, dest)
             assert result.returncode == 13
             assert re.match(
-                    r'CRITICAL: re .+ of DESTINATION: Permission denied',
+                    r'CRITICAL re .+ of DESTINATION: Permission denied',
                     result.stderr)
 
     def test_alongside_no_perm(_):  # no given DESTINATION, not suffix
@@ -100,7 +101,7 @@ class TestDestFileErr:  # issue w/ destination
             result = run_single_mode(src)  # no DESTINATION
             assert result.returncode == 13
             assert re.match(
-                    r'CRITICAL: can not create destination: .+',
+                    r'CRITICAL can not create destination: .+',
                     result.stderr)
 
     def test_suffix_no_perm(_):
@@ -116,5 +117,5 @@ class TestDestFileErr:  # issue w/ destination
             result = run_single_mode(src, '-s', '_suf')  # no DESTINATION, with suffix
             assert result.returncode == 13
             assert re.match(
-                    r'CRITICAL: can not create destination: .+',
+                    r'CRITICAL can not create destination: .+',
                     result.stderr)

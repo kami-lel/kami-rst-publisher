@@ -7,17 +7,13 @@ from pathlib import Path
 from sys import executable
 import subprocess
 
+from get_filepaths import rst_simple, rst_comprehensive
+
 
 def run_single_mode(*args):
     opt_args = [executable, '-m', 'kami_rst_publisher']
     opt_args.extend(args)
     return subprocess.run(opt_args, capture_output=True, text=True)
-
-
-src_files = Path(__file__).parent.parent / 'src_files'
-
-rst_simple = (src_files / 'rst_simple.rst').resolve()
-rst_comprehensive = (src_files / 'rst_comprehensive.rst').resolve()
 
 
 class TestRender:

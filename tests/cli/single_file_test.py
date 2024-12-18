@@ -8,7 +8,8 @@ import os
 import shutil
 import re
 
-from single_render_test import run_single_mode, rst_simple, rst_comprehensive
+from single_render_test import run_single_mode
+from get_filepaths import rst_simple, rst_comprehensive
 
 
 class TestOverwritting:  # test overwriting warning
@@ -24,7 +25,7 @@ class TestOverwritting:  # test overwriting warning
 
             result = run_single_mode(src, dest)
             assert result.returncode == 0
-            assert re.match(r'WARNING: overwrite: ', result.stdout)
+            assert re.match(r'WARNING overwrite: ', result.stdout)
 
     def test_alongside(_):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -37,7 +38,7 @@ class TestOverwritting:  # test overwriting warning
 
             result = run_single_mode(src)
             assert result.returncode == 0
-            assert re.match(r'WARNING: overwrite: ', result.stdout)
+            assert re.match(r'WARNING overwrite: ', result.stdout)
 
     def test_suffix(_):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -50,7 +51,7 @@ class TestOverwritting:  # test overwriting warning
 
             result = run_single_mode(src, '-s', '_suf')
             assert result.returncode == 0
-            assert re.match(r'WARNING: overwrite: ', result.stdout)
+            assert re.match(r'WARNING overwrite: ', result.stdout)
 
 
 class TestSuffix:  # test suffix option w/ no DESTINATION

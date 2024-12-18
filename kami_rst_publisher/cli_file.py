@@ -8,11 +8,12 @@ DEFAULT_FILTER = r'.+\.rst'
 
 
 import os
-import errno
 
 from docutils.core import publish_file
+import logging
 
-from .cli_utils import determine_parser, create_settings_overrides
+from .cli_utils import determine_parser, create_settings_overrides, \
+        PROGRAM_NAME
 
 
 def cli_single_mode_main(src_arg, dest_arg,
@@ -69,22 +70,51 @@ def cli_single_mode_main(src_arg, dest_arg,
     logger.info("finish: {}\n\t->{}".format(src_arg, dest_info))
 
 
+
+def _handle_os_walk_err(err):
+    """
+    handle OSErrors raised during ``os.walk(root)`` in ``cli_recursive_mode_main``
+
+    :param err:
+    :type err: OSError
+    """
+
+    global root
+    global src_arg_cache
+
+    logger = logging.getLogger(PROGRAM_NAME)
+
+    # os error related to root
+    if err.filename == root:
+        logger.critical('re {} of SOURCE: {}'
+                .format(src_arg_cache, err.strerror))
+        exit(err.errno)
+
+    else:  # os error is related to sub-directory
+        pass  # TODO
+
+
 def cli_recursive_mode_main(src_arg, dest_arg, expression_arg,
         suffix, render_preset, logger):
+    # save as global to be used in _handle_os_walk_err
+    global root
+    global src_arg_cache
+    src_arg_cache = src_arg
+
+    logger.debug("start: recursive mode main\n\tsrc_arg={}".format(src_arg))
 
     root = os.path.realpath(src_arg)  # normalize
-
-    try:
-        for dirpath, _, filename in os.walk(root):
-            pass  # TODO
-
-    except OSError as err:
-        logger.critical("re {} of SOURCE: {}".format(src_arg, err.strerror))
-        exit(err.errno)
+    logger.debug("root=normalized src_arg={}".format(root))
 
     src_paths = []
     dest_paths = []
+    # discover all files in root
+    for dirpath, _, filesnames in os.walk(
+            root, onerror=_handle_os_walk_err):
+        for filename in filesnames:
+            print(dirpath, filename)  # TODO implement actual publishing
+
     # discover all files to be rendered
 
 
-    raise NotImplementedError  # TODO
+    logger.debug("finish: recursive mode main")

@@ -3,6 +3,7 @@ common utility functions used in CLI
 """
 
 
+PROGRAM_NAME = 'kami_rst_publisher'
 PRESETS = ['dark', 'light']  # used in options -p choices
 # stylesheets in STYLESHEET_DIR
 PRESETS_STYLESHEET_PATHS = {
@@ -37,7 +38,7 @@ class CustomizedLogHandler(logging.Handler):
 
     def emit(self, record):
         target = stderr if record.levelno >= logging.ERROR else stdout
-        print_content = "{}: {}".format(record.levelname, record.msg)
+        print_content = "{} {}".format(record.levelname, record.msg)
 
         print(print_content, file=target)
 

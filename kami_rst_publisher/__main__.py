@@ -17,7 +17,6 @@ like -b, but recursively into each sub-folder of SOURCE. This flag overwrites -b
 
 import logging
 
-PROGRAM_NAME = 'kami_rst_publisher'
 VERBOSITY2LOGGING_LEVEL = {
         -1: logging.CRITICAL + 1,  # -q
         0: logging.WARNING,
@@ -33,7 +32,7 @@ from .cli_file import cli_single_mode_main, cli_recursive_mode_main, \
         DEFAULT_FILTER
 from .cli_web_server import \
         cli_web_server_mode_main, WEB_SERVER_DEFAULT_PORT
-from .cli_utils import PRESETS, CustomizedLogHandler
+from .cli_utils import PRESETS, CustomizedLogHandler, PROGRAM_NAME
 
 
 psr = ArgumentParser(prog=PROGRAM_NAME,
@@ -114,6 +113,7 @@ if __name__ == "__main__":
     # set up logger
     logger = logging.getLogger(PROGRAM_NAME)
     verbosity = min(max(args.verbose - args.quiet, -1), 2)
+    verbosity = 2  # HACK hardcode verbosity during dev
     logger.setLevel(VERBOSITY2LOGGING_LEVEL[verbosity])
     logger.addHandler(CustomizedLogHandler())
 
