@@ -8,7 +8,6 @@ DEFAULT_FILTER = r'.+\.rst'
 
 import logging
 import os
-import shutil
 
 from .cli_single import RENDERED_FILE_EXTENSION
 from .cli_utils import PROGRAM_NAME
@@ -54,6 +53,7 @@ def cli_recursive_mode_main(src_arg, dest_arg, expression_arg,
     err_no = _test_dest_dirs(dest_file_paths, dest_root)
     err_no = _test_dest_files(dest_file_paths, relpaths2root) or err_no
 
+    # TODO actual perform render
     # TODO stat
     # TODO expression arg filter
     logger.debug("finish: recursive mode main")

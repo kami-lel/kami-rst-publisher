@@ -12,7 +12,7 @@ like -b, but recursively into each sub-folder of SOURCE. This flag overwrites -b
 
 # todo -d option to add date
 # e.g. -d 13 means add .#[02022-03-05] as suffix
-# TODO allow .md file
+# todo allow .md file
 
 
 import logging
@@ -56,6 +56,7 @@ psr.add_argument('-r', '--recursive',
         action='store_true',
         help='enable recursive mode, v.s.')
 
+# todo should work with .rst and .md
 psr.add_argument('-e', '--expression',
         action='store',
         default=DEFAULT_FILTER,
