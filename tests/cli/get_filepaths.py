@@ -41,4 +41,3 @@ def copy_rst_recursive3_to(dest_dir):
     shutil.copytree(rst_recursive1, dest_dir, dirs_exist_ok=True)
     shutil.copytree(rst_recursive2, dest_dir, dirs_exist_ok=True)
     shutil.copytree(rst_recursive3, dest_dir, dirs_exist_ok=True)
-

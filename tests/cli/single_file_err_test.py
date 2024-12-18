@@ -84,7 +84,7 @@ class TestDestFileErr:  # issue w/ destination
 
             result = run_single_mode(src, dest)
             assert result.returncode == 13
-            assert re.match(
+            assert re.search(
                     r'CRITICAL re .+ of DESTINATION: Permission denied',
                     result.stderr)
 
@@ -100,7 +100,7 @@ class TestDestFileErr:  # issue w/ destination
 
             result = run_single_mode(src)  # no DESTINATION
             assert result.returncode == 13
-            assert re.match(
+            assert re.search(
                     r'CRITICAL can not create destination: .+',
                     result.stderr)
 
@@ -116,6 +116,6 @@ class TestDestFileErr:  # issue w/ destination
 
             result = run_single_mode(src, '-s', '_suf')  # no DESTINATION, with suffix
             assert result.returncode == 13
-            assert re.match(
+            assert re.search(
                     r'CRITICAL can not create destination: .+',
                     result.stderr)

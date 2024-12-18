@@ -25,7 +25,7 @@ class TestOverwritting:  # test overwriting warning
 
             result = run_single_mode(src, dest)
             assert result.returncode == 0
-            assert re.match(r'WARNING overwrite: ', result.stdout)
+            assert re.match(r'WARNING overwrite: ', result.stderr)
 
     def test_alongside(_):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -38,7 +38,7 @@ class TestOverwritting:  # test overwriting warning
 
             result = run_single_mode(src)
             assert result.returncode == 0
-            assert re.match(r'WARNING overwrite: ', result.stdout)
+            assert re.match(r'WARNING overwrite: ', result.stderr)
 
     def test_suffix(_):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -51,7 +51,7 @@ class TestOverwritting:  # test overwriting warning
 
             result = run_single_mode(src, '-s', '_suf')
             assert result.returncode == 0
-            assert re.match(r'WARNING overwrite: ', result.stdout)
+            assert re.match(r'WARNING overwrite: ', result.stderr)
 
 
 class TestSuffix:  # test suffix option w/ no DESTINATION

@@ -28,8 +28,8 @@ from argparse import ArgumentParser, RawTextHelpFormatter
 import logging
 from sys import exit
 
-from .cli_file import cli_single_mode_main, cli_recursive_mode_main, \
-        DEFAULT_FILTER
+from .cli_single import cli_single_mode_main
+from .cli_recursive import cli_recursive_mode_main, DEFAULT_FILTER
 from .cli_web_server import \
         cli_web_server_mode_main, WEB_SERVER_DEFAULT_PORT
 from .cli_utils import PRESETS, CustomizedLogHandler, PROGRAM_NAME
@@ -121,9 +121,9 @@ if __name__ == "__main__":
         cli_web_server_mode_main(args.SOURCE, args.web_server, render_preset)
     elif args.recursive:
         cli_recursive_mode_main(args.SOURCE, args.DESTINATION, args.expression,
-                args.suffix, args.render_preset, logger)
+                args.suffix, args.render_preset)
     else:
         cli_single_mode_main(args.SOURCE, args.DESTINATION,
-                args.suffix, args.render_preset, logger)
+                args.suffix, args.render_preset)
 
     exit(0)
