@@ -17,7 +17,7 @@ from recursive_render_test import run_recursive_mode
 class TestNewFodler:  # create new folders, copy tree like src
 
     def test1(_):
-        with (tempfile.TemporaryDirectory() as src_dir, 
+        with (tempfile.TemporaryDirectory() as src_dir,
                 tempfile.TemporaryDirectory() as temp_dir):
             copy_rst_recursive1_to(src_dir)
             dest_dir = os.path.join(temp_dir, 'output')
@@ -30,7 +30,7 @@ class TestNewFodler:  # create new folders, copy tree like src
             assert os.path.isdir(dest_dir)
 
     def test2(_):
-        with (tempfile.TemporaryDirectory() as src_dir, 
+        with (tempfile.TemporaryDirectory() as src_dir,
                 tempfile.TemporaryDirectory() as dest_dir):
             copy_rst_recursive2_to(src_dir)
 
@@ -44,7 +44,7 @@ class TestNewFodler:  # create new folders, copy tree like src
             assert os.path.isdir(os.path.join(dest_dir, 'foo'))
 
     def test3(_):
-        with (tempfile.TemporaryDirectory() as src_dir, 
+        with (tempfile.TemporaryDirectory() as src_dir,
                 tempfile.TemporaryDirectory() as dest_dir):
             copy_rst_recursive3_to(src_dir)
 
@@ -65,9 +65,33 @@ class TestNewFodler:  # create new folders, copy tree like src
 
 
 class TestNoPerm:  # error when destination dirs no permission
-    pass  # TODO
+
+    def test1(_):
+        with (tempfile.TemporaryDirectory() as src_dir,
+                tempfile.TemporaryDirectory() as temp_dir):
+            copy_rst_recursive1_to(src_dir)
+            dest_dir = os.path.join(temp_dir, 'output')
+
+            os.makedirs(dest_dir)
+            os.chmod(dest_dir, 0o000)  # no access
+
+            result = run_recursive_mode(src_dir, dest_dir)
+            assert result.returncode == 13
+            assert re.search(
+                    r'ERROR destination folder .+: Permission denied',
+                    result.stderr)
 
 
 class TestIsFile:  # error when destination dirs is already a file
-    pass  # TODO
+
+    def test1(_):
+        with (tempfile.TemporaryDirectory() as src_dir,
+                tempfile.NamedTemporaryFile() as dest_file):
+            copy_rst_recursive1_to(src_dir)
+
+            result = run_recursive_mode(src_dir, dest_file.name)
+            assert result.returncode == 20
+            assert re.search(
+                    r'ERROR destination folder .+: Not a directory',
+                    result.stderr)
 

@@ -33,13 +33,15 @@ def cli_recursive_mode_main(src_arg, dest_arg, expression_arg,
 \tdest_arg={}
 \tdest_root={}""".format(src_arg, src_root, dest_arg, dest_root))
 
-    src_file_paths = _find_test_files_in_src_root(src_root)
+    src_file_paths = _find_src_files(src_root)
 
     # create a list of relative path
     relpaths2root = [os.path.relpath(v, src_root) for v in src_file_paths]
 
+    _test_src_file_path(src_file_paths, relpaths2root)
+
     # create a list of dest_file_path
-    dest_file_paths = _generate_dest_file_paths(
+    dest_file_paths = _create_dest_file_paths(
             relpaths2root, dest_root, suffix)
 
     # logging generated lists
@@ -49,8 +51,8 @@ def cli_recursive_mode_main(src_arg, dest_arg, expression_arg,
 \tsrc_file_path=\t{}
 \tdest_file_path=\t{}""".format(r, s, d))
 
-    err_no = _test_create_dest_dirs(dest_file_paths, dest_root)
-    err_no = _test_create_dest_files() or err_no
+    err_no = _test_dest_dirs(dest_file_paths, dest_root)
+    err_no = _test_dest_files(dest_file_paths, relpaths2root) or err_no
 
     # TODO stat
     # TODO expression arg filter
@@ -58,7 +60,11 @@ def cli_recursive_mode_main(src_arg, dest_arg, expression_arg,
     exit(err_no)
 
 
-def _find_test_files_in_src_root(src_root):
+def _find_src_files(src_root):
+    """
+    find all files recursively in ``src_root``, return as a list of src file paths;
+    also test read permission for folders in ``src_root``
+    """
     src_file_paths = []
 
     for dirpath, _, filesnames in os.walk(src_root,
@@ -68,6 +74,18 @@ def _find_test_files_in_src_root(src_root):
             src_file_paths.append(src_file_path)
 
     return src_file_paths
+
+
+def _test_src_file_path(src_file_paths, relpaths2root):
+    """
+    given a list of source file pahts, ensure every file has read access permission
+    """
+    for src, rel in zip(src_file_paths, relpaths2root):
+        try:
+            open(src, 'r')
+        except OSError as err:
+            logging.getLogger(PROGRAM_NAME).warning(
+                    'source file {}: {}'.format(rel, err.strerror))
 
 
 def _handle_src_os_walk(err):
@@ -87,11 +105,14 @@ def _handle_src_os_walk(err):
         exit(err.errno)
 
     else:  # os error is related to sub-directory
-        logger.warning('source sub-directory {}: {}'.format(
+        logger.warning('source folder {}: {}'.format(
                 os.path.relpath(err.filename, src_root_cache), err.strerror))
 
 
-def _generate_dest_file_paths(relpaths2root, dest_root, suffix):
+def _create_dest_file_paths(relpaths2root, dest_root, suffix):
+    """
+    create a list of dest_file_path based on relative path, and consider ``suffix``
+    """
     opt = []
     for rel_path in relpaths2root:
         rel_dir, full_filename = os.path.split(rel_path)
@@ -104,7 +125,11 @@ def _generate_dest_file_paths(relpaths2root, dest_root, suffix):
     return opt
 
 
-def _test_create_dest_dirs(dest_file_paths, dest_root):
+def _test_dest_dirs(dest_file_paths, dest_root):
+    """
+    test write permssion for folders in destination;
+    create new folder if not existing in destination, will log as info
+    """
     logger = logging.getLogger(PROGRAM_NAME)
     err_no = 0
 
@@ -128,15 +153,33 @@ def _test_create_dest_dirs(dest_file_paths, dest_root):
         try:  # test access as a folder
             os.listdir(folder)
         except OSError as err:
-            logger.error('re {} as folder in destination: {}'.format(
+            logger.error('destination folder {}: {}'.format(
                     rel_path, err.strerror))
             err_no = err.errno
 
     return err_no
 
 
-def _test_create_dest_files():
+def _test_dest_files(dest_file_paths, relpaths2root):
+    """
+    test write permssion for files in destination;
+    create new file if not existing in destination;
+    log warning if file already exists
+    """
+    logger = logging.getLogger(PROGRAM_NAME)
     err_no = 0
+
+    for dest, rel in zip(dest_file_paths, relpaths2root):
+
+        if os.path.isfile(dest):
+            logger.warning("overwrite: {}".format(rel))
+
+        try:
+            open(dest, 'w')
+        except OSError as err:
+            logger.error('destination file {}: {}'.format(
+                    rel, err.strerror))
+            err_no = err.errno
 
     return err_no
 

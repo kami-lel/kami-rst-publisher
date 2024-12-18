@@ -50,7 +50,6 @@ class TestSrcRoot:  # no permission to source root
 
 
 class TestSrcSubfolder:  # warning with source subfolder
-    # BUG
 
     def test1(_):
         with (tempfile.TemporaryDirectory() as src,
@@ -62,7 +61,7 @@ class TestSrcSubfolder:  # warning with source subfolder
 
             result = run_recursive_mode(src, dest)
             assert result.returncode == 0
-            assert re.search(r'WARNING sub-directory .+: Permission denied',
+            assert re.search(r'WARNING source folder .+: Permission denied',
                     result.stderr)
 
     def test2(_):
@@ -75,12 +74,11 @@ class TestSrcSubfolder:  # warning with source subfolder
 
             result = run_recursive_mode(src, dest)
             assert result.returncode == 0
-            assert re.search(r'WARNING sub-directory .+: Permission denied',
+            assert re.search(r'WARNING source folder .+: Permission denied',
                     result.stderr)
 
 
 class TestSrcSubFiles:  # warning w/ source contained files
-    # BUG
 
     def test1(_):
         with (tempfile.TemporaryDirectory() as src,
@@ -93,7 +91,7 @@ class TestSrcSubFiles:  # warning w/ source contained files
 
             result = run_recursive_mode(src, dest)
             assert result.returncode == 0
-            assert re.search(r'WARNING file .+: Permission denied',
+            assert re.search(r'WARNING source file .+: Permission denied',
                     result.stderr)
 
     def test2(_):
@@ -107,6 +105,6 @@ class TestSrcSubFiles:  # warning w/ source contained files
 
             result = run_recursive_mode(src, dest)
             assert result.returncode == 0
-            assert re.search(r'WARNING file .+: Permission denied',
+            assert re.search(r'WARNING source file .+: Permission denied',
                     result.stderr)
 
