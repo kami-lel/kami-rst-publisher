@@ -37,7 +37,7 @@ def create_settings_overrides(render_preset):
 class CustomizedLogHandler(logging.Handler):
 
     def emit(self, record):
-        target = stderr if record.levelno >= logging.WARNING else stdout
+        target = stderr if record.levelno >= logging.ERROR else stdout
         print_content = "{} {}".format(record.levelname, record.msg)
 
         print(print_content, file=target)

@@ -114,7 +114,6 @@ if __name__ == "__main__":
     # set up logger
     logger = logging.getLogger(PROGRAM_NAME)
     verbosity = min(max(args.verbose - args.quiet, -1), 2)
-    verbosity = 2  # HACK hardcode verbosity during dev
     logger.setLevel(VERBOSITY2LOGGING_LEVEL[verbosity])
     logger.addHandler(CustomizedLogHandler())
 

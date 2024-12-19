@@ -40,8 +40,8 @@ class TestRender:  #  yes DESTINATION, no suffix
             src_entries = _find_subfiles_recursively(src_dir)
             dest_entries = _find_subfiles_recursively(dest_dir)
 
-            # BUG
             assert len(src_entries) == len(dest_entries)
+            # TODO test file content
 
     def test2(_):
         pass

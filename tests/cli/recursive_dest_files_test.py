@@ -25,7 +25,7 @@ class TestOverwrite:  # test warning during overwrite
 
             result = run_recursive_mode(src_dir, dest_dir)
             assert result.returncode == 0
-            assert re.search(r'WARNING overwrite: .+', result.stderr)
+            assert re.search(r'WARNING overwrite: .+', result.stdout)
 
 
 class TestNewFile:  # created files for writing

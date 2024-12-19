@@ -22,7 +22,7 @@ class TestNewFodler:  # create new folders, copy tree like src
             copy_rst_recursive1_to(src_dir)
             dest_dir = os.path.join(temp_dir, 'output')
 
-            result = run_recursive_mode(src_dir, dest_dir)
+            result = run_recursive_mode(src_dir, dest_dir, '-v')
             assert result.returncode == 0
             finds = re.findall("INFO new folder in destination: .+",
                     result.stdout)
@@ -34,7 +34,7 @@ class TestNewFodler:  # create new folders, copy tree like src
                 tempfile.TemporaryDirectory() as dest_dir):
             copy_rst_recursive2_to(src_dir)
 
-            result = run_recursive_mode(src_dir, dest_dir)
+            result = run_recursive_mode(src_dir, dest_dir, '-v')
             assert result.returncode == 0
             finds = re.findall("INFO new folder in destination: .+",
                     result.stdout)
@@ -48,7 +48,7 @@ class TestNewFodler:  # create new folders, copy tree like src
                 tempfile.TemporaryDirectory() as dest_dir):
             copy_rst_recursive3_to(src_dir)
 
-            result = run_recursive_mode(src_dir, dest_dir)
+            result = run_recursive_mode(src_dir, dest_dir, '-v')
             assert result.returncode == 0
 
             finds = re.findall("INFO new folder in destination: .+",
