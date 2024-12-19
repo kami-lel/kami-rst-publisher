@@ -9,8 +9,11 @@ DEFAULT_FILTER = r'.+\.rst'
 import logging
 import os
 
-from .cli_single import RENDERED_FILE_EXTENSION
-from .cli_utils import PROGRAM_NAME
+from docutils.core import publish_file
+
+from .cli_single import RENDERED_FILE_EXTENSION, PUBLISH_FILE_WRITER_NAME
+from .cli_utils import PROGRAM_NAME, \
+        determine_parser, create_settings_overrides
 
 
 def cli_recursive_mode_main(src_arg, dest_arg, expression_arg,
@@ -51,9 +54,19 @@ def cli_recursive_mode_main(src_arg, dest_arg, expression_arg,
 \tdest_file_path=\t{}""".format(r, s, d))
 
     err_no = _test_dest_dirs(dest_file_paths, dest_root)
-    err_no = _test_dest_files(dest_file_paths, relpaths2root) or err_no
+    err_no = _test_dest_files(dest_file_paths, dest_root) or err_no
+    _publish_files(render_preset, src_file_paths, dest_file_paths)
 
-    # TODO actual perform render
+    # log stat
+    logger.info("""finish: {} -> {},
+\tdiscover files:\t{},
+\tchange files:\t{}  ({} new + {} overwritten)
+\tnew folders:\t{}""".format(
+            src_arg, dest_root,
+            len(src_file_paths),
+            len(dest_file_paths), 0, 0,
+            0))  # BUG
+
     # TODO stat
     # TODO expression arg filter
     logger.debug("finish: recursive mode main")
@@ -160,26 +173,48 @@ def _test_dest_dirs(dest_file_paths, dest_root):
     return err_no
 
 
-def _test_dest_files(dest_file_paths, relpaths2root):
+def _test_dest_files(dest_file_paths, dest_root):
     """
     test write permssion for files in destination;
     create new file if not existing in destination;
     log warning if file already exists
     """
+    global stat_new_files_cnt
+    global stat_overwritten_files_cnt
     logger = logging.getLogger(PROGRAM_NAME)
     err_no = 0
 
-    for dest, rel in zip(dest_file_paths, relpaths2root):
+    for dest in dest_file_paths:
+        rel = os.path.relpath(dest, dest_root)
 
         if os.path.isfile(dest):
             logger.warning("overwrite: {}".format(rel))
+            stat_new_files_cnt -= 1
+            stat_overwritten_files_cnt += 1
 
         try:
             open(dest, 'w')
+            stat_new_files_cnt += 1
         except OSError as err:
             logger.error('destination file {}: {}'.format(
                     rel, err.strerror))
             err_no = err.errno
 
     return err_no
+
+
+def _publish_files(render_preset, src_file_paths, dest_file_paths):
+    """
+    perform actual rendering of files by calling ``docutils.core.publish_file``
+    """
+
+    parser_name = determine_parser()
+    settings_overrides=create_settings_overrides(render_preset)
+
+    for src, dest in zip(src_file_paths, dest_file_paths):
+        publish_file(source_path=src,
+                destination_path=dest,
+                parser_name=parser_name,
+                writer_name=PUBLISH_FILE_WRITER_NAME,
+                settings_overrides=settings_overrides)
 

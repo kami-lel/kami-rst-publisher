@@ -4,6 +4,7 @@ implment single mode of kami_rst_publisher CLI
 
 
 RENDERED_FILE_EXTENSION = '.html'
+PUBLISH_FILE_WRITER_NAME = 'html5'
 
 
 import os
@@ -11,8 +12,8 @@ import logging
 
 from docutils.core import publish_file
 
-from .cli_utils import determine_parser, create_settings_overrides, \
-        PROGRAM_NAME
+from .cli_utils import PROGRAM_NAME, \
+        determine_parser, create_settings_overrides
 
 
 def cli_single_mode_main(src_arg, dest_arg, suffix, render_preset):
@@ -26,10 +27,10 @@ def cli_single_mode_main(src_arg, dest_arg, suffix, render_preset):
     _test_dest_path_access(dest_path, dest_arg, dest_info)
 
     # perform render
-    publish_file(source_path=src_arg,
+    a = publish_file(source_path=src_arg,
             destination_path=dest_path,
             parser_name=determine_parser(),
-            writer_name='html5',
+            writer_name=PUBLISH_FILE_WRITER_NAME,
             settings_overrides=create_settings_overrides(render_preset))
 
     logging.getLogger(PROGRAM_NAME).info(
