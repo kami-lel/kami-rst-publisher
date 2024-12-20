@@ -12,6 +12,11 @@ version message
 
 - fix bug in CLI regarding options `-p` and `-D`
 
+changes in stylesheets:
+
+- use relative fontsize for literal, such that it may appears in title, headings, & list
+- make hyperlink to footnote superscripts
+
 
 
 
