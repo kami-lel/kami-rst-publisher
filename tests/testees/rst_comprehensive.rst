@@ -231,8 +231,6 @@ Nullam [#]_ iaculis commodo [#]_ augue, et [#]_ malesuada lectus. Aenean vitae e
 
 ----
 
-.. warning_test:: test
-
 
 `III` Native Things
 ###################

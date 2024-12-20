@@ -1,4 +1,4 @@
-TODO update version number in ./kami_rst_publisher/assets/stylesheet/kami_html5_version.css
+TODO update version number in ./kami_rst_publisher/assets/stylesheet/publisher_version.css
 
 fixme literal e.g. ``abc`` in title is wrong fontsize
 fixme nested unordered list have bad font size at 2nd level

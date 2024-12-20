@@ -1,90 +1,125 @@
+"""personalized rST publisher based on docutils but with extra roles & directives
 
-from argparse import ArgumentParser
-from time import sleep
-from datetime import datetime
+- single mode: given a SOURCE file, publish a HTML file
+- recursive mode: recusrively publish all files in SOURCE folder
+- web server mode: to be implemented
+"""
 
-from . import smart_role  # perform an import to init publisher
-from .rst2html_file import Rst2htmlFile, Rst2htmlFileBatch, Rst2htmlFileRecursive
-
-
-parser = ArgumentParser(
-    prog='(kami rST publisher)publisher-cli.py',
-    description='personalized rST publisher based on docutils but with extra roles & directives'
-)
-
-
-# positional arg
-parser.add_argument('SOURCE',
-                    help='SOURCE of rST text, file or directory path')
-parser.add_argument('DESTINATION',
-                    help='DESTINATION of rendered .html file(s), file or directory path. '
-                         'Rendered file will be saved alongside with SOURCE if not given',
-                    nargs='?')
-# option
-parser.add_argument('-b', '--batch',
-                    action='store_true',
-                    help='render any file with name fullmatching (regex) EXPRESSION in a directory SOURCE. '
-                         'SOURCE & DESTINATION should be directory path. '
-                         r'EXPRESSION default to ".+\.rst", but can be set by -f')
-parser.add_argument('-r', '--recursive',
-                    action='store_true',
-                    help='like -b, but recursively into each sub-folder of SOURCE. '
-                         'This flag overwrites -b. '
-                         'DESTINATION is not used when -r')
-parser.add_argument('-c', '--continuous',
-                    const=5.0,
-                    help='render all changed files once every WAIT seconds. WAIT default to 5.0.',
-                    metavar='WAIT',
-                    nargs='?',
-                    type=float)
-parser.add_argument('-l', '--light',
-                    action='store_true',
-                    help='render in light mode')
-parser.add_argument('-v', '--verbose',
-                    action='store_true')
-parser.add_argument('-s', '--suffix',
-                    const='.R',
-                    help='SUFFIX for rendered file. Default to ".R"',
-                    nargs='?')
-parser.add_argument('-e', '--expression',
-                    action='store',
-                    help=r'with -b or -r, set EXPRESSION for file matching. Default to ".+\.rst"')
+# todo docstring for web server mode
 # todo -d option to add date
 # e.g. -d 13 means add .#[02022-03-05] as suffix
+# todo allow .md file
 
-# todo eliminate the need write ``.. default-role:: smart`` for each file
+
+import logging
+
+VERBOSITY2LOGGING_LEVEL = {
+        -1: logging.CRITICAL + 1,  # -q
+        0: logging.WARNING,
+        1: logging.INFO,  # -v
+        2: logging.DEBUG}  # -vv
+
+
+from argparse import ArgumentParser, RawTextHelpFormatter
+import logging
+from sys import exit
+
+from .cli_single import cli_single_mode_main
+from .cli_recursive import cli_recursive_mode_main, DEFAULT_FILTER
+from .cli_web_server import \
+        cli_web_server_mode_main, WEB_SERVER_DEFAULT_PORT
+from .cli_utils import PRESETS, CustomizedLogHandler, PROGRAM_NAME
+
+
+psr = ArgumentParser(prog=PROGRAM_NAME,
+        description=__doc__, formatter_class=RawTextHelpFormatter)
+
+
+# positional arguments
+psr.add_argument('SOURCE',
+        type=str,
+        help='SOURCE of raw text, as file/directory path')
+psr.add_argument('DESTINATION',
+        nargs='?',
+        type=str,
+        help= \
+"""DESTINATION for rendered files, as file/directory path
+if absent, rendered files will be saved alongside SOURCE""")
+
+
+# options
+psr.add_argument('-r', '--recursive',
+        action='store_true',
+        help='enable recursive mode, v.s.')
+
+# todo should work with .rst and .md
+psr.add_argument('-e', '--expression',
+        action='store',
+        default=DEFAULT_FILTER,
+        type=str,
+        metavar='FILTER',
+        help= \
+r'''with --recursive, use FILTER to select files to be rendered
+default to ".+\.rst"''')
+
+psr.add_argument('-w', '--web-server',
+        action='store',
+        nargs='?',
+        const=WEB_SERVER_DEFAULT_PORT,
+        type=int,
+        metavar='PORT',
+        help='enable web server mode, v.s.')
+
+psr.add_argument('-s', '--suffix',
+        nargs='?',
+        default='',
+        const='.R',
+        type=str,
+        help= \
+'''append SUFFIX to rendered files
+default to ".R"
+ignored in single mode and DESTINATION is given''')
+
+psr.add_argument('-p', '--render-preset',
+        action='store',
+        default='light',
+        type=str,
+        choices=PRESETS,
+        help='set rendering presets')
+
+psr.add_argument('-D', '--dark',
+        action='store_const',
+        const='dark',
+        help='equivalent to --preset dark')
+
+psr.add_argument('-v', '--verbose',
+        action='count',
+        default=0)
+
+psr.add_argument('-q', '--quiet',
+        action='count',
+        default=0)
 
 
 if __name__ == "__main__":
-    args = parser.parse_args()
+    args = psr.parse_args()
 
-    # set dark/light mode
-    lightmode = bool(args.light)
+    # convert args
+    render_preset = args.dark or args.render_preset
 
-    # determine suffix
-    suffix = '' if args.suffix is None else args.suffix
+    # set up logger
+    logger = logging.getLogger(PROGRAM_NAME)
+    verbosity = min(max(args.verbose - args.quiet, -1), 2)
+    logger.setLevel(VERBOSITY2LOGGING_LEVEL[verbosity])
+    logger.addHandler(CustomizedLogHandler())
 
-    # init
-    if args.recursive:
-        obj = Rst2htmlFileRecursive(args.SOURCE, args.expression, suffix, lightmode)
-    elif args.batch:
-        obj = Rst2htmlFileBatch(args.SOURCE, args.DESTINATION, args.expression, suffix, lightmode)
+    if args.web_server:
+        cli_web_server_mode_main(args.SOURCE, args.web_server, render_preset)
+    elif args.recursive:
+        cli_recursive_mode_main(args.SOURCE, args.DESTINATION, args.expression,
+                args.suffix, args.render_preset)
     else:
-        obj = Rst2htmlFile(args.SOURCE, args.DESTINATION, suffix, lightmode)
+        cli_single_mode_main(args.SOURCE, args.DESTINATION,
+                args.suffix, args.render_preset)
 
-    if args.verbose:
-        print("[{}]".format(datetime.today().isoformat()))
-        print(str(obj))
-
-    while True:
-        obj.render()
-
-        if args.verbose and str(obj):
-            print("[{}]".format(datetime.today().isoformat()))
-            print(str(obj))
-
-        if not args.continuous:
-            # one-time render when not in repeat mode
-            break
-
-        sleep(args.continuous)
+    exit(0)
