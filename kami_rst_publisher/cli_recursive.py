@@ -13,8 +13,8 @@ import errno
 
 from docutils.core import publish_file
 
-from .cli_single import RENDERED_FILE_EXTENSION, PUBLISH_FILE_WRITER_NAME
-from .cli_utils import PROGRAM_NAME, \
+from .cli_single import RENDERED_FILE_EXTENSION
+from .cli_utils import PROGRAM_NAME, WRITER_NAME, \
         determine_parser, create_settings_overrides, \
         append_publisher_version_to_file
 
@@ -299,7 +299,7 @@ def _publish_files(render_preset,
         publish_file(source_path=src,
                 destination_path=dest,
                 parser_name=parser_name,
-                writer_name=PUBLISH_FILE_WRITER_NAME,
+                writer_name=WRITER_NAME,
                 settings_overrides=settings_overrides)
 
         append_publisher_version_to_file(dest)

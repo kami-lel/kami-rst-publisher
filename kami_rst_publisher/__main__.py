@@ -2,10 +2,9 @@
 
 - single mode: given a SOURCE file, publish a HTML file
 - recursive mode: recusrively publish all files in SOURCE folder
-- web server mode: to be implemented
+- web server mode: given a SOURCE file, start a local web server to show it
 """
 
-# todo docstring for web server mode
 # todo -d option to add date
 # e.g. -d 13 means add .#[02022-03-05] as suffix
 

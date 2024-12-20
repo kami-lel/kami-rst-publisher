@@ -14,15 +14,49 @@ VERSION_APPEND_TEMPLATE = """
 <!-- PUBLISHED BY kami_rst_publisher.#{} -->
 """
 
+WRITER_NAME = 'html5'
+
 
 import pkg_resources
 from pathlib import Path
 from sys import stderr, stdout
+import os
 import logging
 
 
 def determine_parser():
     return 'restructuredtext'  # todo allow other formats
+
+
+
+class CustomizedLogHandler(logging.Handler):
+
+    def emit(self, record):
+        target = stderr if record.levelno >= logging.ERROR else stdout
+        print_content = "{} {}".format(record.levelname, record.msg)
+
+        print(print_content, file=target)
+
+
+def normalize_src_arg_and_test_access(src_arg):
+    """
+    - used in single mode & web server mode
+    - normalize (i.e. find full path of) SOURCE arg
+    - test read access to the file; log critical if failed to do so
+    """
+    # normalize source path
+    src_path = os.path.realpath(src_arg)
+
+    # test SOURCE file
+    try:
+        open(src_path, 'r')
+    except OSError as err:
+        logging.getLogger(PROGRAM_NAME).critical(
+                "re {} of SOURCE: {}"
+                .format(src_arg, err.strerror))
+        exit(err.errno)
+
+    return src_path
 
 
 def create_settings_overrides(render_preset):
@@ -38,15 +72,6 @@ def create_settings_overrides(render_preset):
             PRESETS_STYLESHEET_PATHS[render_preset]
 
     return settings_overrides
-
-
-class CustomizedLogHandler(logging.Handler):
-
-    def emit(self, record):
-        target = stderr if record.levelno >= logging.ERROR else stdout
-        print_content = "{} {}".format(record.levelname, record.msg)
-
-        print(print_content, file=target)
 
 
 def append_publisher_version_to_file(file_path):
