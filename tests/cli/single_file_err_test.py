@@ -9,8 +9,7 @@ import shutil
 import re
 from pathlib import Path
 
-from single_render_test import run_single_mode
-from get_filepaths import rst_simple
+from cli_test_shared import SUFFIX_FLAG, rst_simple, run_single_mode
 
 
 class TestSrcFileErr:  # err related source file
@@ -113,8 +112,8 @@ class TestDestFileErr:  # issue w/ destination
             with open(dest, 'w'):  # create empty file
                 pass
             os.chmod(dest, 0o555)  # no write perm
-
-            result = run_single_mode(src, '-s', '_suf')  # no DESTINATION, with suffix
+            # no DESTINATION, with suffix
+            result = run_single_mode(src, SUFFIX_FLAG, '_suf')
             assert result.returncode == 13
             assert re.search(
                     r'CRITICAL can not create destination: .+',

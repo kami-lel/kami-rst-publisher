@@ -1,15 +1,11 @@
 """personalized rST publisher based on docutils but with extra roles & directives
 
-- single mode: render a single file and save as a HTML file
-- recursive mode
-- web server mode
+- single mode: given a SOURCE file, publish a HTML file
+- recursive mode: recusrively publish all files in SOURCE folder
+- web server mode: to be implemented
+"""
 
-
-like -b, but recursively into each sub-folder of SOURCE. This flag overwrites -b.
-
-
-"""  # TODO doc for main
-
+# todo docstring for web server mode
 # todo -d option to add date
 # e.g. -d 13 means add .#[02022-03-05] as suffix
 # todo allow .md file

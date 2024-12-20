@@ -10,8 +10,7 @@ import shutil
 import re
 import os
 
-from get_filepaths import rst_simple
-from recursive_render_test import run_recursive_mode
+from cli_test_shared import rst_simple,  run_recursive_mode
 
 
 class TestOverwrite:  # test warning during overwrite

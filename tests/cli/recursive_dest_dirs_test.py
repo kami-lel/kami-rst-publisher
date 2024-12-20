@@ -9,9 +9,8 @@ import tempfile
 import os
 import re
 
-from get_filepaths import \
+from cli_test_shared import run_recursive_mode, VERBOSE_FLAG, \
         copy_rst_recursive1_to, copy_rst_recursive2_to, copy_rst_recursive3_to
-from recursive_render_test import run_recursive_mode
 
 
 class TestNewFodler:  # create new folders, copy tree like src
@@ -22,7 +21,7 @@ class TestNewFodler:  # create new folders, copy tree like src
             copy_rst_recursive1_to(src_dir)
             dest_dir = os.path.join(temp_dir, 'output')
 
-            result = run_recursive_mode(src_dir, dest_dir, '-v')
+            result = run_recursive_mode(src_dir, dest_dir, VERBOSE_FLAG)
             assert result.returncode == 0
             finds = re.findall("INFO new folder in destination: .+",
                     result.stdout)
@@ -34,7 +33,7 @@ class TestNewFodler:  # create new folders, copy tree like src
                 tempfile.TemporaryDirectory() as dest_dir):
             copy_rst_recursive2_to(src_dir)
 
-            result = run_recursive_mode(src_dir, dest_dir, '-v')
+            result = run_recursive_mode(src_dir, dest_dir, VERBOSE_FLAG)
             assert result.returncode == 0
             finds = re.findall("INFO new folder in destination: .+",
                     result.stdout)
@@ -48,7 +47,7 @@ class TestNewFodler:  # create new folders, copy tree like src
                 tempfile.TemporaryDirectory() as dest_dir):
             copy_rst_recursive3_to(src_dir)
 
-            result = run_recursive_mode(src_dir, dest_dir, '-v')
+            result = run_recursive_mode(src_dir, dest_dir, VERBOSE_FLAG)
             assert result.returncode == 0
 
             finds = re.findall("INFO new folder in destination: .+",
@@ -80,6 +79,7 @@ class TestNoPerm:  # error when destination dirs no permission
             assert re.search(
                     r'ERROR destination folder .+: Permission denied',
                     result.stderr)
+            assert re.search('WARNING nothing published', result.stdout)
 
 
 class TestIsFile:  # error when destination dirs is already a file

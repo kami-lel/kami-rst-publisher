@@ -5,14 +5,11 @@ test recursive mode of cli
 
 import tempfile
 import os
+import re
 
-from single_render_test import run_single_mode, assert_good_rst_render
-from get_filepaths import \
+
+from cli_test_shared import  run_recursive_mode, assert_succ_rst_render, \
         copy_rst_recursive1_to, copy_rst_recursive2_to, copy_rst_recursive3_to
-
-
-def run_recursive_mode(*args):
-    return run_single_mode('--recursive', *args)
 
 
 def _find_subfiles_recursively(root):
@@ -41,26 +38,106 @@ class TestRender:  #  yes DESTINATION, no suffix
             dest_entries = _find_subfiles_recursively(dest_dir)
 
             assert len(src_entries) == len(dest_entries)
-            # TODO test file content
+            for (src, _), (dest, _) in zip(src_entries, dest_entries):
+                assert_succ_rst_render(src, dest)
 
     def test2(_):
-        pass
+        with (tempfile.TemporaryDirectory() as src_dir,
+                tempfile.TemporaryDirectory() as dest_dir):
+
+            copy_rst_recursive1_to(src_dir)
+
+            result = run_recursive_mode(src_dir, dest_dir)
+            assert result.returncode == 0
+
+            src_entries = _find_subfiles_recursively(src_dir)
+            dest_entries = _find_subfiles_recursively(dest_dir)
+
+            assert len(src_entries) == len(dest_entries)
+            for (src, _), (dest, _) in zip(src_entries, dest_entries):
+                assert_succ_rst_render(src, dest)
 
     def test3(_):
-        pass
+        with (tempfile.TemporaryDirectory() as src_dir,
+                tempfile.TemporaryDirectory() as dest_dir):
+
+            copy_rst_recursive2_to(src_dir)
+
+            result = run_recursive_mode(src_dir, dest_dir)
+            assert result.returncode == 0
+
+            src_entries = _find_subfiles_recursively(src_dir)
+            dest_entries = _find_subfiles_recursively(dest_dir)
+
+            assert len(src_entries) == len(dest_entries)
+            for (src, _), (dest, _) in zip(src_entries, dest_entries):
+                assert_succ_rst_render(src, dest)
 
 
-class TestSuf:  #  yes DESTINATION, yes suffix
-    pass  # TODO
+class TestAlongside:  #  no DESTINATION
+
+    def test1(_):
+        with (tempfile.TemporaryDirectory() as root):
+            copy_rst_recursive1_to(root)
+            result = run_recursive_mode(root)
+            assert result.returncode == 0
+
+            entries = _find_subfiles_recursively(root)
+            cnt = 0
+            for full_path, _ in entries:
+                filename, extension = os.path.splitext(full_path)
+                if extension == '.rst':
+                    dest = filename + '.html'
+                    assert os.path.isfile(dest)
+                    assert_succ_rst_render(full_path, dest)
+                    cnt += 1
+
+            assert len(entries) == cnt * 2
+
+    def test2(_):
+        with (tempfile.TemporaryDirectory() as root):
+            copy_rst_recursive2_to(root)
+            result = run_recursive_mode(root)
+            assert result.returncode == 0
+
+            entries = _find_subfiles_recursively(root)
+            cnt = 0
+            for full_path, _ in entries:
+                filename, extension = os.path.splitext(full_path)
+                if extension == '.rst':
+                    dest = filename + '.html'
+                    assert os.path.isfile(dest)
+                    assert_succ_rst_render(full_path, dest)
+                    cnt += 1
+
+            assert len(entries) == cnt * 2
+
+    def test3(_):
+        with (tempfile.TemporaryDirectory() as root):
+            copy_rst_recursive3_to(root)
+            result = run_recursive_mode(root)
+            assert result.returncode == 0
+
+            entries = _find_subfiles_recursively(root)
+            cnt = 0
+            for full_path, _ in entries:
+                filename, extension = os.path.splitext(full_path)
+                if extension == '.rst':
+                    dest = filename + '.html'
+                    assert os.path.isfile(dest)
+                    assert_succ_rst_render(full_path, dest)
+                    cnt += 1
+
+            assert len(entries) == cnt * 2
 
 
-class TestAlongside:  #  no DESTINATION, no suffix
-    pass  # TODO
+class TestEmptySrc:  # warning is logged when nothing published
 
+    def test1(_):
+        with (tempfile.TemporaryDirectory() as src_dir,
+                tempfile.TemporaryDirectory() as dest_dir):
 
-class TestAlongsideSuf:  #  no DESTINATION, yes suffix
-    pass  # TODO
+            result = run_recursive_mode(src_dir, dest_dir)
+            assert result.returncode == 0
 
-
-
-# TODO overwritting warning
+            assert re.search('WARNING nothing published', result.stdout)

@@ -18,7 +18,7 @@ import logging
 
 
 def determine_parser():
-    return 'restructuredtext'  # TODO allow other formats
+    return 'restructuredtext'  # todo allow other formats
 
 
 def create_settings_overrides(render_preset):

@@ -6,10 +6,8 @@ test recursive mode of cli, file related err
 import tempfile
 import os
 import re
-import shutil
 
-from recursive_render_test import run_recursive_mode
-from get_filepaths import \
+from cli_test_shared import run_recursive_mode, \
         copy_rst_recursive1_to, copy_rst_recursive2_to, copy_rst_recursive3_to
 
 

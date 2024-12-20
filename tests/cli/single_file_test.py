@@ -8,8 +8,8 @@ import os
 import shutil
 import re
 
-from single_render_test import run_single_mode
-from get_filepaths import rst_simple, rst_comprehensive
+from cli_test_shared import SUFFIX_FLAG, run_single_mode, \
+        rst_simple, rst_comprehensive
 
 
 class TestOverwritting:  # test overwriting warning
@@ -49,7 +49,7 @@ class TestOverwritting:  # test overwriting warning
             with open(dest, 'w'):  # create empty file
                 pass
 
-            result = run_single_mode(src, '-s', '_suf')
+            result = run_single_mode(src, SUFFIX_FLAG, '_suf')
             assert result.returncode == 0
             assert re.match(r'WARNING overwrite: ', result.stdout)
 
@@ -64,7 +64,7 @@ class TestSuffix:  # test suffix option w/ no DESTINATION
 
             suf = '.R'  # default
 
-            result = run_single_mode(src, '-s')
+            result = run_single_mode(src, SUFFIX_FLAG)
             assert result.returncode == 0
 
             # supposed dest file location
@@ -82,7 +82,7 @@ class TestSuffix:  # test suffix option w/ no DESTINATION
 
             suf = '.R'  # default
 
-            result = run_single_mode(src, '-s')
+            result = run_single_mode(src, SUFFIX_FLAG)
             assert result.returncode == 0
 
             # supposed dest file location
@@ -106,7 +106,7 @@ class TestSuffix:  # test suffix option w/ no DESTINATION
 
             suf = '_suf'
 
-            result = run_single_mode(src, '-s', suf)
+            result = run_single_mode(src, SUFFIX_FLAG, suf)
             assert result.returncode == 0
 
             # supposed dest file location
@@ -124,7 +124,7 @@ class TestSuffix:  # test suffix option w/ no DESTINATION
 
             suf = 'abc'
 
-            result = run_single_mode(src, '-s', suf)
+            result = run_single_mode(src, SUFFIX_FLAG, suf)
             assert result.returncode == 0
 
             # supposed dest file location

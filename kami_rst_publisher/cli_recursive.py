@@ -9,6 +9,7 @@ DEFAULT_FILTER = r'.+\.rst'
 import logging
 import os
 import re
+import errno
 
 from docutils.core import publish_file
 
@@ -24,10 +25,8 @@ def cli_recursive_mode_main(src_arg, dest_arg, filter,
     global src_arg_cache
     src_arg_cache = src_arg
 
-    global stat_new_file_cnt
-    global stat_overwrite_file_cnt
-    global stat_new_folder_cnt
-    stat_new_file_cnt = stat_overwrite_file_cnt = stat_new_folder_cnt = 0
+    global stat
+    stat = {'skip_file': 0, 'new_file': 0, 'overwrite_file': 0, 'new_folder': 0}
 
     global logger
     logger = logging.getLogger(PROGRAM_NAME)
@@ -45,48 +44,75 @@ dest_arg=\t{}
 dest_root=\t{}""".format(src_arg, src_root, dest_arg, dest_root))
 
     # discover & test files in source
-    src_file_paths, relpaths2root, err_no = \
-            _create_src_file_paths_and_rel2root(src_root, filter)
+    compiled_filter = _test_expression_option_filter(filter)
+    
+    src_file_paths, src_file_relpaths, err_no = \
+            _create_src_file_paths_and_rel2root(src_root, compiled_filter)
 
     # create a list of dest_file_path
-    dest_file_paths = _create_dest_file_paths(
-            relpaths2root, dest_root, suffix)
+    dest_file_paths, dest_file_relpaths = _create_dest_file_paths(
+            src_file_relpaths, dest_root, suffix)
 
-    logger.debug(
+    debug_log_path_prefix = \
 """paths created:
-(relpath2root\tsrc_file_path\tdest_file_path)
-""" + '\n'.join('\t'.join(paths) for paths
-            in zip(relpaths2root, src_file_paths, dest_file_paths)))
+"""
+    debug_log_path_content = \
+"""{}\t{}
+-> {}\t{}"""
+
+    logger.debug(debug_log_path_prefix + '\n'.join(
+            debug_log_path_content.format(*paths) for paths
+            in zip(src_file_relpaths, src_file_paths,
+                    dest_file_relpaths, dest_file_paths)))
 
     logger.debug('test & create destination directory structure')
 
     err_no = _test_dest_dirs_access(dest_file_paths, dest_root) or err_no
-    dest_file_paths, en_opt = _test_dest_files_write(dest_file_paths, dest_root)
+    dest_file_paths, en_opt = _test_dest_files_write(
+            dest_file_paths, dest_file_relpaths, dest_root)
     err_no = en_opt or err_no
 
     logger.debug('publish html files')
-    _publish_files(render_preset, src_file_paths, dest_file_paths)
+    _publish_files(render_preset,
+        src_file_paths, src_file_relpaths,
+        dest_file_paths, dest_file_relpaths)
 
-    stat_discover_files_cnt = len(src_file_paths)
-    stat_change_files_cnt = stat_new_file_cnt + stat_overwrite_file_cnt
+    stat['discover_file'] = len(src_file_paths)
+    stat['publish_file'] = stat['new_file'] + stat['overwrite_file']
     # log stat
-    logger.info("""finish recursive mode & stat:
-discover raw files:\t{}
-published files:\t{} ({} new + {} overwrite)
+    logger.info("""finish statistics:
+discover files:\t{}
+\tskip:\t{}
+publish files:\t{}
+\tnew:\t{}
+\toverwrite:\t{}
 new folders:\t{}""".format(
-            stat_discover_files_cnt,
-            stat_change_files_cnt, stat_new_file_cnt, stat_overwrite_file_cnt,
-            stat_new_folder_cnt))
+            stat['discover_file'], stat['skip_file'],
+            stat['publish_file'], stat['new_file'], stat['overwrite_file'],
+            stat['new_folder']))
 
-    if stat_discover_files_cnt != stat_change_files_cnt:
-        logger.error("fail to publish some files ({} < {})"
-                .format(stat_change_files_cnt, stat_discover_files_cnt))
+    if stat['discover_file'] != stat['publish_file']:
+        logger.error("fail to publish some files (publish {} < discover {})"
+                .format(stat['publish_file'], stat['discover_file']))
+
+    if stat['publish_file'] == 0:
+        logger.warning('nothing published')
 
     logger.debug("finish: cli_recursive_mode_main")
     exit(err_no)
 
 
-def _create_src_file_paths_and_rel2root(src_root, filter):
+def _test_expression_option_filter(filter):
+    global logger
+    try:
+        return re.compile(filter)
+    except re.error:
+        logger.critical('re {} of FILTER: illegal regex pattern'.format(
+                repr(filter)))
+        exit(errno.EINVAL)
+
+
+def _create_src_file_paths_and_rel2root(src_root, compiled_filter):
     """
     - find all files recursively in ``src_root``
     - discover only files with read permission
@@ -94,13 +120,13 @@ def _create_src_file_paths_and_rel2root(src_root, filter):
     - log info for permission denied during discovery
     """
     global logger
+    global stat
 
     src_file_paths = []
     relpaths2root = []
     err_no = 0
 
-    # TODO test expression arg function
-    # TODO test skip non-matching logging
+    # todo default filter should work w/ all letter cases
 
     # recursively discover files
     for dirpath, _, filesnames in os.walk(src_root,
@@ -110,9 +136,11 @@ def _create_src_file_paths_and_rel2root(src_root, filter):
             rel = os.path.relpath(src, src_root)
             test_result = _test_src_file_read(src, rel)
 
-            if not re.fullmatch(filter, filename):
+            if not compiled_filter.fullmatch(filename):
                 # not matching expression arg
-                logger.info("skip source file: {}".format(rel))
+                logger.info("skip file: {}".format(rel))
+                stat['skip_file'] += 1
+
             elif test_result == 0:
                 # save the discover file only if can read from it
                 src_file_paths.append(src)
@@ -159,18 +187,23 @@ def _test_src_file_read(src_file_path, relpath2root):
 
 def _create_dest_file_paths(relpaths2root, dest_root, suffix):
     """
-    create a list of dest_file_path based on relative path, and consider ``suffix``
+    create a list 1f dest_file_path based on relative path, and consider ``suffix``
     """
-    opt = []
+    dest_file_paths = []
+    dest_file_relpaths = []
+
     for rel_path in relpaths2root:
         rel_dir, full_filename = os.path.split(rel_path)
         filename, _  = os.path.splitext(full_filename)
-        dest_file_path = os.path.abspath(os.path.join(
+        dest = os.path.abspath(os.path.join(
                 dest_root, rel_dir,
                 (filename + suffix + RENDERED_FILE_EXTENSION)))
-        opt.append(dest_file_path)
+        rel = os.path.relpath(dest, dest_root)
 
-    return opt
+        dest_file_paths.append(dest)
+        dest_file_relpaths.append(rel)
+
+    return dest_file_paths, dest_file_relpaths
 
 
 def _test_dest_dirs_access(dest_file_paths, dest_root):
@@ -178,7 +211,7 @@ def _test_dest_dirs_access(dest_file_paths, dest_root):
     test write permssion for folders in destination;
     create new folder if not existing in destination, will log as info
     """
-    global stat_new_folder_cnt
+    global stat
     global logger
     err_no = 0
 
@@ -196,7 +229,7 @@ def _test_dest_dirs_access(dest_file_paths, dest_root):
             try:
                 os.makedirs(folder)
                 logger.info("new folder in destination: {}".format(rel_path))
-                stat_new_folder_cnt += 1
+                stat['new_folder'] += 1
 
             except OSError:
                 pass
@@ -211,7 +244,7 @@ def _test_dest_dirs_access(dest_file_paths, dest_root):
     return err_no
 
 
-def _test_dest_files_write(dest_file_paths, dest_root):
+def _test_dest_files_write(dest_file_paths, dest_file_relpaths, dest_root):
     """
     - test write permisssion for each file in dest_file_paths
     - create new file if not existing in destination
@@ -219,16 +252,13 @@ def _test_dest_files_write(dest_file_paths, dest_root):
     - log error if file can not be written
     - return a updated dest_file_paths, with inaccessible files removed
     """
-    global stat_new_file_cnt
-    global stat_overwrite_file_cnt
+    global stat
     global logger
 
     new_dest_file_paths = []
     err_no = 0
 
-    for dest in dest_file_paths:
-        rel = os.path.relpath(dest, dest_root)
-
+    for dest, rel in zip(dest_file_paths, dest_file_relpaths):
         # file existed before the write attempt
         file_existed = os.path.isfile(dest)
 
@@ -236,9 +266,9 @@ def _test_dest_files_write(dest_file_paths, dest_root):
             open(dest, 'w')  # create / overwrite to dest
             if file_existed:
                 logger.warning("overwrite: {}".format(rel))
-                stat_overwrite_file_cnt += 1
+                stat['overwrite_file'] += 1
             else:
-                stat_new_file_cnt += 1
+                stat['new_file'] += 1
 
             new_dest_file_paths.append(dest)
 
@@ -250,20 +280,26 @@ def _test_dest_files_write(dest_file_paths, dest_root):
     return new_dest_file_paths, err_no
 
 
-def _publish_files(render_preset, src_file_paths, dest_file_paths):
+def _publish_files(render_preset,
+        src_file_paths, src_file_relpaths,
+        dest_file_paths, dest_file_relpaths):
     """
     perform actual rendering of files by calling ``docutils.core.publish_file``
     """
+    global logger
 
     parser_name = determine_parser()
     settings_overrides=create_settings_overrides(render_preset)
 
-    # TODO infor per publish
+    for src, src_rel, dest, dest_rel in zip(
+            src_file_paths, src_file_relpaths,
+            dest_file_paths, dest_file_relpaths):
 
-    for src, dest in zip(src_file_paths, dest_file_paths):
         publish_file(source_path=src,
                 destination_path=dest,
                 parser_name=parser_name,
                 writer_name=PUBLISH_FILE_WRITER_NAME,
                 settings_overrides=settings_overrides)
+
+        logger.info("publish: {}\t-> {}".format(src_rel, dest_rel))
 

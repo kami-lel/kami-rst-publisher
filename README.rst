@@ -8,8 +8,6 @@ kami-rst-publisher README
 
 ``kami-rst-publisher`` is a personalized tool based on ``docutils``
 
-Docutils Project Documentation [#docutil]_ (abbr. *docutil*) and Python Developler's Guide [#python]_ (abbr. *doc python*) are heavily referenced.
-
 
 
 
@@ -64,9 +62,7 @@ Use ``kami-rst-publisher`` as Python package or by a CLI, v.i.
 Use ``kami-rst-publisher`` as Python code::
 
     from docutils.core import publish_file
-    from kami-rst-publisher import init_publisher
-
-    init_publisher()
+    from kami_rst_publisher import *
 
     publish_file(...)
 
@@ -88,10 +84,7 @@ An API (defined in ``./kami_rst_publisher/rst2html_file.py``) can be used for pu
 
 One can use in Python::
 
-    from kami_rst_publisher import init_publisher
     from kami_rst_publisher import Rst2htmlFile, Rst2htmlFileBatch, Rst2htmlFileRecursive
-
-    init_publisher()
 
     Rst2htmlFile(src, dest)
 
@@ -118,23 +111,36 @@ Run with python::
 
 And its *help* file::
 
-    usage: (kami rST publisher)publisher-cli.py [-h] [-b] [-r] [-c [WAIT]] [-l] [-v] [-s [SUFFIX]] [-e EXPRESSION] SOURCE [DESTINATION]
+    usage: kami_rst_publisher [-h] [-r] [-e FILTER] [-w [PORT]] [-s [SUFFIX]] [-p {dark,light}] [-D] [-v] [-q] SOURCE [DESTINATION]
 
     personalized rST publisher based on docutils but with extra roles & directives
 
+    - single mode: given a SOURCE file, publish a HTML file
+    - recursive mode: recusrively publish all files in SOURCE folder
+    - web server mode: to be implemented
+
     positional arguments:
-      SOURCE                SOURCE of rST text, file or directory path
-      DESTINATION           DESTINATION of rendered .html file(s), file or directory path. Rendered file will be saved alongside with SOURCE if not given
+      SOURCE                SOURCE of raw text, as file/directory path
+      DESTINATION           DESTINATION for rendered files, as file/directory path
+                            if absent, rendered files will be saved alongside SOURCE
 
     options:
       -h, --help            show this help message and exit
-      -b, --batch           render any file with name fullmatching (regex) EXPRESSION in a directory SOURCE. SOURCE & DESTINATION should be directory path. EXPRESSION default to ".+\.rst", but can be set by -f
-      -r, --recursive       like -b, but recursively into each sub-folder of SOURCE. This flag overwrites -b. DESTINATION is not used when -r
-      -c [WAIT], --continuous [WAIT] render all changed files once every WAIT seconds. WAIT default to 5.0.
-      -l, --light           render in light mode
+      -r, --recursive       enable recursive mode, v.s.
+      -e FILTER, --expression FILTER
+                            with --recursive, use FILTER to select files to be rendered
+                            default to ".+\.rst"
+      -w [PORT], --web-server [PORT]
+                            enable web server mode, v.s.
+      -s [SUFFIX], --suffix [SUFFIX]
+                            append SUFFIX to rendered files
+                            default to ".R"
+                            ignored in single mode and DESTINATION is given
+      -p {dark,light}, --render-preset {dark,light}
+                            set rendering presets
+      -D, --dark            equivalent to --preset dark
       -v, --verbose
-      -s [SUFFIX], --suffix [SUFFIX] SUFFIX for rendered file. Default to ".R"
-      -e EXPRESSION, --expression EXPRESSION with -b or -r, set EXPRESSION for file matching. Default to ".+\.rst"
+      -q, --quiet
 
 
 
@@ -352,40 +358,4 @@ Rendered as:
         content_of_proper_tag
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.. Footnote
-
-.. [#docutil] Q.v. https://docutils.sourceforge.io/docs/index.html
-
-.. [#python] Q.v. https://devguide.python.org/documenting/
 
