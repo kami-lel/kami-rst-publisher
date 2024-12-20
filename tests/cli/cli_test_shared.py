@@ -12,6 +12,7 @@ import shutil
 import os
 from sys import executable
 import subprocess
+import re
 
 
 testees_dir = Path(__file__).parent.parent / 'testees'
@@ -43,6 +44,9 @@ def assert_succ_rst_render(src_path, dest_path):
             if line.isalpha():
                 assert line in dest_read
 
+        assert re.search(
+                r'<!-- PUBLISHED BY kami_rst_publisher\.\#.+ -->',
+                dest_read)
 
 
 def copy_rst_basic_to(dest_dir):

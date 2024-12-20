@@ -8,7 +8,6 @@
 # todo docstring for web server mode
 # todo -d option to add date
 # e.g. -d 13 means add .#[02022-03-05] as suffix
-# todo allow .md file
 
 
 import logging
@@ -117,9 +116,9 @@ if __name__ == "__main__":
         cli_web_server_mode_main(args.SOURCE, args.web_server, render_preset)
     elif args.recursive:
         cli_recursive_mode_main(args.SOURCE, args.DESTINATION, args.expression,
-                args.suffix, args.render_preset)
+                args.suffix, render_preset)
     else:
         cli_single_mode_main(args.SOURCE, args.DESTINATION,
-                args.suffix, args.render_preset)
+                args.suffix, render_preset)
 
     exit(0)

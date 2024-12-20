@@ -40,6 +40,12 @@ class TestRender:  #  yes DESTINATION, no suffix
             assert len(src_entries) == len(dest_entries)
             for (src, _), (dest, _) in zip(src_entries, dest_entries):
                 assert_succ_rst_render(src, dest)
+                # test publisher version contained in file
+                with open(dest, 'r') as f:
+                    assert re.search(
+                            r'<!-- PUBLISHED BY kami_rst_publisher\.\#.+ -->',
+                            f.read())
+
 
     def test2(_):
         with (tempfile.TemporaryDirectory() as src_dir,

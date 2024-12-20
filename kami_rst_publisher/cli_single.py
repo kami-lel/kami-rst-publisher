@@ -13,7 +13,8 @@ import logging
 from docutils.core import publish_file
 
 from .cli_utils import PROGRAM_NAME, \
-        determine_parser, create_settings_overrides
+        determine_parser, create_settings_overrides, \
+        append_publisher_version_to_file
 
 
 def cli_single_mode_main(src_arg, dest_arg, suffix, render_preset):
@@ -32,6 +33,8 @@ def cli_single_mode_main(src_arg, dest_arg, suffix, render_preset):
             parser_name=determine_parser(),
             writer_name=PUBLISH_FILE_WRITER_NAME,
             settings_overrides=create_settings_overrides(render_preset))
+
+    append_publisher_version_to_file(dest_path)
 
     logging.getLogger(PROGRAM_NAME).info(
             "finish: {}\n\t->{}".format(src_arg, dest_info))
@@ -84,5 +87,6 @@ def _test_dest_path_access(dest_path, dest_arg, dest_info):
             err_msg = "can not create destination: {}".format(dest_info)
 
         logger.critical(err_msg)
+
         exit(err.errno)
 

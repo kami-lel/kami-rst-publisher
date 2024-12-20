@@ -2,7 +2,9 @@
 test single mode of cli
 """
 
+
 import tempfile
+import re
 
 from cli_test_shared import rst_simple, rst_comprehensive, \
         run_single_mode, assert_succ_rst_render
