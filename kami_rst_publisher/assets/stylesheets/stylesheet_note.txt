@@ -1,7 +1,0 @@
-FIXME literal e.g. ``abc`` in title is wrong fontsize
-FIXME nested unordered list have bad font size at 2nd level
-FIXME footnote superscript is not working properly in any list
-FIXME ``literal`` is not working properly in any list
-
-TODO make dif. levels of heading more distinguishable, e.g. use dif. shade of orange
-TODO rubrics is not clear enough, maybe add color?
