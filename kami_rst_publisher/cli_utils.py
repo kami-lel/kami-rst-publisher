@@ -90,7 +90,7 @@ def create_settings_overrides(render_preset):
 def append_publisher_version_to_file(file_path):
     try:
         with (open(PUBLISHER_VERSION_APPENDIX_PATH, 'r') as appendix_file,
-                open(file_path, 'w') as  working_file):
+                open(file_path, 'a') as  working_file):
             appendix = appendix_file.read()
             working_file.write(appendix)
 
