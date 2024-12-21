@@ -64,6 +64,8 @@ def cli_web_server_mode_main(src_arg, port, render_preset, markup_language_arg):
     try:
         print('Access rendered page by:\n\t{}'.format(url))
         httpd.serve_forever()
+
+    # FIXME catch exception: OSError: [Errno 98] Address already in use
     finally:
         httpd.server_close()
         logger.debug('finish: cli_web_server_mode_main')

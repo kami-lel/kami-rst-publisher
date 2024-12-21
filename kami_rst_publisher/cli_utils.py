@@ -10,10 +10,6 @@ PRESETS_STYLESHEET_PATHS = {
             "kami_html5_dark.css"],
     'light': ['responsive.css', "kami_html5.css"] }
 
-VERSION_APPEND_TEMPLATE = """
-<!-- PUBLISHED BY kami_rst_publisher.#{} -->
-"""
-
 WRITER_NAME = 'html5'
 
 PARSER_ARG2NAME = {
@@ -27,12 +23,10 @@ EXTENSION2PARSER_NAME = {
 
 from pathlib import Path
 
-SETUP_CFG_PATH = (Path(__file__).parent.parent / 'setup.cfg').resolve()
+PUBLISHER_VERSION_APPENDIX_PATH = (Path(__file__).parent
+        / 'assets' / 'publisher_version_appendix.html').resolve()
 
 
-
-
-import configparser
 from sys import stderr, stdout
 import os
 import logging
@@ -94,15 +88,13 @@ def create_settings_overrides(render_preset):
 
 
 def append_publisher_version_to_file(file_path):
-    config = configparser.ConfigParser()
-    config.read(SETUP_CFG_PATH)
-
     try:
-        version = config['metadata']['version']
-        ver_hf = version.replace('.', '-')  # change e.g. '3.1' -> '3-1
-        with open(file_path, 'a') as file:
-            file.write(VERSION_APPEND_TEMPLATE.format(ver_hf))
+        with (open(PUBLISHER_VERSION_APPENDIX_PATH, 'r') as appendix_file,
+                open(file_path, 'w') as  working_file):
+            appendix = appendix_file.read()
+            working_file.write(appendix)
 
-    except KeyError:
+    except OSError as err:
         logging.getLogger(PROGRAM_NAME).error(
-                'fail to append publisher version')
+                'fail to append publisher version, {}: {}'.format(
+                        err.filename, err.strerror))
