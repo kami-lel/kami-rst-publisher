@@ -3,9 +3,6 @@ implment recursive mode of kami_rst_publisher CLI
 """
 
 
-DEFAULT_FILTER = r'.+\.rst'
-
-
 import logging
 import os
 import re
@@ -15,7 +12,7 @@ from docutils.core import publish_file
 
 from .cli_single import RENDERED_FILE_EXTENSION
 from .cli_utils import PROGRAM_NAME, WRITER_NAME, \
-        determine_parser, create_settings_overrides, \
+        create_settings_overrides, \
         append_publisher_version_to_file
 
 
@@ -74,7 +71,7 @@ dest_root=\t{}""".format(src_arg, src_root, dest_arg, dest_root))
     err_no = en_opt or err_no
 
     logger.debug('publish html files')
-    _publish_files(render_preset,
+    _publish_per_file(render_preset,
         src_file_paths, src_file_relpaths,
         dest_file_paths, dest_file_relpaths)
 
@@ -281,7 +278,7 @@ def _test_dest_files_write(dest_file_paths, dest_file_relpaths, dest_root):
     return new_dest_file_paths, err_no
 
 
-def _publish_files(render_preset,
+def _publish_per_file(render_preset,
         src_file_paths, src_file_relpaths,
         dest_file_paths, dest_file_relpaths):
     """
@@ -289,7 +286,8 @@ def _publish_files(render_preset,
     """
     global logger
 
-    parser_name = determine_parser()
+    # HACK parser_name=determine_parser(),
+    parser_name = 'reStructuredText'
     settings_overrides=create_settings_overrides(render_preset)
 
     for src, src_rel, dest, dest_rel in zip(

@@ -5,6 +5,8 @@
 - web server mode: given a SOURCE file, start a local web server to show it
 """
 
+# TODO markup langauge options
+
 # todo -d option to add date
 # e.g. -d 13 means add .#[02022-03-05] as suffix
 
@@ -23,10 +25,11 @@ import logging
 from sys import exit
 
 from .cli_single import cli_single_mode_main
-from .cli_recursive import cli_recursive_mode_main, DEFAULT_FILTER
-from .cli_web_server import \
-        cli_web_server_mode_main, WEB_SERVER_DEFAULT_PORT
-from .cli_utils import PRESETS, CustomizedLogHandler, PROGRAM_NAME
+from .cli_recursive import cli_recursive_mode_main
+from .cli_web_server import WEB_SERVER_DEFAULT_PORT, \
+        cli_web_server_mode_main
+from .cli_utils import PRESETS, PROGRAM_NAME, \
+        CustomizedLogHandler, ParserMarkupLanguageDict
 
 
 psr = ArgumentParser(prog=PROGRAM_NAME,
@@ -50,16 +53,6 @@ psr.add_argument('-r', '--recursive',
         action='store_true',
         help='enable recursive mode, v.s.')
 
-# FIXME remove in the future
-psr.add_argument('-e', '--expression',
-        action='store',
-        default=DEFAULT_FILTER,
-        type=str,
-        metavar='FILTER',
-        help= \
-r'''with --recursive, use FILTER to select files to be rendered
-default to ".+\.rst"''')
-
 psr.add_argument('-s', '--suffix',
         nargs='?',
         default='',
@@ -78,11 +71,19 @@ psr.add_argument('-w', '--web-server',
         metavar='PORT',
         help='enable web server mode, v.s.')
 
-psr.add_argument('-m', '--markup-language',
+psr.add_argument('--md',
         action='extend',
-        choices=['rst', 'md'],
-        help='') # TODO write help
+        nargs='*',
+        type=str,
+        metavar='FILTER',
+        help='Markdown as MLO')  # TODO
 
+psr.add_argument('--rst',
+        action='extend',
+        nargs='*',
+        type=str,
+        metavar='FILTER',
+        help='reStructuredText, MLO')  # TODO
 
 psr.add_argument('-p', '--render-preset',
         action='store',
@@ -108,23 +109,33 @@ psr.add_argument('-q', '--quiet',
 if __name__ == "__main__":
     args = psr.parse_args()
 
-    # convert args
-    render_preset = args.dark or args.render_preset
-
     # set up logger
     logger = logging.getLogger(PROGRAM_NAME)
     verbosity = min(max(args.verbose - args.quiet, -1), 2)
     logger.setLevel(VERBOSITY2LOGGING_LEVEL[verbosity])
     logger.addHandler(CustomizedLogHandler())
 
+    # convert args
+    render_preset = args.dark or args.render_preset
+
+    # create languages: filters dictionary
+    language_filters = ParserMarkupLanguageDict({
+            'md': args.md, 'rst': args.rst})
+
+
     if args.web_server:
+        language_filters.initialize(True)
         cli_web_server_mode_main(args.SOURCE, args.web_server,
                 render_preset, args.markup_language)
+
     elif args.recursive:
+        language_filters.initialize(False)
         cli_recursive_mode_main(args.SOURCE, args.DESTINATION, args.expression,
                 args.suffix, render_preset, args.markup_language)
+
     else:
+        language_filters.initialize(True)
         cli_single_mode_main(args.SOURCE, args.DESTINATION,
-                args.suffix, render_preset, args.markup_language)
+                args.suffix, render_preset, language_filters)
 
     exit(0)

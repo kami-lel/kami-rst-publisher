@@ -12,12 +12,12 @@ import logging
 from docutils.core import publish_file
 
 from .cli_utils import PROGRAM_NAME, WRITER_NAME, \
-        determine_parser, create_settings_overrides, \
+        create_settings_overrides, \
         append_publisher_version_to_file, normalize_src_arg_and_test_access
 
 
 def cli_single_mode_main(src_arg, dest_arg, suffix,
-        render_preset, markup_language_arg):
+        render_preset, language_filters):
 
     src_path = normalize_src_arg_and_test_access(src_arg)
 

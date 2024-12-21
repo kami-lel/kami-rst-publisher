@@ -12,7 +12,7 @@ import logging
 from docutils.core import publish_string
 
 from .cli_utils import PROGRAM_NAME, WRITER_NAME, \
-        normalize_src_arg_and_test_access, determine_parser, \
+        normalize_src_arg_and_test_access, \
         create_settings_overrides
 
 

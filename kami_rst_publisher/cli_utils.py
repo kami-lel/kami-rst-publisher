@@ -2,8 +2,9 @@
 common utility functions used in CLI
 """
 
+
 PROGRAM_NAME = 'kami_rst_publisher'
-PRESETS = ['dark', 'light']  # used in options -p choices
+PRESETS = ['dark', 'light']  # used in options -p choices  # FIXME make as var
 # stylesheets in STYLESHEET_DIR
 PRESETS_STYLESHEET_PATHS = {
     'dark': ['responsive.css', "kami_html5.css",
@@ -12,14 +13,11 @@ PRESETS_STYLESHEET_PATHS = {
 
 WRITER_NAME = 'html5'
 
-PARSER_ARG2NAME = {
-        'md': 'markdown',
-        'rst': 'restructuredtext' }
+DEFAULT_FILTERS = {
+        'rst': r'.+\.rst',
+        'md': r'.+\.md'}
 
-EXTENSION2PARSER_NAME = {
-        'md': 'markdown',
-        'txt': 'markdown',
-        'rst': 'restructuredtext'}
+
 
 from pathlib import Path
 
@@ -28,18 +26,10 @@ PUBLISHER_VERSION_APPENDIX_PATH = (Path(__file__).parent
 
 
 from sys import stderr, stdout
+import re
 import os
 import logging
-
-
-def determine_parser(src_file_path, markup_language_arg):
-    if markup_language_arg is None:
-        # auto determien by file extension
-        _, extension = os.path.splitext(src_file_path)
-
-    else:
-        PARSER_ARG2NAME[markup_language_arg]
-
+import errno
 
 
 class CustomizedLogHandler(logging.Handler):
@@ -49,6 +39,39 @@ class CustomizedLogHandler(logging.Handler):
         print_content = "{} {}".format(record.levelname, record.msg)
 
         print(print_content, file=target)
+
+
+class ParserMarkupLanguageDict(dict):  # TODO docstring
+
+    def initialize(self, is_source_single_file):
+        logger = logging.getLogger(PROGRAM_NAME)
+
+        # empty all entry with value is None
+        for key, value in self.copy().items():
+            if value is None:
+                self.pop(key)
+
+        # single mode & web server mode can not have 2~ language opn
+        if is_source_single_file and len(self) > 1:
+            logger.critical(
+    "more than 1 markup langauge option is given in single/web server mode")
+            exit(errno.EINVAL)
+
+        for langauge, filters in self.items():
+            if len(filters) == 0:
+                # empty list, i.e. option given but 0 filters provided
+                # give it default filter of this langauge
+                default_filter = DEFAULT_FILTERS[langauge]
+                self[langauge].append(default_filter)
+
+            else:  # test each filter to be legal
+                for fil in filters:
+                    try:
+                        re.compile(fil)
+                    except re.error:
+                        logger.critical(
+        'option --{} gets an illegal regex pattern: {}'.format(langauge, fil))
+                        exit(errno.EINVAL)
 
 
 def normalize_src_arg_and_test_access(src_arg):
