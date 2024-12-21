@@ -16,7 +16,8 @@ from .cli_utils import PROGRAM_NAME, WRITER_NAME, \
         append_publisher_version_to_file, normalize_src_arg_and_test_access
 
 
-def cli_single_mode_main(src_arg, dest_arg, suffix, render_preset):
+def cli_single_mode_main(src_arg, dest_arg, suffix,
+        render_preset, markup_language_arg):
 
     src_path = normalize_src_arg_and_test_access(src_arg)
 
@@ -27,9 +28,10 @@ def cli_single_mode_main(src_arg, dest_arg, suffix, render_preset):
     _test_dest_path_access(dest_path, dest_arg, dest_info)
 
     # perform render
-    a = publish_file(source_path=src_arg,
+    publish_file(source_path=src_path,
             destination_path=dest_path,
-            parser_name=determine_parser(),
+            # HACK parser_name=determine_parser(),
+            parser_name='reStructuredText',
             writer_name=WRITER_NAME,
             settings_overrides=create_settings_overrides(render_preset))
 

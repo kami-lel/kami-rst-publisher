@@ -20,7 +20,7 @@ from .cli_utils import PROGRAM_NAME, WRITER_NAME, \
 
 
 def cli_recursive_mode_main(src_arg, dest_arg, filter,
-        suffix, render_preset):
+        suffix, render_preset, markup_language_arg):
     # cache for used in _handle_os_walk_err
     global src_root_cache
     global src_arg_cache
@@ -127,7 +127,7 @@ def _create_src_file_paths_and_rel2root(src_root, compiled_filter):
     relpaths2root = []
     err_no = 0
 
-    # todo default filter should work w/ all letter cases
+    # TODO default filter should work w/ all letter cases
 
     # recursively discover files
     for dirpath, _, filesnames in os.walk(src_root,

@@ -32,7 +32,8 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
             raw_content = src_file.read()
 
         result = publish_string(raw_content,
-                parser_name=determine_parser(),
+                # HACK parser_name=determine_parser(),
+                parser_name='reStructuredText',
                 writer_name=WRITER_NAME,
                 settings_overrides=settings_overrides)
 
@@ -41,7 +42,7 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(result)
 
 
-def cli_web_server_mode_main(src_arg, port, render_preset):
+def cli_web_server_mode_main(src_arg, port, render_preset, markup_language_arg):
     global logger
     global src_arg_cache
     global settings_overrides

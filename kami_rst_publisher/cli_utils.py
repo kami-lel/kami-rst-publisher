@@ -16,16 +16,35 @@ VERSION_APPEND_TEMPLATE = """
 
 WRITER_NAME = 'html5'
 
+PARSER_ARG2NAME = {
+        'md': 'markdown',
+        'rst': 'restructuredtext' }
 
-import pkg_resources
+EXTENSION2PARSER_NAME = {
+        'md': 'markdown',
+        'txt': 'markdown',
+        'rst': 'restructuredtext'}
+
 from pathlib import Path
+
+SETUP_CFG_PATH = (Path(__file__).parent.parent / 'setup.cfg').resolve()
+
+
+
+
+import configparser
 from sys import stderr, stdout
 import os
 import logging
 
 
-def determine_parser():
-    return 'restructuredtext'  # todo allow other formats
+def determine_parser(src_file_path, markup_language_arg):
+    if markup_language_arg is None:
+        # auto determien by file extension
+        _, extension = os.path.splitext(src_file_path)
+
+    else:
+        PARSER_ARG2NAME[markup_language_arg]
 
 
 
@@ -75,13 +94,15 @@ def create_settings_overrides(render_preset):
 
 
 def append_publisher_version_to_file(file_path):
+    config = configparser.ConfigParser()
+    config.read(SETUP_CFG_PATH)
+
     try:
-        version = pkg_resources.get_distribution(PROGRAM_NAME).version
-        ver_hf = version.replace('.', '-')  # change '3.1' -> '3-1
+        version = config['metadata']['version']
+        ver_hf = version.replace('.', '-')  # change e.g. '3.1' -> '3-1
         with open(file_path, 'a') as file:
             file.write(VERSION_APPEND_TEMPLATE.format(ver_hf))
 
-    except pkg_resources.DistributionNotFound:
+    except KeyError:
         logging.getLogger(PROGRAM_NAME).error(
                 'fail to append publisher version')
-

@@ -50,7 +50,7 @@ psr.add_argument('-r', '--recursive',
         action='store_true',
         help='enable recursive mode, v.s.')
 
-# todo should work with .rst and .md
+# FIXME remove in the future
 psr.add_argument('-e', '--expression',
         action='store',
         default=DEFAULT_FILTER,
@@ -59,14 +59,6 @@ psr.add_argument('-e', '--expression',
         help= \
 r'''with --recursive, use FILTER to select files to be rendered
 default to ".+\.rst"''')
-
-psr.add_argument('-w', '--web-server',
-        action='store',
-        nargs='?',
-        const=WEB_SERVER_DEFAULT_PORT,
-        type=int,
-        metavar='PORT',
-        help='enable web server mode, v.s.')
 
 psr.add_argument('-s', '--suffix',
         nargs='?',
@@ -77,6 +69,20 @@ psr.add_argument('-s', '--suffix',
 '''append SUFFIX to rendered files
 default to ".R"
 ignored in single mode and DESTINATION is given''')
+
+psr.add_argument('-w', '--web-server',
+        action='store',
+        nargs='?',
+        const=WEB_SERVER_DEFAULT_PORT,
+        type=int,
+        metavar='PORT',
+        help='enable web server mode, v.s.')
+
+psr.add_argument('-m', '--markup-language',
+        action='extend',
+        choices=['rst', 'md'],
+        help='') # TODO write help
+
 
 psr.add_argument('-p', '--render-preset',
         action='store',
@@ -112,12 +118,13 @@ if __name__ == "__main__":
     logger.addHandler(CustomizedLogHandler())
 
     if args.web_server:
-        cli_web_server_mode_main(args.SOURCE, args.web_server, render_preset)
+        cli_web_server_mode_main(args.SOURCE, args.web_server,
+                render_preset, args.markup_language)
     elif args.recursive:
         cli_recursive_mode_main(args.SOURCE, args.DESTINATION, args.expression,
-                args.suffix, render_preset)
+                args.suffix, render_preset, args.markup_language)
     else:
         cli_single_mode_main(args.SOURCE, args.DESTINATION,
-                args.suffix, render_preset)
+                args.suffix, render_preset, args.markup_language)
 
     exit(0)
