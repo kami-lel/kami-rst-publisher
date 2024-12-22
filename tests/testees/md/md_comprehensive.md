@@ -1,9 +1,5 @@
 # Lorem ipsum
 
-## Basics
-
-### Paragraphs
-
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 Nulla eu nulla quis ligula sollicitudin feugiat.
@@ -25,15 +21,15 @@ dolore magna aliqua.
 
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
-### Text Style
+## Text Style
 
-#### Bold
+### Bold
 
 Lorem **ipsum** dolor sit **amet consectetur adipiscing** elit.
 
 **Nulla eu nulla quis ligula sollicitudin feugiat.**
 
-#### Italics
+### Italics
 
 Lorem *ipsum* dolor sit *amet consectetur adipiscing* elit.
 
@@ -41,23 +37,20 @@ Lorem *ipsum* dolor sit *amet consectetur adipiscing* elit.
 
 Bold & Italics: Lorem ***ipsum*** dolor
 
+### by html tags
+
+Underline: <ins>text</ins>
+
 #### supercript & subscript
 
-Use `~` and `^`:
-
-Lorem ~x~ dolor ^x^
-
-Use HTML tag:
+Lorem <sub>x</sub> dolor <sup>x</sup>
 
 amet <sub>12</sub> consectetur <sup>0</sup>
 
-### Extended Text Style
+adipiscing <sub>elit</sub> Nullam <sup>scelerisque</sup>
 
-Strikethru: ~~The world is flat.~~ The world is round.
+This happened in 19 <sup>th</sup> C.
 
-Highlight: Despite many reverses, ==freedom has won battles.==
-
-Underline: <ins>text</ins>
 
 ## Heading Tests
 
@@ -69,68 +62,181 @@ Underline: <ins>text</ins>
 
 ###### Lowest Heading
 
-### Section Link
-
-TODO
-
 ## Structures
 
 ### List
 
+#### unordered list
+
+Bullet point list short:
+
+- Lorem ipsum dolor
+- Sed do eiusmod
+- Ut enim veniam
+- Duis aute irure
+- Excepteur sint occaecat
+
+Bullet point list long:
+
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+- Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+- Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+- Lorem ipsum dolor
+
+#### ordered list
+
+Arabic number:
+
+1. Quisque porttitor ex turpis
+2. vitae ullamcorper est fermentum eget
+3. cras rutrum elit sit amet commodo blandit
+
+Arabic number with wrong numbering in raw:
+
+1. Quisque porttitor ex turpis
+3. vitae ullamcorper est fermentum eget
+5. cras rutrum elit sit amet commodo blandit
+
+#### nested list
+
+- Lorem ipsum dolor
+- Sed do eiusmod
+
+    - Ut enim veniam
+    - Duis aute irure
+
+- Excepteur sint occaecat
+
+----
+
+1. Quisque porttitor ex turpis
+2. vitae ullamcorper est fermentum eget.
+
+    1. a item
+    2. b item
+    3. c item
+
+3. cras rutrum
+
+----
 
 
-### Table
+1. Quisque porttitor ex turpis
+2. vitae ullamcorper est fermentum eget.
+
+    - a item
+    - b item
+    - c item
+
+3. cras rutrum elit sit
+
+----
+
+- Quisque porttitor ex turpis
+- vitae ullamcorper est fermentum eget.
+
+    1. a item
+    2. b item
+    3. c item
+
+- cras rutrum elit sit amet commodo blandit
+- cras rutrum elit sit amet commodo blandit. nulla tincidunt dui neque
+
+    - test
+
+        - test
+
+            1. test1
+            2. test1
+            3. test1
+
+- cras rutrum elit sit amet commodo
+
+#### elements in list
+
+- Lorem ipsum **dolor** sit amet, *consectetur* `adipiscing` elit.
+- Sed do eiusmod **tempor incididunt ut labore et** dolore magna aliqua.
+- Ut enim ad minim veniam, *quis nostrud exercitation* ullamco laboris nisi ut aliquip
+- `ex ea commodo consequat duis aute irure dolor in reprehenderit in` voluptate velit esse
 
 ### Horizontal Rules
+Text Body Quisque gravida tempor mauris eget fermentum. Nullam scelerisque lobortis mauris sed laoreet. Sed eleifend, lacus nec elementum condimentum, magna lectus mattis nulla, sed porttitor quam orci sit amet arcu. Maecenas nec dolor nunc.
+
+----
+
+Proin et quam nulla. Vivamus maximus a felis a interdum. Curabitur sit amet condimentum tortor, vitae mollis tortor. Nam porta tempus tempor. Sed velit orci, tempus vel venenatis a, maximus ut tellus. Aenean eget tincidunt eros. Cras nec semper magna, vel facilisis erat. Donec eget massa varius, vehicula erat vitae, varius odio. Donec in hendrerit sem.
 
 ## Code
 
+Lorem ipsum `dolor` sit amet
+
+A pair: Lorem ipsum ``dolor`` sit amet
+
+Block literal
+
+    consectetur adipiscing elit
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    Ut enim ad minim veniam
+
+Code:
+
+    def calculate_factorial(n):
+        """
+        compute the factorial of a given number
+
+        :param n: the number to compute the factorial of
+        :type n: int
+        :return: factorial of param `n`
+        :retype: int
+        :raises ValueError: if `n` is negative
+        """
+        if n < 0:
+            raise ValueError("negative value is not supported")
+
+        factorial = 1
+        for i in range(1, n + 1):
+            factorial *= i
+        return factorial
+
 ## Blockquote
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+Ut enim ad minim veniam
+
+>quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+>
+>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Curabitur pretium tincidunt lacus.
+>
+>Nulla gravida orci a odio
+
+Et vulputate enim erat vestibulum.
 
 ## Technicals
 
 ### Link
 
-### Footnote
+[DuckDuckGo](https://duckduckgo.com)
 
-### Comment
+[DuckDuckGo](https://duckduckgo.com "The Private Search Engine")
 
-### Alert
+<https://www.duckduckgo.comd>
+
+<fake@example.com>
 
 ### HTML tags
 
+Center text:
 
+<center>Duis aute irure dolor in reprehenderit in voluptate</center>
 
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Change Color to *Red*:
 
-Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+<font color="red">Sed ut perspiciatis unde omnis iste natus error</font>
 
-Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
+<strong>Bold</strong> by `<strong>`
 
-Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.
+Make <small>Text Small</small>
 
-Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
-
-Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.
-
-Similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est.
-
-Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est. Omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
-
-Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur?
-
-Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est.
-
-Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-
-Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
-
-Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur? At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-
-Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.

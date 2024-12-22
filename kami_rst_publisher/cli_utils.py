@@ -4,12 +4,13 @@ common utility functions used in CLI
 
 
 PROGRAM_NAME = 'kami_rst_publisher'
-PRESETS = ['dark', 'light']  # used in options -p choices  # FIXME make as var
 # stylesheets in STYLESHEET_DIR
 PRESETS_STYLESHEET_PATHS = {
     'dark': ['responsive.css', "kami_html5.css",
             "kami_html5_dark.css"],
     'light': ['responsive.css', "kami_html5.css"] }
+
+
 
 WRITER_NAME = 'html5'
 
@@ -32,6 +33,9 @@ VERBOSITY2LOGGING_LEVEL = {
 
 from sys import stderr, stdout
 import os
+
+
+arg_render_preset_choices = list(PRESETS_STYLESHEET_PATHS.keys())
 
 
 global logger

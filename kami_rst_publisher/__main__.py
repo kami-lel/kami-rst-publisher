@@ -8,6 +8,8 @@
 
 # todo -d option to add date
 # e.g. -d 13 means add .#[02022-03-05] as suffix
+# todo superscript/subscript in md bad format
+# todo md code issue
 
 
 import logging
@@ -21,8 +23,8 @@ from .cli_single import cli_single_mode_main
 from .cli_recursive import cli_recursive_mode_main
 from .cli_web_server import WEB_SERVER_DEFAULT_PORT, \
         cli_web_server_mode_main
-from .cli_utils import PRESETS, PROGRAM_NAME, VERBOSITY2LOGGING_LEVEL, \
-        CustomizedLogHandler
+from .cli_utils import PROGRAM_NAME, VERBOSITY2LOGGING_LEVEL, \
+        CustomizedLogHandler, arg_render_preset_choices
 from .cli_mlo import MarkupLanguageOptionConfiguration
 
 
@@ -87,7 +89,7 @@ psr.add_argument('-p', '--render-preset',
         action='store',
         default='light',
         type=str,
-        choices=PRESETS,
+        choices=arg_render_preset_choices,
         help='set rendering presets')
 
 psr.add_argument('-D', '--dark',
