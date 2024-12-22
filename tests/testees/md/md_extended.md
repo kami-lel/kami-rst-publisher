@@ -128,9 +128,9 @@ try {
 - Sed do eiusmod [^footnote-in-list]
 - Ut enim veniam
 
-## Technicals {#tech}
+## Technicals
 
-### Section Heading {#sec}
+### Section Heading
 
 Section link to Chapter 2 [II](#technicals)
 
