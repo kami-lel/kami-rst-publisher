@@ -101,17 +101,6 @@ new folders:\t{}""".format(
     exit(err_no)
 
 
-def _test_expression_option_filter(filter):
-    # FIXME rm
-    global logger
-    try:
-        return re.compile(filter)
-    except re.error:
-        logger.critical('re {} of FILTER: illegal regex pattern'.format(
-                repr(filter)))
-        exit(errno.EINVAL)
-
-
 def _create_src_file_paths_and_rel2root(src_root, compiled_filter):
     """
     - find all files recursively in ``src_root``

@@ -3,6 +3,8 @@ test using --expression in --recursive FILTER
 """
 
 
+# FIXME rm this file
+
 EXPR_FLAG = '--expression'
 TXT_FILTER = r'.+\.txt'
 

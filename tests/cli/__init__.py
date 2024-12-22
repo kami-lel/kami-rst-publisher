@@ -90,3 +90,15 @@ def copy_rst_recursive3_to(dest_dir):
     shutil.copytree(rst_recursive2, dest_dir, dirs_exist_ok=True)
     shutil.copytree(rst_recursive3, dest_dir, dirs_exist_ok=True)
     os.chmod(dest_dir, 0o755)
+
+
+
+def find_subfiles_recursively(root):
+    entries = []
+    for dirpath, _, filesnames in os.walk(root):
+        for filename in filesnames:
+            full_path = os.path.join(dirpath, filename)
+            rel_path = os.path.relpath(full_path, root)
+            entry = (full_path, rel_path)
+            entries.append(entry)
+    return entries
