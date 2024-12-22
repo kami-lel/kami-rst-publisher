@@ -9,7 +9,7 @@ import shutil
 import re
 from pathlib import Path
 
-from cli_test_shared import SUFFIX_FLAG, rst_simple, run_single_mode
+from .. import SUFFIX_FLAG, rst_simple, run_single_mode
 
 
 class TestSrcFileErr:  # err related source file

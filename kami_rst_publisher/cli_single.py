@@ -17,7 +17,7 @@ from .cli_utils import PROGRAM_NAME, WRITER_NAME, \
 
 
 def cli_single_mode_main(src_arg, dest_arg, suffix,
-        render_preset, language_filters):
+        mlo_config, render_preset):
 
     src_path = normalize_src_arg_and_test_access(src_arg)
 
@@ -30,8 +30,7 @@ def cli_single_mode_main(src_arg, dest_arg, suffix,
     # perform render
     publish_file(source_path=src_path,
             destination_path=dest_path,
-            # HACK parser_name=determine_parser(),
-            parser_name='reStructuredText',
+            parser_name=mlo_config.get_parser_name(src_path),
             writer_name=WRITER_NAME,
             settings_overrides=create_settings_overrides(render_preset))
 

@@ -6,7 +6,7 @@ test single mode of cli
 import tempfile
 import re
 
-from cli_test_shared import rst_simple, rst_comprehensive, \
+from .. import rst_simple, rst_comprehensive, \
         run_single_mode, assert_succ_rst_render
 
 
@@ -46,7 +46,7 @@ class TestErrMLO:  # test related to markup langauge options
     def test_bad_filter1(_):  # filter is illegal pattern
         src = rst_simple
         bad_pattern = r'[abc'
-        
+
         result = run_single_mode(src, '--md', bad_pattern)
         assert result.returncode == 22
         assert re.search('CRITICAL option --md gets an illegal regex pattern:',

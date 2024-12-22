@@ -13,7 +13,7 @@ import shutil
 import os
 
 
-from cli_test_shared import VERBOSE_FLAG, SUFFIX_FLAG, run_recursive_mode, \
+from .. import VERBOSE_FLAG, SUFFIX_FLAG, run_recursive_mode, \
         copy_rst_basic_to, copy_rst_recursive1_to, txt_folder
 
 

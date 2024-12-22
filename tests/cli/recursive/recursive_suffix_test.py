@@ -7,7 +7,7 @@ import tempfile
 import os
 
 
-from cli_test_shared import SUFFIX_FLAG, \
+from .. import SUFFIX_FLAG, \
         copy_rst_basic_to,  copy_rst_recursive3_to, \
         run_recursive_mode, assert_succ_rst_render
 

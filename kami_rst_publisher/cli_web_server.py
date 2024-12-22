@@ -42,7 +42,7 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(result)
 
 
-def cli_web_server_mode_main(src_arg, port, render_preset, markup_language_arg):
+def cli_web_server_mode_main(src_arg, port, mlo_config, render_preset):
     global logger
     global src_arg_cache
     global settings_overrides

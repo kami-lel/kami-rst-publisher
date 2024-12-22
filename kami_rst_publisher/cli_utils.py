@@ -32,6 +32,10 @@ import logging
 import errno
 
 
+global logger
+logger = logging.getLogger(PROGRAM_NAME)
+
+
 class CustomizedLogHandler(logging.Handler):
 
     def emit(self, record):
@@ -41,37 +45,46 @@ class CustomizedLogHandler(logging.Handler):
         print(print_content, file=target)
 
 
-class ParserMarkupLanguageDict(dict):  # TODO docstring
+class MarkupLanguageOptionConfiguration(dict):
 
-    def initialize(self, is_source_single_file):
-        logger = logging.getLogger(PROGRAM_NAME)
+    def __init__(self, *args, **kwargs):
+        self._init_clean_up_none()
+        self._init_test_filter_regex_patterns()
+        self._init_insert_default_filters()  # BUG
 
-        # empty all entry with value is None
+    def _init_clean_up_none(self):
+        # remove entries which value is None
+        # i.e. this specific MLO is absent
         for key, value in self.copy().items():
             if value is None:
                 self.pop(key)
 
-        # single mode & web server mode can not have 2~ language opn
-        if is_source_single_file and len(self) > 1:
+    def _init_test_filter_regex_patterns(self):
+        for language, filters in self.items():
+            for fil in filters:
+                try:
+                    re.compile(fil)
+                except re.error:
+                    logger.critical(
+    'option --{} gets an illegal regex pattern: {}'.format(language, fil))
+                    exit(errno.EINVAL)
+
+    def _init_insert_default_filters(self):
+        for langauge, filters in self.items():
+            if len(filters) == 0:  # empty list
+                # i.e. MLO given but no actual given
+                # thus give its
+                default_filter = DEFAULT_FILTERS[langauge]
+                self[langauge].append(default_filter)
+
+    def test_single_or_web_server_mode(self):
+        if len(self) > 1:
             logger.critical(
     "more than 1 markup langauge option is given in single/web server mode")
             exit(errno.EINVAL)
 
-        for langauge, filters in self.items():
-            if len(filters) == 0:
-                # empty list, i.e. option given but 0 filters provided
-                # give it default filter of this langauge
-                default_filter = DEFAULT_FILTERS[langauge]
-                self[langauge].append(default_filter)
-
-            else:  # test each filter to be legal
-                for fil in filters:
-                    try:
-                        re.compile(fil)
-                    except re.error:
-                        logger.critical(
-        'option --{} gets an illegal regex pattern: {}'.format(langauge, fil))
-                        exit(errno.EINVAL)
+    def get_parser_name(self, src_file_path):
+        return 'reStructuredText'  # HACK
 
 
 def normalize_src_arg_and_test_access(src_arg):
@@ -80,6 +93,8 @@ def normalize_src_arg_and_test_access(src_arg):
     - normalize (i.e. find full path of) SOURCE arg
     - test read access to the file; log critical if failed to do so
     """
+    global logger
+
     # normalize source path
     src_path = os.path.realpath(src_arg)
 
@@ -87,7 +102,7 @@ def normalize_src_arg_and_test_access(src_arg):
     try:
         open(src_path, 'r')
     except OSError as err:
-        logging.getLogger(PROGRAM_NAME).critical(
+        logger.critical(
                 "re {} of SOURCE: {}"
                 .format(src_arg, err.strerror))
         exit(err.errno)
@@ -96,7 +111,8 @@ def normalize_src_arg_and_test_access(src_arg):
 
 
 def create_settings_overrides(render_preset):
-    logging.getLogger(PROGRAM_NAME).debug(
+    global logger
+    logger.debug(
             'render_preset={}'.format(render_preset))
 
     settings_overrides = {}
@@ -111,6 +127,8 @@ def create_settings_overrides(render_preset):
 
 
 def append_publisher_version_to_file(file_path):
+    global logger
+
     try:
         with (open(PUBLISHER_VERSION_APPENDIX_PATH, 'r') as appendix_file,
                 open(file_path, 'a') as  working_file):
@@ -118,6 +136,6 @@ def append_publisher_version_to_file(file_path):
             working_file.write(appendix)
 
     except OSError as err:
-        logging.getLogger(PROGRAM_NAME).error(
+        logger.error(
                 'fail to append publisher version, {}: {}'.format(
                         err.filename, err.strerror))

@@ -8,7 +8,7 @@ import os
 import shutil
 import re
 
-from cli_test_shared import SUFFIX_FLAG, run_single_mode, \
+from .. import SUFFIX_FLAG, run_single_mode, \
         rst_simple, rst_comprehensive
 
 

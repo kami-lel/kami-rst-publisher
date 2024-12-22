@@ -7,7 +7,7 @@ import tempfile
 import os
 import re
 
-from cli_test_shared import run_recursive_mode, \
+from .. import run_recursive_mode, \
         copy_rst_recursive1_to, copy_rst_recursive2_to, copy_rst_recursive3_to
 
 

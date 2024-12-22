@@ -29,7 +29,7 @@ from .cli_recursive import cli_recursive_mode_main
 from .cli_web_server import WEB_SERVER_DEFAULT_PORT, \
         cli_web_server_mode_main
 from .cli_utils import PRESETS, PROGRAM_NAME, \
-        CustomizedLogHandler, ParserMarkupLanguageDict
+        CustomizedLogHandler, MarkupLanguageOptionConfiguration
 
 
 psr = ArgumentParser(prog=PROGRAM_NAME,
@@ -119,23 +119,22 @@ if __name__ == "__main__":
     render_preset = args.dark or args.render_preset
 
     # create languages: filters dictionary
-    language_filters = ParserMarkupLanguageDict({
+    mlo_config = MarkupLanguageOptionConfiguration({
             'md': args.md, 'rst': args.rst})
 
 
     if args.web_server:
-        language_filters.initialize(True)
+        mlo_config.test_single_or_web_server_mode()
         cli_web_server_mode_main(args.SOURCE, args.web_server,
-                render_preset, args.markup_language)
+                mlo_config, render_preset)
 
     elif args.recursive:
-        language_filters.initialize(False)
-        cli_recursive_mode_main(args.SOURCE, args.DESTINATION, args.expression,
-                args.suffix, render_preset, args.markup_language)
+        cli_recursive_mode_main(args.SOURCE, args.DESTINATION,
+                args.suffix, mlo_config, render_preset)
 
     else:
-        language_filters.initialize(True)
+        mlo_config.test_single_or_web_server_mode()
         cli_single_mode_main(args.SOURCE, args.DESTINATION,
-                args.suffix, render_preset, language_filters)
+                args.suffix, mlo_config, render_preset)
 
     exit(0)

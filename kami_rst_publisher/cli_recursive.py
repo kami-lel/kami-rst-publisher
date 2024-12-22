@@ -16,8 +16,8 @@ from .cli_utils import PROGRAM_NAME, WRITER_NAME, \
         append_publisher_version_to_file
 
 
-def cli_recursive_mode_main(src_arg, dest_arg, filter,
-        suffix, render_preset, markup_language_arg):
+def cli_recursive_mode_main(src_arg, dest_arg,
+        suffix, mlo_config, render_preset):
     # cache for used in _handle_os_walk_err
     global src_root_cache
     global src_arg_cache
@@ -42,8 +42,9 @@ dest_arg=\t{}
 dest_root=\t{}""".format(src_arg, src_root, dest_arg, dest_root))
 
     # discover & test files in source
-    compiled_filter = _test_expression_option_filter(filter)
-    
+    # FIXME remove compiled_filter = _test_expression_option_filter(filter)
+    compiled_filter = re.compile(r'.+')  # HACK
+
     src_file_paths, src_file_relpaths, err_no = \
             _create_src_file_paths_and_rel2root(src_root, compiled_filter)
 
@@ -101,6 +102,7 @@ new folders:\t{}""".format(
 
 
 def _test_expression_option_filter(filter):
+    # FIXME rm
     global logger
     try:
         return re.compile(filter)

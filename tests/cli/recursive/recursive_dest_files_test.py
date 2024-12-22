@@ -10,7 +10,7 @@ import shutil
 import re
 import os
 
-from cli_test_shared import rst_simple,  run_recursive_mode
+from .. import rst_simple,  run_recursive_mode
 
 
 class TestOverwrite:  # test warning during overwrite
