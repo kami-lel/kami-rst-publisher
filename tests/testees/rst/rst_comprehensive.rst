@@ -8,96 +8,200 @@ Lorem ipsum
 
 .. contents:: Table of Contents
 
-.. _Heading1:
-
-Heading 1
-#########
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
+Nulla eu nulla quis ligula sollicitudin feugiat.
+Vestibulum pulvinar, mauris sed commodo blandit,
+sem ligula lacinia risus,
+a faucibus sem magna quis libero.
 
-.. _`Heading1.Heading2`:
+Tristique eget urna in, posuere tristique tellus. Donec ante dolor, laoreet laoreet leo a, consequat tincidunt mauris.
 
-Heading 2
-=========
+
+Text Style
+##########
+
+.. rubric:: Bold
+
+Lorem **ipsum** dolor sit **amet consectetur adipiscing** elit.
+
+**Nulla eu nulla quis ligula sollicitudin feugiat.**
+
+.. rubric:: Italics
+
+Lorem *ipsum* dolor sit *amet consectetur adipiscing* elit.
+
+*Nulla eu nulla quis ligula sollicitudin feugiat.*
+
+.. rubric:: superscript & subscript
+
+Lorem :sub:`x` dolor :sup:`x`
+
+amet :sub:`12` consectetur :sup:`0`
+
+adipiscing :sub:`elit` Nullam :sup:`scelerisque`
+
+This happened in 19 :sup:`th` C.
+
+----
+
+**This is Bold** and *This is Italics* and :sub:`subscript` and :sup:`superscript`
+
+.. rubric:: math
+
+:math:`f(x)=ax^2+bx+c`
+
+The equation for the quadratic formula is given by :math:`x = \frac{{-b \pm \sqrt{{b^2 - 4ac}}}}{{2a}}`, where :math:`a`, :math:`b`, and :math:`c` are coefficients of the quadratic equation.
+
+:math:`V = \int_0^{2\pi} d\theta \int_0^{1} r \sqrt{1 - r^2} dr`
+
+.. _II:
+
+`II` **Bold** in Heading
+########################
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+`II.2` ``Code`` in Heading
+==========================
 Nulla eu nulla quis ligula sollicitudin feugiat.  Vestibulum pulvinar, mauris sed commodo blandit, sem ligula lacinia risus, a faucibus sem magna quis libero.
 
-Heading 3
----------
+.. _`II.2.1`:
+
+`II.2.1` *Italics* in Heaindg
+-----------------------------
 Etiam mauris lectus
 
-.. rubric:: Rubric Test Text
-
-Etiam mauris lectus
-
-
-Heading 4
-~~~~~~~~~
-tristique eget urna in, posuere tristique tellus. Donec ante dolor, laoreet laoreet leo a, consequat tincidunt mauris.
-
-Heading 5
-^^^^^^^^^
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-`II` Heading 1
-##############
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-Q.v. `Heading1.Heading2`_
-
-`II.2` Heading 2 ``Code info``
-==============================
-Nulla eu nulla quis ligula sollicitudin feugiat.  Vestibulum pulvinar, mauris sed commodo blandit, sem ligula lacinia risus, a faucibus sem magna quis libero.
-
-`II.2.1` Heading 3
-------------------
-Etiam mauris lectus
-
-`II.2.1.4` Heading 4
-~~~~~~~~~~~~~~~~~~~~
+`II.2.1.4` Superscript, 12 :sup:`th` Century
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 tristique eget urna in, posuere tristique tellus. Donec ante dolor, laoreet laoreet leo a, consequat tincidunt mauris.
 
 `II.2.1.4.5` Heading 5
 ^^^^^^^^^^^^^^^^^^^^^^
-**Default Paragraph Style** Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in magna a nunc imperdiet auctor. *Nullam condimentum id lacus at elementum.* Nullam fermentum dolor eget libero rhoncus placerat.
-In consectetur efficitur justo eget ultrices. Nunc tincidunt risus accumsan elit congue, gravida pulvinar ex imperdiet. Etiam vitae enim eu quam varius pellentesque. Nulla consequat dignissim nisl. Proin eget justo pulvinar, finibus ligula id, hendrerit risus.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-**This is Bold** and *This is Italics* and :sub:`subscript` and :sup:`superscript`
+`II.2.2` Supscript, H\ :sub:`2`\ O
+----------------------------------
+Etiam mauris lectus
 
-And formula: :math:`f(x)=ax^2+bx+c`
+List
+====
+
+.. rubric:: unordered list
+
+Bullet point list short:
+
+- Lorem ipsum dolor
+- Sed do eiusmod
+- Ut enim veniam
+- Duis aute irure
+- Excepteur sint occaecat
+
+Bullet point list long:
+
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+- Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+- Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+- Lorem ipsum dolor
+
+.. rubric:: ordered list
+
+Arabic number:
+
+1. Quisque porttitor ex turpis
+2. vitae ullamcorper est fermentum eget
+3. cras rutrum elit sit amet commodo blandit
+
+Arabic number with auto:
+
+1. Quisque porttitor ex turpis
+#. vitae ullamcorper est fermentum eget
+#. cras rutrum elit sit amet commodo blandit
+
+Roman numeral:
+
+(i) Quisque porttitor ex turpis
+(ii) vitae ullamcorper est fermentum eget.
+(iii) Cras rutrum elit sit amet commodo blandit. Nulla tincidunt dui neque, sit amet congue magna mollis quis. Vivamus velit nunc, volutpat et risus et, dictum tempus elit. Quisque venenatis neque lobortis turpis ullamcorper posuere.
+
+Letter:
+
+(a) Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+(b) Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+(c) Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+
+.. rubric:: nested list
+
+- Lorem ipsum dolor
+- Sed do eiusmod
+
+  - Ut enim veniam
+  - Duis aute irure
+
+- Excepteur sint occaecat
 
 ----
 
-Text Body Quisque [*]_ gravida tempor [*]_ mauris eget fermentum. [*]_ Nullam scelerisque lobortis mauris sed laoreet. Sed eleifend, lacus nec elementum condimentum, magna lectus mattis nulla, sed porttitor quam orci sit amet arcu. Maecenas nec dolor nunc.
-Proin et quam nulla. Vivamus maximus a felis a interdum. Curabitur sit amet condimentum tortor, vitae mollis tortor. Nam porta tempus tempor. Sed velit orci, tempus vel venenatis a, maximus ut tellus. Aenean eget tincidunt eros. Cras nec semper magna, vel facilisis erat. Donec eget massa varius, vehicula erat vitae, varius odio. Donec in hendrerit sem.
+1. Quisque porttitor ex turpis
+2. vitae ullamcorper est fermentum eget.
+
+   (a) a item
+   (b) b item
+   (c) c item
+
+3. cras rutrum
+
+----
 
 
-.. [*] Phasellus orci lectus
+1. Quisque porttitor ex turpis
+2. vitae ullamcorper est fermentum eget.
 
-.. [*] lacinia ut neque in, dignissim malesuada lacus
+   - a item
+   - b item
+   - c item
 
-.. [*] *Social History of Alcohol Research* (older volumes) Social History of Alcohol & Drugs (newer volumes), Journal of the Alcohol & Temperance History Group.
+3. cras rutrum elit sit
 
-Morbi eros nisi `Heading1`_, tempor convallis urna sed, ullamcorper viverra magna. Curabitur egestas tellus nec justo mattis convallis. Praesent auctor non nisi accumsan placerat. Aliquam in est enim.
+----
 
-    Quoation Maecenas iaculis erat lectus, vitae aliquet nunc blandit eu. Nulla consequat, quam et blandit pulvinar, nisi velit elementum nisi, lobortis auctor erat massa eget sem.
+- Quisque porttitor ex turpis
+- vitae ullamcorper est fermentum eget.
 
-Maecenas rutrum, diam in porttitor auctor, libero nulla cursus lacus, at egestas ipsum ipsum et orci. Proin posuere dictum velit.
+  1. a item
+  #. b item
+  #. c item
 
-.. epigraph::
+- cras rutrum elit sit amet commodo blandit
 
-    "Ignorance, the root and stem of every evil."
+  (a) a item
+  (b) b item
+  (c) c item
 
-    -- Plato
+- cras rutrum elit sit amet commodo blandit. nulla tincidunt dui neque
 
-Line Block:
+  - test
 
-| Lend us a couple of bob till Thursday.
-| I'm absolutely skint.
-| But I'm expecting a postal order and I can pay you back
-  as soon as it comes.
-| Love, Ewan
+    - test
 
-Maecenas rutrum, diam in porttitor auctor, libero nulla cursus lacus, at egestas ipsum ipsum et orci. Proin posuere dictum velit.
+      1. test1
+      #. test1
+      #. test1
+
+- cras rutrum elit sit amet commodo
+
+.. rubric:: elements in list
+
+- Lorem ipsum **dolor** sit amet, *consectetur* ``adipiscing`` elit.
+- Sed do eiusmod **tempor incididunt ut labore et** dolore magna aliqua.
+- Ut enim ad minim veniam, *quis nostrud exercitation* ullamco laboris nisi ut aliquip
+- ``ex ea commodo consequat duis aute irure dolor in reprehenderit in`` voluptate velit esse
+- cillum :sub:`dolore` eu fugiat :sup:`nulla` pariatur
+- Excepteur sint occaecat cupidatat [#in-list]_ non proident
+
+Table
+=====
+
+.. rubric:: simple table
 
 =====  =====  ======
    Inputs     Output
@@ -108,166 +212,248 @@ False  False  False
 True   False  True
 =====  =====  ======
 
-Maecenas rutrum, diam in porttitor auctor, libero nulla cursus lacus, at egestas ipsum ipsum et orci. Proin posuere dictum velit.
+Another table:
 
-.. table:: Table Name
+=====  =====
+col 1  col 2
+=====  =====
+1      Second column of row 1.
+2      - Second column of row 2.
+       - Second item in bullet
+         list
+\      Row 3; column 1 will be empty.
+=====  =====
 
-    +-----------------------+---------------------------+-----------------------+-------------------------+
-    | Vivamus               | sagittis                  | mauris                | Aenean                  |
-    +=======================+===========================+=======================+=========================+
-    | interdum              | ut nunc. Aenean ex,       | malesuada non tortor  | Sed ac odio sit amet    |
-    |                       |                           | at, suscipit          | nibh pretium ut eu urn  |
-    |                       |                           | tincidunt erat.       |                         |
-    +-----------------------+---------------------------+-----------------------+-------------------------+
-    | commodo               | imperdiet                 | Nulla eu finibus nunc | molestie                |
-    +-----------------------+---------------------------+-----------------------+-------------------------+
+.. rubric:: grid table
 
-nunc mauris, ``vel lobortis erat`` quis., at lectus. sagittis aliquet nibh a eleifend. Vivamus non molestie ex.
++------------------------+------------+----------+----------+
+| Header row, column 1   | Header 2   | Header 3 | Header 4 |
+| (header rows optional) |            |          |          |
++========================+============+==========+==========+
+| body row 1, column 1   | column 2   | column 3 | column 4 |
++------------------------+------------+----------+----------+
+| body row 2             | Cells may span columns.          |
++------------------------+------------+---------------------+
+| body row 3             | Cells may  | - Table cells       |
++------------------------+ span rows. | - contain           |
+| body row 4             |            | - body elements.    |
++------------------------+------------+---------------------+
 
-::
+.. rubric:: element in table
 
-    Nunc id mauris nibh. 
-    Curabitur pretium scelerisque sodales. Aenean id facilisis mi. Pellentesque ac placerat magna,
-    nec pretium felis. Maecenas vulputate a mi eget vulputate.
+=====  =====
+col 1  col 2
+=====  =====
+1      ``Second`` column of row 1.
+2      Second **column** of row 2. *Second item in bullet* list
+\      Row 3 column 1 will be empty. [#in-table]_
+=====  =====
 
-Nam aliquam leo nec sem blandit,
-
-- sit amet efficitur nibh luctus. ``Some Content in Code``
-- Quisque efficitur sem et enim
-
-  - iaculis eget ante
-
-- iaculis fermentum. Nunc leo lectus, malesuada sit amet egestas at, rutrum consequat orci. Aliquam facilisis id magna ut hendrerit. Fusce mauris arcu,
-
-iaculis eget ante id, pretium tempus ex. In porta sollicitudin lobortis. Integer convallis maximus semper. Aenean maximus, dui nec lobortis porta, lectus massa maximus nunc, quis iaculis lacus augue eu neque.
-
-1. Quisque porttitor ex turpis
-#. vitae ullamcorper est fermentum eget.
-#. cras **rutrum elit sit amet** commodo blandit. *nulla tincidunt* dui neque, sit amet congue magna mollis quis. Vivamus velit nunc, volutpat et risus et, dictum tempus elit. Quisque venenatis neque lobortis turpis ullamcorper posuere.
-
-Nullam iaculis commodo augue, et malesuada lectus. Aenean vitae eros gravida, cursus dui id, lobortis nisi. Donec convallis urna ac urna varius consequat. Praesent ac erat sed dolor dapibus elementum.
-
-(i) Quisque porttitor ex turpis
-(ii) vitae ullamcorper est fermentum eget.
-(iii) Cras rutrum elit sit amet commodo blandit. Nulla tincidunt dui neque, sit amet congue magna mollis quis. Vivamus velit nunc, volutpat et risus et, dictum tempus elit. Quisque venenatis neque lobortis turpis ullamcorper posuere.
-
-Nullam [#]_ iaculis commodo [#]_ augue, et [#]_ malesuada lectus. Aenean vitae eros gravida, cursus dui id, lobortis nisi. Donec convallis urna ac urna varius consequat. Praesent ac erat sed dolor dapibus elementum.
-
-(a) Quisque porttitor ex turpis
-(b) vitae ullamcorper est fermentum eget. [#]_ 
-(c) Cras rutrum elit sit amet commodo blandit. Nulla tincidunt dui neque, sit amet congue magna mollis quis. Vivamus velit nunc, volutpat et risus et, dictum tempus elit. Quisque venenatis neque lobortis turpis ullamcorper posuere.
-
-**Nested** ol:
-
-1. Quisque porttitor ex turpis
-2. vitae ullamcorper est fermentum eget.
-
-   (a) a item
-   (b) b item
-   (c) c item
-
-3. cras **rutrum elit sit amet** commodo blandit. *nulla tincidunt* dui neque
-
-**Nested** ul:
-
-1. Quisque porttitor ex turpis
-2. vitae ullamcorper est fermentum eget.
-
-   - a item
-   - b item
-   - c item
-
-3. cras **rutrum elit sit amet** commodo blandit. *nulla tincidunt* dui neque
-**Nested** ul:
-
-- Quisque porttitor ex turpis
-- vitae ullamcorper est fermentum eget.
-
-  1. a item
-  #. b item
-  #. c item
-
-- cras **rutrum elit sit amet** commodo blandit. *nulla tincidunt* dui neque
-
-  (a) a item
-  (b) b item
-  (c) c item
-
-- cras **rutrum elit sit amet** commodo blandit. *nulla tincidunt* dui neque
-
-  - test
-
-    - test
-
-      1. test1
-      #. test1
-      #. test1
-
-- cras **rutrum elit sit amet** commodo blandit. *nulla tincidunt* dui neque
-
-
+Transition
+==========
+Text Body Quisque gravida tempor mauris eget fermentum. Nullam scelerisque lobortis mauris sed laoreet. Sed eleifend, lacus nec elementum condimentum, magna lectus mattis nulla, sed porttitor quam orci sit amet arcu. Maecenas nec dolor nunc.
 
 ----
 
-.. attention:: attention text
+Proin et quam nulla. Vivamus maximus a felis a interdum. Curabitur sit amet condimentum tortor, vitae mollis tortor. Nam porta tempus tempor. Sed velit orci, tempus vel venenatis a, maximus ut tellus. Aenean eget tincidunt eros. Cras nec semper magna, vel facilisis erat. Donec eget massa varius, vehicula erat vitae, varius odio. Donec in hendrerit sem.
 
-.. caution:: caution text
+Literal & Quotations
+####################
+Literals
+========
+Lorem ipsum ``dolor`` sit amet
 
-.. danger:: danger text
+::
 
-.. error:: error text
+    consectetur adipiscing elit
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    Ut enim ad minim veniam
 
-.. hint:: hint text
+Code::
 
-.. important:: important text
+    def calculate_factorial(n):
+        """
+        compute the factorial of a given number
 
-.. note:: note text
+        :param n: the number to compute the factorial of
+        :type n: int
+        :return: factorial of param `n`
+        :retype: int
+        :raises ValueError: if `n` is negative
+        """
+        if n < 0:
+            raise ValueError("negative value is not supported")
 
-.. tip:: tip text
+        factorial = 1
+        for i in range(1, n + 1):
+            factorial *= i
+        return factorial
 
-.. warning:: warning text
+block quote
+===========
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-.. sidebar:: sibebar heading
+    Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+Ut enim ad minim veniam
+
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Curabitur pretium tincidunt lacus.
+
+    Nulla gravida orci a odio
+
+Et vulputate enim erat vestibulum.
+
+epigraph
+========
+
+.. epigraph::
+
+    "Ignorance, the root and stem of every evil."
+
+    -- Plato
+
+line block
+==========
+
+| Lend us a couple of bob till Thursday.
+| I'm absolutely skint.
+| But I'm expecting a postal order and I can pay you back
+  as soon as it comes.
+| Love, Ewan
+
+Technicals
+##########
+Footnote
+========
+Lorem ipsum [*]_ dolor sit amet, [*]_ consectetur [*]_ adipiscing elit. [*]_ Vivamus lacinia [*]_ odio vitae vestibulum.
+
+Sed tristique [*]_ [*]_ [*]_ [*]_ [*]_ [*]_ [*]_ [*]_ [*]_ [*]_ [*]_ [*]_ [*]_ [*]_ [*]_
+
+.. [*] Phasellus orci lectus
+
+.. [*] lacinia ut neque in, dignissim malesuada lacus
+
+.. [*] *Social History of Alcohol Research* (older volumes) Social History of Alcohol & Drugs (newer volumes), Journal of the Alcohol & Temperance History Group.
+
+.. [*] Contains **Bold** in Footnote
+
+.. [*] Contains *Italics* in Footnote
+
+.. [*] Contains ``foo`` in Footnote
+
+.. [*] Contains math formula :math:`f(x)=ax^2+bx+c` in Footnote
+
+.. [*] Superscript & Subscript in notes: adipiscing :sub:`elit` Nullam :sup:`scelerisque`
+
+.. [*] The 9th note
+
+.. [*] The 10th note
+
+.. [*] The 11th note
+
+.. [*] The 12th note
+
+.. [*] The 13th note
+
+.. [*] The 14th note
+
+.. [*] The 15th note
+
+.. [*] The 16th note
+
+.. [*] The 17th note
+
+.. [*] The 18th note
+
+.. [*] The 19th note
+
+.. [*] The 20th note
+
+Lorem ipsum [#]_ dolor sit amet, [#]_ consectetur [#third]_ [#fourth]_ Vivamus lacinia [#fourth]_ odio vitae vestibulum.
+
+Comment
+=======
+
+Before Comment
+
+.. Some Comment Content
+
+After Comment
+
+Section Link
+============
+
+Section link to Chapter 2 `II`_
+
+Q.v. `II.2.1`_
+
+Directives & Sidebar
+####################
+
+.. sidebar:: sidebar heading (ad lib)
 
     content 1st line
     content 1st line continue
 
     content 2nd line
 
-----
 
+.. admonition:: title of admonition
 
-`III` Native Things
-###################
-:smart:`smart content`
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-KScode e.g. `KS.abc.def`
+    Vivamus lacinia odio vitae vestibulum. Sed tristique libero ac sapien facilisis, non interdum risus viverra.
+    Ut venenatis lorem at metus fermentum, nec tincidunt nisi auctor.
 
-KSproxy e.g. `.abc.def`
+.. attention::
 
-number e.g. `3`, `3.2`, `III`, `iv`
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-fallback e.g. `abc`
+.. caution::
 
-:tag:`example_tag`
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-.. tag:: example_tag
+.. danger::
 
-.. tag:: example_proper{
-    content_of_proper_tag
-    }
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-.. tag::
-    example_proper{
-        content_of_proper_tag
-    }s
+.. error::
 
-.. Footnote
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-.. [#] Phasellus orci lectus
+.. hint::
 
-.. [#] lacinia ut neque in, dignissim malesuada lacus
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-.. [#] *Social History of Alcohol Research* (older volumes) Social History of Alcohol & Drugs (newer volumes), Journal of the Alcohol & Temperance History Group.
+.. important::
 
-.. [#] Footnote in Lists
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+.. note::
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+.. tip::
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+.. warning::
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+.. Footnotes
+
+.. [#] The 1st Footnote
+
+.. [#] The 1st Footnote
+
+.. [#third] The 3rd Footnote
+
+.. [#fourth] The 4th Footnote
+
+.. [#in-list] Footnote in List
+
+.. [#in-table] Footnote in Table
+

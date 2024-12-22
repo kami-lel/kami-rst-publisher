@@ -23,6 +23,7 @@ rst_folder = testees_folder / 'rst'
 
 rst_simple = (rst_folder / 'rst_simple.rst').resolve()
 rst_comprehensive = (rst_folder / 'rst_comprehensive.rst').resolve()
+rst_comprehensive2 = (rst_folder / 'rst_comprehensive2.rst').resolve()
 
 rst_recursive1 = (rst_folder / 'rst_recursive1').resolve()
 rst_recursive2 = (rst_folder / 'rst_recursive2').resolve()
@@ -34,8 +35,6 @@ md_folder = testees_folder / 'md'
 
 md_simple = (md_folder / 'md_simple.md').resolve()
 md_comprehensive = (md_folder / 'md_comprehensive.md').resolve()
-
-
 
 
 def run_single_mode(*args):
@@ -67,6 +66,9 @@ def copy_rst_basic_to(dest_dir):
     rst_comprehensive_dest = \
             (Path(dest_dir) / 'rst_comprehensive.rst').resolve()
     shutil.copy2(rst_comprehensive, rst_comprehensive_dest)
+    rst_comprehensive2_dest = \
+            (Path(dest_dir) / 'rst_comprehensive2.rst').resolve()
+    shutil.copy2(rst_comprehensive2, rst_comprehensive2_dest)
 
 
 def copy_rst_recursive1_to(dest_dir):

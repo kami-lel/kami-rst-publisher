@@ -8,7 +8,7 @@ import shutil
 import os
 import re
 
-from .. import RST_FLAG, rst_simple, rst_comprehensive, \
+from .. import RST_FLAG, rst_simple, rst_comprehensive, rst_comprehensive2, \
         run_single_mode, assert_succ_render
 
 
@@ -33,6 +33,16 @@ class TestRenderMLO:  # with --rst
 
             assert_succ_render(src, dest)
 
+    def test3(_):  # use rst_comprehensive2
+        with tempfile.NamedTemporaryFile() as temp_file:
+            src = rst_comprehensive2
+            dest = temp_file.name
+
+            result = run_single_mode(src, dest, RST_FLAG)
+            assert result.returncode == 0
+
+            assert_succ_render(src, dest)
+
 
 class TestRenderAuto:  # no MLO, thus automaticaly decide
 
@@ -48,6 +58,16 @@ class TestRenderAuto:  # no MLO, thus automaticaly decide
     def test2(_):  # use rst_comprehensive
         with tempfile.NamedTemporaryFile() as temp_file:
             src = rst_comprehensive
+            dest = temp_file.name
+
+            result = run_single_mode(src, dest)
+            assert result.returncode == 0
+
+            assert_succ_render(src, dest)
+
+    def test3(_):  # use rst_comprehensive2
+        with tempfile.NamedTemporaryFile() as temp_file:
+            src = rst_comprehensive2
             dest = temp_file.name
 
             result = run_single_mode(src, dest)

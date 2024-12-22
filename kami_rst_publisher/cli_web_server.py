@@ -19,8 +19,9 @@ from .cli_utils import PROGRAM_NAME, WRITER_NAME, \
 class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
-        global src_arg_cache
         global logger
+        global src_arg_cache
+        global mlo_config_cache
 
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
@@ -32,8 +33,8 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
             raw_content = src_file.read()
 
         result = publish_string(raw_content,
-                # HACK parser_name=determine_parser(),
-                parser_name='reStructuredText',
+                parser_name= mlo_config_cache.get_parser_name(
+                        src_path, src_arg_cache),
                 writer_name=WRITER_NAME,
                 settings_overrides=settings_overrides)
 
@@ -46,12 +47,14 @@ def cli_web_server_mode_main(src_arg, port, mlo_config, render_preset):
     global logger
     global src_arg_cache
     global settings_overrides
+    global mlo_config_cache
 
     logger = logging.getLogger(PROGRAM_NAME)
     logger.debug('start: cli_web_server_mode_main')
 
     src_arg_cache = src_arg
     settings_overrides = create_settings_overrides(render_preset)
+    mlo_config_cache = mlo_config
 
     # create http server
     address = ('', port)

@@ -1,273 +1,136 @@
-
 # Lorem ipsum
 
+## Basics
 
-TODO translate
+### Paragraphs
 
-**Nullam condimentum**
-
-.. contents:: Table of Contents
-
-.. _Heading1:
-
-Heading 1
-#########
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
+Nulla eu nulla quis ligula sollicitudin feugiat.
+Vestibulum pulvinar, mauris sed commodo blandit,
+sem ligula lacinia risus,
+a faucibus sem magna quis libero.
 
-.. _`Heading1.Heading2`:
-
-Heading 2
-=========
-Nulla eu nulla quis ligula sollicitudin feugiat.  Vestibulum pulvinar, mauris sed commodo blandit, sem ligula lacinia risus, a faucibus sem magna quis libero.
-
-Heading 3
----------
-Etiam mauris lectus
-
-.. rubric:: Rubric Test Text
-
-Etiam mauris lectus
-
-
-Heading 4
-~~~~~~~~~
-tristique eget urna in, posuere tristique tellus. Donec ante dolor, laoreet laoreet leo a, consequat tincidunt mauris.
-
-Heading 5
-^^^^^^^^^
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-`II` Heading 1
-##############
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-Q.v. `Heading1.Heading2`_
-
-`II.2` Heading 2 ``Code info``
-==============================
-Nulla eu nulla quis ligula sollicitudin feugiat.  Vestibulum pulvinar, mauris sed commodo blandit, sem ligula lacinia risus, a faucibus sem magna quis libero.
-
-`II.2.1` Heading 3
-------------------
-Etiam mauris lectus
-
-`II.2.1.4` Heading 4
-~~~~~~~~~~~~~~~~~~~~
-tristique eget urna in, posuere tristique tellus. Donec ante dolor, laoreet laoreet leo a, consequat tincidunt mauris.
-
-`II.2.1.4.5` Heading 5
-^^^^^^^^^^^^^^^^^^^^^^
-**Default Paragraph Style** Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in magna a nunc imperdiet auctor. *Nullam condimentum id lacus at elementum.* Nullam fermentum dolor eget libero rhoncus placerat.
-In consectetur efficitur justo eget ultrices. Nunc tincidunt risus accumsan elit congue, gravida pulvinar ex imperdiet. Etiam vitae enim eu quam varius pellentesque. Nulla consequat dignissim nisl. Proin eget justo pulvinar, finibus ligula id, hendrerit risus.
-
-**This is Bold** and *This is Italics* and :sub:`subscript` and :sup:`superscript`
-
-And formula: :math:`f(x)=ax^2+bx+c`
+Tristique eget urna in, posuere tristique tellus. Donec ante dolor, laoreet laoreet leo a, consequat tincidunt mauris.
 
 ----
 
-Text Body Quisque [*]_ gravida tempor [*]_ mauris eget fermentum. [*]_ Nullam scelerisque lobortis mauris sed laoreet. Sed eleifend, lacus nec elementum condimentum, magna lectus mattis nulla, sed porttitor quam orci sit amet arcu. Maecenas nec dolor nunc.
-Proin et quam nulla. Vivamus maximus a felis a interdum. Curabitur sit amet condimentum tortor, vitae mollis tortor. Nam porta tempus tempor. Sed velit orci, tempus vel venenatis a, maximus ut tellus. Aenean eget tincidunt eros. Cras nec semper magna, vel facilisis erat. Donec eget massa varius, vehicula erat vitae, varius odio. Donec in hendrerit sem.
+Line break (not paragraph break)
 
+Lorem ipsum dolor sit amet,  consectetur adipiscing elit
 
-.. [*] Phasellus orci lectus
+Sed do eiusmod tempor  
+incididunt ut labore et  
+dolore magna aliqua.
 
-.. [*] lacinia ut neque in, dignissim malesuada lacus
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
-.. [*] *Social History of Alcohol Research* (older volumes) Social History of Alcohol & Drugs (newer volumes), Journal of the Alcohol & Temperance History Group.
+### Text Style
 
-Morbi eros nisi `Heading1`_, tempor convallis urna sed, ullamcorper viverra magna. Curabitur egestas tellus nec justo mattis convallis. Praesent auctor non nisi accumsan placerat. Aliquam in est enim.
+#### Bold
 
-    Quoation Maecenas iaculis erat lectus, vitae aliquet nunc blandit eu. Nulla consequat, quam et blandit pulvinar, nisi velit elementum nisi, lobortis auctor erat massa eget sem.
+Lorem **ipsum** dolor sit **amet consectetur adipiscing** elit.
 
-Maecenas rutrum, diam in porttitor auctor, libero nulla cursus lacus, at egestas ipsum ipsum et orci. Proin posuere dictum velit.
+**Nulla eu nulla quis ligula sollicitudin feugiat.**
 
-.. epigraph::
+#### Italics
 
-    "Ignorance, the root and stem of every evil."
+Lorem *ipsum* dolor sit *amet consectetur adipiscing* elit.
 
-    -- Plato
+*Nulla eu nulla quis ligula sollicitudin feugiat.*
 
-Line Block:
+Bold & Italics: Lorem ***ipsum*** dolor
 
-| Lend us a couple of bob till Thursday.
-| I'm absolutely skint.
-| But I'm expecting a postal order and I can pay you back
-  as soon as it comes.
-| Love, Ewan
+#### supercript & subscript
 
-Maecenas rutrum, diam in porttitor auctor, libero nulla cursus lacus, at egestas ipsum ipsum et orci. Proin posuere dictum velit.
+Use `~` and `^`:
 
-=====  =====  ======
-   Inputs     Output
-------------  ------
-  A      B    A or B
-=====  =====  ======
-False  False  False
-True   False  True
-=====  =====  ======
+Lorem ~x~ dolor ^x^
 
-Maecenas rutrum, diam in porttitor auctor, libero nulla cursus lacus, at egestas ipsum ipsum et orci. Proin posuere dictum velit.
+Use HTML tag:
 
-.. table:: Table Name
+amet <sub>12</sub> consectetur <sup>0</sup>
 
-    +-----------------------+---------------------------+-----------------------+-------------------------+
-    | Vivamus               | sagittis                  | mauris                | Aenean                  |
-    +=======================+===========================+=======================+=========================+
-    | interdum              | ut nunc. Aenean ex,       | malesuada non tortor  | Sed ac odio sit amet    |
-    |                       |                           | at, suscipit          | nibh pretium ut eu urn  |
-    |                       |                           | tincidunt erat.       |                         |
-    +-----------------------+---------------------------+-----------------------+-------------------------+
-    | commodo               | imperdiet                 | Nulla eu finibus nunc | molestie                |
-    +-----------------------+---------------------------+-----------------------+-------------------------+
+### Extended Text Style
 
-nunc mauris, ``vel lobortis erat`` quis., at lectus. sagittis aliquet nibh a eleifend. Vivamus non molestie ex.
+Strikethru: ~~The world is flat.~~ The world is round.
 
-::
+Highlight: Despite many reverses, ==freedom has won battles.==
 
-    Nunc id mauris nibh. 
-    Curabitur pretium scelerisque sodales. Aenean id facilisis mi. Pellentesque ac placerat magna,
-    nec pretium felis. Maecenas vulputate a mi eget vulputate.
+Underline: <ins>text</ins>
 
-Nam aliquam leo nec sem blandit,
+## Heading Tests
 
-- sit amet efficitur nibh luctus. ``Some Content in Code``
-- Quisque efficitur sem et enim
+### **Bold** in Heading
 
-  - iaculis eget ante
+#### `Code` in Heading
 
-- iaculis fermentum. Nunc leo lectus, malesuada sit amet egestas at, rutrum consequat orci. Aliquam facilisis id magna ut hendrerit. Fusce mauris arcu,
+##### *Italics* in Heading
 
-iaculis eget ante id, pretium tempus ex. In porta sollicitudin lobortis. Integer convallis maximus semper. Aenean maximus, dui nec lobortis porta, lectus massa maximus nunc, quis iaculis lacus augue eu neque.
+###### Lowest Heading
 
-1. Quisque porttitor ex turpis
-#. vitae ullamcorper est fermentum eget.
-#. cras **rutrum elit sit amet** commodo blandit. *nulla tincidunt* dui neque, sit amet congue magna mollis quis. Vivamus velit nunc, volutpat et risus et, dictum tempus elit. Quisque venenatis neque lobortis turpis ullamcorper posuere.
+### Section Link
 
-Nullam iaculis commodo augue, et malesuada lectus. Aenean vitae eros gravida, cursus dui id, lobortis nisi. Donec convallis urna ac urna varius consequat. Praesent ac erat sed dolor dapibus elementum.
+TODO
 
-(i) Quisque porttitor ex turpis
-(ii) vitae ullamcorper est fermentum eget.
-(iii) Cras rutrum elit sit amet commodo blandit. Nulla tincidunt dui neque, sit amet congue magna mollis quis. Vivamus velit nunc, volutpat et risus et, dictum tempus elit. Quisque venenatis neque lobortis turpis ullamcorper posuere.
+## Structures
 
-Nullam [#]_ iaculis commodo [#]_ augue, et [#]_ malesuada lectus. Aenean vitae eros gravida, cursus dui id, lobortis nisi. Donec convallis urna ac urna varius consequat. Praesent ac erat sed dolor dapibus elementum.
+### List
 
-(a) Quisque porttitor ex turpis
-(b) vitae ullamcorper est fermentum eget. [#]_ 
-(c) Cras rutrum elit sit amet commodo blandit. Nulla tincidunt dui neque, sit amet congue magna mollis quis. Vivamus velit nunc, volutpat et risus et, dictum tempus elit. Quisque venenatis neque lobortis turpis ullamcorper posuere.
 
-**Nested** ol:
 
-1. Quisque porttitor ex turpis
-2. vitae ullamcorper est fermentum eget.
+### Table
 
-   (a) a item
-   (b) b item
-   (c) c item
+### Horizontal Rules
 
-3. cras **rutrum elit sit amet** commodo blandit. *nulla tincidunt* dui neque
+## Code
 
-**Nested** ul:
+## Blockquote
 
-1. Quisque porttitor ex turpis
-2. vitae ullamcorper est fermentum eget.
+## Technicals
 
-   - a item
-   - b item
-   - c item
+### Link
 
-3. cras **rutrum elit sit amet** commodo blandit. *nulla tincidunt* dui neque
-**Nested** ul:
+### Footnote
 
-- Quisque porttitor ex turpis
-- vitae ullamcorper est fermentum eget.
+### Comment
 
-  1. a item
-  #. b item
-  #. c item
+### Alert
 
-- cras **rutrum elit sit amet** commodo blandit. *nulla tincidunt* dui neque
+### HTML tags
 
-  (a) a item
-  (b) b item
-  (c) c item
 
-- cras **rutrum elit sit amet** commodo blandit. *nulla tincidunt* dui neque
 
-  - test
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-    - test
+Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
 
-      1. test1
-      #. test1
-      #. test1
+Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
 
-- cras **rutrum elit sit amet** commodo blandit. *nulla tincidunt* dui neque
+Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.
 
+Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
 
+Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.
 
-----
+Similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est.
 
-.. attention:: attention text
+Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est. Omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
 
-.. caution:: caution text
+Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur?
 
-.. danger:: danger text
+Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est.
 
-.. error:: error text
+Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
 
-.. hint:: hint text
+Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
 
-.. important:: important text
+Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur? At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.
 
-.. note:: note text
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
-.. tip:: tip text
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-.. warning:: warning text
+Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
 
-.. sidebar:: sibebar heading
-
-    content 1st line
-    content 1st line continue
-
-    content 2nd line
-
-----
-
-
-`III` Native Things
-###################
-:smart:`smart content`
-
-KScode e.g. `KS.abc.def`
-
-KSproxy e.g. `.abc.def`
-
-number e.g. `3`, `3.2`, `III`, `iv`
-
-fallback e.g. `abc`
-
-:tag:`example_tag`
-
-.. tag:: example_tag
-
-.. tag:: example_proper{
-    content_of_proper_tag
-    }
-
-.. tag::
-    example_proper{
-        content_of_proper_tag
-    }s
-
-.. Footnote
-
-.. [#] Phasellus orci lectus
-
-.. [#] lacinia ut neque in, dignissim malesuada lacus
-
-.. [#] *Social History of Alcohol Research* (older volumes) Social History of Alcohol & Drugs (newer volumes), Journal of the Alcohol & Temperance History Group.
-
-.. [#] Footnote in Lists
+Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.

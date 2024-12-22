@@ -9,7 +9,7 @@ import shutil
 import re
 
 from .. import SUFFIX_FLAG, run_single_mode, \
-        rst_simple, rst_comprehensive
+        rst_simple, rst_comprehensive2
 
 
 class TestOverwritting:  # test overwriting warning
@@ -78,7 +78,7 @@ class TestSuffix:  # test suffix option w/ no DESTINATION
         with tempfile.TemporaryDirectory() as temp_dir:
             src = os.path.realpath(os.path.join(
                     temp_dir, 'ipt.rst'))
-            shutil.copy2(rst_comprehensive, src)
+            shutil.copy2(rst_comprehensive2, src)
 
             suf = '.R'  # default
 
@@ -120,7 +120,7 @@ class TestSuffix:  # test suffix option w/ no DESTINATION
         with tempfile.TemporaryDirectory() as temp_dir:
             src = os.path.realpath(os.path.join(
                     temp_dir, 'ipt.rst'))
-            shutil.copy2(rst_comprehensive, src)
+            shutil.copy2(rst_comprehensive2, src)
 
             suf = 'abc'
 

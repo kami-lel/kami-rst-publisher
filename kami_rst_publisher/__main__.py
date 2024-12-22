@@ -5,7 +5,6 @@
 - web server mode: given a SOURCE file, start a local web server to show it
 """
 
-# TODO markup langauge options
 
 # todo -d option to add date
 # e.g. -d 13 means add .#[02022-03-05] as suffix
