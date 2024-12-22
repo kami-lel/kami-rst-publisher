@@ -9,7 +9,7 @@ import os
 
 from .. import SUFFIX_FLAG, \
         copy_rst_basic_to,  copy_rst_recursive3_to, \
-        run_recursive_mode, assert_succ_rst_render
+        run_recursive_mode, assert_succ_render
 
 
 class TestWithDest:  # with DESTINATION
@@ -34,7 +34,7 @@ class TestWithDest:  # with DESTINATION
                             dest_dir, filename + suf + '.html'))
 
                     assert os.path.isfile(dest)
-                    assert_succ_rst_render(src, dest)
+                    assert_succ_render(src, dest)
 
     def test2(_):
         with (tempfile.TemporaryDirectory() as src_dir,
@@ -56,7 +56,7 @@ class TestWithDest:  # with DESTINATION
                             dest_dir, filename + suf + '.html'))
 
                     assert os.path.isfile(dest)
-                    assert_succ_rst_render(src, dest)
+                    assert_succ_render(src, dest)
 
     def test_dft1(_):  # use default suffix
         with (tempfile.TemporaryDirectory() as src_dir,
@@ -78,7 +78,7 @@ class TestWithDest:  # with DESTINATION
                             dest_dir, filename + suf + '.html'))
 
                     assert os.path.isfile(dest)
-                    assert_succ_rst_render(src, dest)
+                    assert_succ_render(src, dest)
 
 
 class TestNoDest:  # no DESTINATION
@@ -101,7 +101,7 @@ class TestNoDest:  # no DESTINATION
                         dest = filename + suf + '.html'
 
                         assert os.path.isfile(dest)
-                        assert_succ_rst_render(src, dest)
+                        assert_succ_render(src, dest)
 
     def test2(_):
         with tempfile.TemporaryDirectory() as root:
@@ -121,7 +121,7 @@ class TestNoDest:  # no DESTINATION
                         dest = filename + suf + '.html'
 
                         assert os.path.isfile(dest)
-                        assert_succ_rst_render(src, dest)
+                        assert_succ_render(src, dest)
 
 
     def test_dft1(_):  # use default suffix
@@ -142,4 +142,4 @@ class TestNoDest:  # no DESTINATION
                         dest = filename + suf + '.html'
 
                         assert os.path.isfile(dest)
-                        assert_succ_rst_render(src, dest)
+                        assert_succ_render(src, dest)

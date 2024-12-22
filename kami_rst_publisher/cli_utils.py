@@ -17,19 +17,21 @@ DEFAULT_FILTERS = {
         'rst': r'.+\.rst',
         'md': r'.+\.md'}
 
-
-
 from pathlib import Path
+import logging
 
 PUBLISHER_VERSION_APPENDIX_PATH = (Path(__file__).parent
         / 'assets' / 'publisher_version_appendix.html').resolve()
 
+VERBOSITY2LOGGING_LEVEL = {
+        -1: logging.CRITICAL + 1,  # -q
+        0: logging.WARNING,
+        1: logging.INFO,  # -v
+        2: logging.DEBUG}  # -vv
+
 
 from sys import stderr, stdout
-import re
 import os
-import logging
-import errno
 
 
 global logger
@@ -43,48 +45,6 @@ class CustomizedLogHandler(logging.Handler):
         print_content = "{} {}".format(record.levelname, record.msg)
 
         print(print_content, file=target)
-
-
-class MarkupLanguageOptionConfiguration(dict):
-
-    def __init__(self, *args, **kwargs):
-        self._init_clean_up_none()
-        self._init_test_filter_regex_patterns()
-        self._init_insert_default_filters()  # BUG
-
-    def _init_clean_up_none(self):
-        # remove entries which value is None
-        # i.e. this specific MLO is absent
-        for key, value in self.copy().items():
-            if value is None:
-                self.pop(key)
-
-    def _init_test_filter_regex_patterns(self):
-        for language, filters in self.items():
-            for fil in filters:
-                try:
-                    re.compile(fil)
-                except re.error:
-                    logger.critical(
-    'option --{} gets an illegal regex pattern: {}'.format(language, fil))
-                    exit(errno.EINVAL)
-
-    def _init_insert_default_filters(self):
-        for langauge, filters in self.items():
-            if len(filters) == 0:  # empty list
-                # i.e. MLO given but no actual given
-                # thus give its
-                default_filter = DEFAULT_FILTERS[langauge]
-                self[langauge].append(default_filter)
-
-    def test_single_or_web_server_mode(self):
-        if len(self) > 1:
-            logger.critical(
-    "more than 1 markup langauge option is given in single/web server mode")
-            exit(errno.EINVAL)
-
-    def get_parser_name(self, src_file_path):
-        return 'reStructuredText'  # HACK
 
 
 def normalize_src_arg_and_test_access(src_arg):

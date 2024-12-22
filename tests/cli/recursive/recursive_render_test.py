@@ -8,7 +8,7 @@ import os
 import re
 
 
-from .. import  run_recursive_mode, assert_succ_rst_render, \
+from .. import  run_recursive_mode, assert_succ_render, \
         copy_rst_recursive1_to, copy_rst_recursive2_to, copy_rst_recursive3_to
 
 
@@ -39,7 +39,7 @@ class TestRender:  #  yes DESTINATION, no suffix
 
             assert len(src_entries) == len(dest_entries)
             for (src, _), (dest, _) in zip(src_entries, dest_entries):
-                assert_succ_rst_render(src, dest)
+                assert_succ_render(src, dest)
                 # test publisher version contained in file
                 with open(dest, 'r') as f:
                     assert re.search(
@@ -61,7 +61,7 @@ class TestRender:  #  yes DESTINATION, no suffix
 
             assert len(src_entries) == len(dest_entries)
             for (src, _), (dest, _) in zip(src_entries, dest_entries):
-                assert_succ_rst_render(src, dest)
+                assert_succ_render(src, dest)
 
     def test3(_):
         with (tempfile.TemporaryDirectory() as src_dir,
@@ -77,7 +77,7 @@ class TestRender:  #  yes DESTINATION, no suffix
 
             assert len(src_entries) == len(dest_entries)
             for (src, _), (dest, _) in zip(src_entries, dest_entries):
-                assert_succ_rst_render(src, dest)
+                assert_succ_render(src, dest)
 
 
 class TestAlongside:  #  no DESTINATION
@@ -95,7 +95,7 @@ class TestAlongside:  #  no DESTINATION
                 if extension == '.rst':
                     dest = filename + '.html'
                     assert os.path.isfile(dest)
-                    assert_succ_rst_render(full_path, dest)
+                    assert_succ_render(full_path, dest)
                     cnt += 1
 
             assert len(entries) == cnt * 2
@@ -113,7 +113,7 @@ class TestAlongside:  #  no DESTINATION
                 if extension == '.rst':
                     dest = filename + '.html'
                     assert os.path.isfile(dest)
-                    assert_succ_rst_render(full_path, dest)
+                    assert_succ_render(full_path, dest)
                     cnt += 1
 
             assert len(entries) == cnt * 2
@@ -131,7 +131,7 @@ class TestAlongside:  #  no DESTINATION
                 if extension == '.rst':
                     dest = filename + '.html'
                     assert os.path.isfile(dest)
-                    assert_succ_rst_render(full_path, dest)
+                    assert_succ_render(full_path, dest)
                     cnt += 1
 
             assert len(entries) == cnt * 2

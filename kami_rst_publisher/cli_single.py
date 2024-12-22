@@ -30,7 +30,7 @@ def cli_single_mode_main(src_arg, dest_arg, suffix,
     # perform render
     publish_file(source_path=src_path,
             destination_path=dest_path,
-            parser_name=mlo_config.get_parser_name(src_path),
+            parser_name=mlo_config.get_parser_name(src_path, src_arg),
             writer_name=WRITER_NAME,
             settings_overrides=create_settings_overrides(render_preset))
 

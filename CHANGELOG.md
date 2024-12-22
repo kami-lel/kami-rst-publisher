@@ -20,8 +20,13 @@ changes in stylesheets:
 chagne re CLI:
 
 - change publisher version appending logic, append a file
-- add option -m
-- remove option -e
+
+add support for render **Markdown** as source:
+
+- utilize 3-rd party parser `myst-docutils`
+- reorganize `tests/` for new tests and tests for md
+- add options `--rst` and `--md`, replacing `-e`
+
 
 
 

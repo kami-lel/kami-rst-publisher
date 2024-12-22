@@ -13,12 +13,6 @@
 
 import logging
 
-VERBOSITY2LOGGING_LEVEL = {
-        -1: logging.CRITICAL + 1,  # -q
-        0: logging.WARNING,
-        1: logging.INFO,  # -v
-        2: logging.DEBUG}  # -vv
-
 
 from argparse import ArgumentParser, RawTextHelpFormatter
 import logging
@@ -28,8 +22,9 @@ from .cli_single import cli_single_mode_main
 from .cli_recursive import cli_recursive_mode_main
 from .cli_web_server import WEB_SERVER_DEFAULT_PORT, \
         cli_web_server_mode_main
-from .cli_utils import PRESETS, PROGRAM_NAME, \
-        CustomizedLogHandler, MarkupLanguageOptionConfiguration
+from .cli_utils import PRESETS, PROGRAM_NAME, VERBOSITY2LOGGING_LEVEL, \
+        CustomizedLogHandler
+from .cli_mlo import MarkupLanguageOptionConfiguration
 
 
 psr = ArgumentParser(prog=PROGRAM_NAME,
@@ -85,6 +80,10 @@ psr.add_argument('--rst',
         metavar='FILTER',
         help='reStructuredText, MLO')  # TODO
 
+psr.add_argument('-e', '--regex-expression',
+        action='store_true',
+        help='enable recursive mode, v.s.')  # TODO
+
 psr.add_argument('-p', '--render-preset',
         action='store',
         default='light',
@@ -118,22 +117,22 @@ if __name__ == "__main__":
     # convert args
     render_preset = args.dark or args.render_preset
 
-    # create languages: filters dictionary
-    mlo_config = MarkupLanguageOptionConfiguration({
-            'md': args.md, 'rst': args.rst})
-
+    mlo_config = MarkupLanguageOptionConfiguration(
+            rst_arg=args.rst, md_arg=args.md,
+            use_regex=args.regex_expression)
 
     if args.web_server:
-        mlo_config.test_single_or_web_server_mode()
+        mlo_config.initialize(is_single_or_web_server_mode=True)
         cli_web_server_mode_main(args.SOURCE, args.web_server,
                 mlo_config, render_preset)
 
     elif args.recursive:
+        mlo_config.initialize(is_single_or_web_server_mode=False)
         cli_recursive_mode_main(args.SOURCE, args.DESTINATION,
                 args.suffix, mlo_config, render_preset)
 
-    else:
-        mlo_config.test_single_or_web_server_mode()
+    else:  # single mode
+        mlo_config.initialize(is_single_or_web_server_mode=True)
         cli_single_mode_main(args.SOURCE, args.DESTINATION,
                 args.suffix, mlo_config, render_preset)
 
