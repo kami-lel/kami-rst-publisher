@@ -89,7 +89,8 @@ class MarkupLanguageOptionConfiguration(dict):
                                 language, repr(fil)))
                         exit(errno.EINVAL)
 
-    def get_parser_name(self, src_file_path, src_info_path):
+    def get_parser_name_single_or_web_server_mode(self,
+            src_file_path, src_info_path):
         if self:  # none empty
             mlo = list(self.keys())[0]
             return MLO2PARSR_NAME[mlo]
@@ -112,3 +113,13 @@ class MarkupLanguageOptionConfiguration(dict):
 
                 logger.critical(' '.join(msg_list))
                 exit(errno.EINVAL)
+
+    def select_src_file_and_get_parser(self, filename, relpath):
+        """
+        :return: parser name; '' if this source file should be skippped
+        :rtype: str
+        """
+        if re.fullmatch('.+\.rst', filename):
+            return "reStructuredText"  # HACK
+        else:
+            return ''

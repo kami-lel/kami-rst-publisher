@@ -33,7 +33,8 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
             raw_content = src_file.read()
 
         result = publish_string(raw_content,
-                parser_name= mlo_config_cache.get_parser_name(
+                parser_name=mlo_config_cache
+                        .get_parser_name_single_or_web_server_mode(
                         src_path, src_arg_cache),
                 writer_name=WRITER_NAME,
                 settings_overrides=settings_overrides)

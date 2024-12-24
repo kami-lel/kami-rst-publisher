@@ -102,3 +102,12 @@ def find_subfiles_recursively(root):
             entry = (full_path, rel_path)
             entries.append(entry)
     return entries
+
+
+def change_all_files_extension(dest_dir, new_extension):
+    for filename in os.listdir(dest_dir):
+        file_path = os.path.join(dest_dir, filename)
+        if os.path.isfile(file_path):
+            base, _ = os.path.splitext(filename)
+            new_file_path = os.path.join(dest_dir, f"{base}.{new_extension}")
+            os.rename(file_path, new_file_path)

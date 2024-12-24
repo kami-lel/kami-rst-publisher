@@ -5,21 +5,55 @@ test single mode of cli, file related
 
 import tempfile
 import os
-import shutil
 import re
 
-from .. import SUFFIX_FLAG, run_single_mode, \
-        rst_simple, rst_comprehensive2
+from ... import TesteeDir
+from .. import SUFFIX_FLAG, run_single_mode, assert_succ_render
 
 
-class TestOverwritting:  # test overwriting warning
+class TestSuffix:  # test suffix when no DESTINATION
 
-    def test_normal(_):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            src = os.path.realpath(os.path.join(temp_dir, 'ipt.rst'))
-            shutil.copy2(rst_simple, src)
+    def test1(_):  # customized suf
+        with TesteeDir('rst_simple') as (src_dir, file_paths):
+            src_file = file_paths[0]
 
-            dest = os.path.realpath(os.path.join(temp_dir, 'output.html'))
+            suf = '_suf'
+            result = run_single_mode(src_file, SUFFIX_FLAG, suf)
+            assert result.returncode == 0
+
+            # supposed dest file location
+            dest = os.path.realpath(os.path.join(
+                    src_dir, 'rst_simple' + suf + '.html'))
+
+            assert os.path.isfile(dest)  # created
+            assert_succ_render(src_file, dest)
+
+    def test_dft1(_):  # use default suffix
+        with TesteeDir('rst_simple') as (src_dir, file_paths):
+            src_file = file_paths[0]
+
+            result = run_single_mode(src_file, SUFFIX_FLAG)
+            assert result.returncode == 0
+
+            suf = '.R'
+            # supposed dest file location
+            dest = os.path.realpath(os.path.join(
+                    src_dir, 'rst_simple' + suf + '.html'))
+
+            assert os.path.isfile(dest)  # created
+            assert_succ_render(src_file, dest)
+
+
+class TestOverwrite:   # tes overwriting warning
+
+    def test1(_):
+        with (TesteeDir('rst_simple') as (_, file_paths),
+                tempfile.TemporaryDirectory() as dest_dir):
+
+            src = file_paths[0]
+
+            dest = os.path.realpath(os.path.join(
+                    dest_dir, 'rst_simple.html'))
             with open(dest, 'w'):  # create empty file
                 pass
 
@@ -27,12 +61,12 @@ class TestOverwritting:  # test overwriting warning
             assert result.returncode == 0
             assert re.match(r'WARNING overwrite: ', result.stdout)
 
-    def test_alongside(_):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            src = os.path.realpath(os.path.join(temp_dir, 'ipt.rst'))
-            shutil.copy2(rst_simple, src)
+    def test_alongside1(_):
+        with (TesteeDir('rst_simple') as (src_dir, file_paths)):
+            src = file_paths[0]
+            dest = os.path.realpath(os.path.join(
+                    src_dir, 'rst_simple.html'))
 
-            dest = os.path.realpath(os.path.join(temp_dir, 'ipt.html'))
             with open(dest, 'w'):  # create empty file
                 pass
 
@@ -41,95 +75,15 @@ class TestOverwritting:  # test overwriting warning
             assert re.match(r'WARNING overwrite: ', result.stdout)
 
     def test_suffix(_):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            src = os.path.realpath(os.path.join(temp_dir, 'ipt.rst'))
-            shutil.copy2(rst_simple, src)
+        with (TesteeDir('rst_simple') as (src_dir, file_paths)):
+            src = file_paths[0]
+            dest = os.path.realpath(os.path.join(
+                    src_dir, 'rst_simple_suf.html'))
 
-            dest = os.path.realpath(os.path.join(temp_dir, 'ipt_suf.html'))
             with open(dest, 'w'):  # create empty file
                 pass
 
             result = run_single_mode(src, SUFFIX_FLAG, '_suf')
             assert result.returncode == 0
             assert re.match(r'WARNING overwrite: ', result.stdout)
-
-
-class TestSuffix:  # test suffix option w/ no DESTINATION
-
-    def test_dft1(_):  # use rst_simple
-        with tempfile.TemporaryDirectory() as temp_dir:
-            src = os.path.realpath(os.path.join(
-                    temp_dir, 'ipt.rst'))
-            shutil.copy2(rst_simple, src)
-
-            suf = '.R'  # default
-
-            result = run_single_mode(src, SUFFIX_FLAG)
-            assert result.returncode == 0
-
-            # supposed dest file location
-            dest = os.path.realpath(os.path.join(
-                    temp_dir, 'ipt' + suf + '.html'))
-
-            assert os.path.isfile(dest)  # created
-
-
-    def test_dft2(_):  # use rst_comprehensive
-        with tempfile.TemporaryDirectory() as temp_dir:
-            src = os.path.realpath(os.path.join(
-                    temp_dir, 'ipt.rst'))
-            shutil.copy2(rst_comprehensive2, src)
-
-            suf = '.R'  # default
-
-            result = run_single_mode(src, SUFFIX_FLAG)
-            assert result.returncode == 0
-
-            # supposed dest file location
-            dest = os.path.realpath(os.path.join(
-                    temp_dir, 'ipt' + suf + '.html'))
-
-            assert os.path.isfile(dest)  # created
-
-            # assert each line in source file is present in output
-            with (open(src, 'r') as ipt_file, open(dest, 'r') as dest_file):
-                dest_read = dest_file.read()
-                for line in ipt_file:
-                    if line.isalpha():
-                        assert line in dest_read
-
-    def test1(_):  # use rst_simple & cutomized suf
-        with tempfile.TemporaryDirectory() as temp_dir:
-            src = os.path.realpath(os.path.join(
-                    temp_dir, 'ipt.rst'))
-            shutil.copy2(rst_simple, src)
-
-            suf = '_suf'
-
-            result = run_single_mode(src, SUFFIX_FLAG, suf)
-            assert result.returncode == 0
-
-            # supposed dest file location
-            dest = os.path.realpath(os.path.join(
-                    temp_dir, 'ipt' + suf + '.html'))
-
-            assert os.path.isfile(dest)  # created
-
-
-    def test2(_):  # use rst_comprehensive & cutomized suf
-        with tempfile.TemporaryDirectory() as temp_dir:
-            src = os.path.realpath(os.path.join(
-                    temp_dir, 'ipt.rst'))
-            shutil.copy2(rst_comprehensive2, src)
-
-            suf = 'abc'
-
-            result = run_single_mode(src, SUFFIX_FLAG, suf)
-            assert result.returncode == 0
-
-            # supposed dest file location
-            dest = os.path.realpath(os.path.join(
-                    temp_dir, 'ipt' + suf + '.html'))
-
-            assert os.path.isfile(dest)  # created
 

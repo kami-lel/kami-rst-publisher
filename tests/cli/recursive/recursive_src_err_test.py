@@ -7,17 +7,14 @@ import tempfile
 import os
 import re
 
-from .. import run_recursive_mode, \
-        copy_rst_recursive1_to, copy_rst_recursive2_to, copy_rst_recursive3_to
+from ... import TesteeDir
+from .. import run_recursive_mode
 
 
 class TestSrcRoot:  # no permission to source root
 
     def test_no_perm(_):  # no permission to root
-        with tempfile.TemporaryDirectory() as temp_dir:
-            root = os.path.join(temp_dir, 'root')
-            os.makedirs(root)
-            copy_rst_recursive2_to(root)
+        with (TesteeDir('rst_recursive2') as (root, _)):
             os.chmod(root, 0o333)  # no read perm
 
             result = run_recursive_mode(root)
@@ -50,9 +47,8 @@ class TestSrcRoot:  # no permission to source root
 class TestSrcSubfolder:  # warning with source subfolder
 
     def test1(_):
-        with (tempfile.TemporaryDirectory() as src,
+        with (TesteeDir('rst_recursive2') as (src, _),
                 tempfile.TemporaryDirectory() as dest):
-            copy_rst_recursive2_to(src)
 
             bar = os.path.join(src, 'bar')
             os.chmod(bar, 0o333) # make src/bar no read perm
@@ -63,9 +59,8 @@ class TestSrcSubfolder:  # warning with source subfolder
                     result.stdout)
 
     def test2(_):
-        with (tempfile.TemporaryDirectory() as src,
+        with (TesteeDir('rst_recursive3') as (src, _),
                 tempfile.TemporaryDirectory() as dest):
-            copy_rst_recursive3_to(src)
 
             no_write = os.path.join(src, 'foo1', 'barbar', 'abc')
             os.chmod(no_write, 0o333) # make src/bar no read perm
@@ -79,10 +74,8 @@ class TestSrcSubfolder:  # warning with source subfolder
 class TestSrcSubFiles:  # warning w/ source contained files
 
     def test1(_):
-        with (tempfile.TemporaryDirectory() as src,
+        with (TesteeDir('rst_recursive1') as (src, _),
                 tempfile.TemporaryDirectory() as dest):
-
-            copy_rst_recursive1_to(src)
 
             no_write = os.path.join(src, 'bar.rst')
             os.chmod(no_write, 0o333) # make no read perm
@@ -93,10 +86,8 @@ class TestSrcSubFiles:  # warning w/ source contained files
                     result.stdout)
 
     def test2(_):
-        with (tempfile.TemporaryDirectory() as src,
+        with (TesteeDir('rst_recursive2') as (src, _),
                 tempfile.TemporaryDirectory() as dest):
-
-            copy_rst_recursive2_to(src)
 
             no_write = os.path.join(src, 'bar', 'abc.rst')
             os.chmod(no_write, 0o333) # make no read perm

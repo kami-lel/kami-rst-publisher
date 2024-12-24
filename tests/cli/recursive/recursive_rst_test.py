@@ -1,8 +1,8 @@
 
+# TODO use TesteeDir
 
 import tempfile
 import os
-import re
 
 
 from .. import  RST_FLAG, EXPR_FLAG, \
@@ -106,59 +106,37 @@ class TestFilterRegex:  # given --rst fitlers as regex (i.e. -e)
     pass
 
 
-# FIXME
-class OTestAlongside:  #  no DESTINATION
 
-    def test1(_):
-        with (tempfile.TemporaryDirectory() as root):
-            copy_rst_recursive1_to(root)
-            result = run_recursive_mode(root)
+
+class OTestSkipInfo:
+    # test when files in src are skipped b/c not matching FILTER
+    # it should log info
+
+    def test_dft1(_):  # default filter for .rst
+        with (tempfile.TemporaryDirectory() as src_dir,
+                tempfile.TemporaryDirectory() as dest_dir):
+
+            shutil.copytree(txt_folder, src_dir, dirs_exist_ok=True)
+            os.chmod(src_dir, 0o755)
+
+            result = run_recursive_mode(src_dir, dest_dir, VERBOSE_FLAG)
+
             assert result.returncode == 0
+            assert len(re.findall(r'INFO skip file:', result.stdout)) == 2
+            assert re.search('WARNING nothing published', result.stdout)
 
-            entries = _find_subfiles_recursively(root)
-            cnt = 0
-            for full_path, _ in entries:
-                filename, extension = os.path.splitext(full_path)
-                if extension == '.rst':
-                    dest = filename + '.html'
-                    assert os.path.isfile(dest)
-                    assert_succ_render(full_path, dest)
-                    cnt += 1
+    def test1(_):  # customized suffix
+        with (tempfile.TemporaryDirectory() as src_dir,
+                tempfile.TemporaryDirectory() as dest_dir):
 
-            assert len(entries) == cnt * 2
+            copy_rst_basic_to(src_dir)
+            change_all_files_extension(src_dir, 'txt')
+            copy_rst_basic_to(src_dir)
 
-    def test2(_):
-        with (tempfile.TemporaryDirectory() as root):
-            copy_rst_recursive2_to(root)
-            result = run_recursive_mode(root)
+            result = run_recursive_mode(src_dir, dest_dir,
+                    EXPR_FLAG, TXT_FILTER, VERBOSE_FLAG)
+
             assert result.returncode == 0
+            assert len(re.findall(r'INFO skip file: ', result.stdout)) == 2
+            assert len(re.findall(r'INFO publish: ', result.stdout)) == 2
 
-            entries = _find_subfiles_recursively(root)
-            cnt = 0
-            for full_path, _ in entries:
-                filename, extension = os.path.splitext(full_path)
-                if extension == '.rst':
-                    dest = filename + '.html'
-                    assert os.path.isfile(dest)
-                    assert_succ_render(full_path, dest)
-                    cnt += 1
-
-            assert len(entries) == cnt * 2
-
-    def test3(_):
-        with (tempfile.TemporaryDirectory() as root):
-            copy_rst_recursive3_to(root)
-            result = run_recursive_mode(root)
-            assert result.returncode == 0
-
-            entries = _find_subfiles_recursively(root)
-            cnt = 0
-            for full_path, _ in entries:
-                filename, extension = os.path.splitext(full_path)
-                if extension == '.rst':
-                    dest = filename + '.html'
-                    assert os.path.isfile(dest)
-                    assert_succ_render(full_path, dest)
-                    cnt += 1
-
-            assert len(entries) == cnt * 2

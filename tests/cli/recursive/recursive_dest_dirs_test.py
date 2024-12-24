@@ -9,17 +9,17 @@ import tempfile
 import os
 import re
 
-from .. import run_recursive_mode, VERBOSE_FLAG, \
-        copy_rst_recursive1_to, copy_rst_recursive2_to, copy_rst_recursive3_to
+from ... import TesteeDir
+from .. import run_recursive_mode, VERBOSE_FLAG
 
 
-class TestNewFodler:  # create new folders, copy tree like src
+class TestNewFolder:  # create new folders, copy tree like src
 
     def test1(_):
-        with (tempfile.TemporaryDirectory() as src_dir,
-                tempfile.TemporaryDirectory() as temp_dir):
-            copy_rst_recursive1_to(src_dir)
-            dest_dir = os.path.join(temp_dir, 'output')
+        with (TesteeDir('rst_recursive1') as (src_dir, _),
+                tempfile.TemporaryDirectory() as dest_parent):
+
+            dest_dir = os.path.realpath(os.path.join(dest_parent, 'output'))
 
             result = run_recursive_mode(src_dir, dest_dir, VERBOSE_FLAG)
             assert result.returncode == 0
@@ -29,9 +29,8 @@ class TestNewFodler:  # create new folders, copy tree like src
             assert os.path.isdir(dest_dir)
 
     def test2(_):
-        with (tempfile.TemporaryDirectory() as src_dir,
+        with (TesteeDir('rst_recursive2') as (src_dir, _),
                 tempfile.TemporaryDirectory() as dest_dir):
-            copy_rst_recursive2_to(src_dir)
 
             result = run_recursive_mode(src_dir, dest_dir, VERBOSE_FLAG)
             assert result.returncode == 0
@@ -43,9 +42,8 @@ class TestNewFodler:  # create new folders, copy tree like src
             assert os.path.isdir(os.path.join(dest_dir, 'foo'))
 
     def test3(_):
-        with (tempfile.TemporaryDirectory() as src_dir,
+        with (TesteeDir('rst_recursive3') as (src_dir, _),
                 tempfile.TemporaryDirectory() as dest_dir):
-            copy_rst_recursive3_to(src_dir)
 
             result = run_recursive_mode(src_dir, dest_dir, VERBOSE_FLAG)
             assert result.returncode == 0
@@ -66,10 +64,10 @@ class TestNewFodler:  # create new folders, copy tree like src
 class TestNoPerm:  # error when destination dirs no permission
 
     def test1(_):
-        with (tempfile.TemporaryDirectory() as src_dir,
-                tempfile.TemporaryDirectory() as temp_dir):
-            copy_rst_recursive1_to(src_dir)
-            dest_dir = os.path.join(temp_dir, 'output')
+        with (TesteeDir('rst_recursive1') as (src_dir, _),
+                tempfile.TemporaryDirectory() as dest_parent):
+
+            dest_dir = os.path.join(dest_parent, 'output')
 
             os.makedirs(dest_dir)
             os.chmod(dest_dir, 0o000)  # no access
@@ -85,9 +83,8 @@ class TestNoPerm:  # error when destination dirs no permission
 class TestIsFile:  # error when destination dirs is already a file
 
     def test1(_):
-        with (tempfile.TemporaryDirectory() as src_dir,
+        with (TesteeDir('rst_recursive1') as (src_dir, _),
                 tempfile.NamedTemporaryFile() as dest_file):
-            copy_rst_recursive1_to(src_dir)
 
             result = run_recursive_mode(src_dir, dest_file.name)
             assert result.returncode == 20
