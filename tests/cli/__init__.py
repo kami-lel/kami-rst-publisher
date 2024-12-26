@@ -13,34 +13,18 @@ MD_FLAG = '--md'
 from pathlib import Path
 import shutil
 import os
-from sys import executable
+from sys import executable, stderr, stdout
 import subprocess
 import re
-
-
-testees_folder = Path(__file__).parent.parent / 'testees'
-rst_folder = testees_folder / 'rst'
-
-rst_simple = (rst_folder / 'rst_simple.rst').resolve()
-rst_comprehensive = (rst_folder / 'rst_comprehensive.rst').resolve()
-rst_comprehensive2 = (rst_folder / 'rst_comprehensive2.rst').resolve()
-
-rst_recursive1 = (rst_folder / 'rst_recursive1').resolve()
-rst_recursive2 = (rst_folder / 'rst_recursive2').resolve()
-rst_recursive3 = (rst_folder / 'rst_recursive3').resolve()
-
-txt_folder = (testees_folder / 'plain_text').resolve()
-
-md_folder = testees_folder / 'md'
-
-md_simple = (md_folder / 'md_simple.md').resolve()
-md_comprehensive = (md_folder / 'md_comprehensive.md').resolve()
 
 
 def run_single_mode(*args):
     opt_args = [executable, '-m', 'kami_rst_publisher']
     opt_args.extend(args)
-    return subprocess.run(opt_args, capture_output=True, text=True)
+    result = subprocess.run(opt_args, capture_output=True, text=True)
+    print(result.stdout, file=stdout)
+    print(result.stderr, file=stderr)
+    return result
 
 
 def run_recursive_mode(*args):
@@ -92,22 +76,11 @@ def copy_rst_recursive3_to(dest_dir):
     os.chmod(dest_dir, 0o755)
 
 
-
-def find_subfiles_recursively(root):
-    entries = []
-    for dirpath, _, filesnames in os.walk(root):
-        for filename in filesnames:
-            full_path = os.path.join(dirpath, filename)
-            rel_path = os.path.relpath(full_path, root)
-            entry = (full_path, rel_path)
-            entries.append(entry)
-    return entries
-
-
-def change_all_files_extension(dest_dir, new_extension):
-    for filename in os.listdir(dest_dir):
-        file_path = os.path.join(dest_dir, filename)
-        if os.path.isfile(file_path):
-            base, _ = os.path.splitext(filename)
-            new_file_path = os.path.join(dest_dir, f"{base}.{new_extension}")
-            os.rename(file_path, new_file_path)
+def change_files_extension_recursively(dest_dir, new_extension):
+    for root, _, files in os.walk(dest_dir):
+        for filename in files:
+            file_path = os.path.join(root, filename)
+            if os.path.isfile(file_path):
+                base, _ = os.path.splitext(filename)
+                new_file_path = os.path.join(root, f"{base}.{new_extension}")
+                os.rename(file_path, new_file_path)

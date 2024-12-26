@@ -5,13 +5,13 @@ test recursive mode of cli
 
 import tempfile
 import re
-
+import os
 
 from ... import TesteeDir
-from .. import run_recursive_mode
+from .. import run_recursive_mode, VERBOSE_FLAG, assert_succ_render
 
 
-class TestEmptySrc:  # warning is logged when nothing published
+class TestWarningNothingPublished:  # warning is logged when nothing published
 
     def test1(_):
         with (tempfile.TemporaryDirectory() as src_dir,
@@ -22,74 +22,41 @@ class TestEmptySrc:  # warning is logged when nothing published
 
             assert re.search('WARNING nothing published', result.stdout)
 
-
-class OTestAlongside:  #  no DESTINATION
-
-    def test1(_):
-        with (tempfile.TemporaryDirectory() as root):
-            copy_rst_recursive1_to(root)
-            result = run_recursive_mode(root)
-            assert result.returncode == 0
-
-            entries = _find_subfiles_recursively(root)
-            cnt = 0
-            for full_path, _ in entries:
-                filename, extension = os.path.splitext(full_path)
-                if extension == '.rst':
-                    dest = filename + '.html'
-                    assert os.path.isfile(dest)
-                    assert_succ_render(full_path, dest)
-                    cnt += 1
-
-            assert len(entries) == cnt * 2
-
     def test2(_):
-        with (tempfile.TemporaryDirectory() as root):
-            copy_rst_recursive2_to(root)
-            result = run_recursive_mode(root)
+        with (TesteeDir('txt') as (src_dir, _), 
+                tempfile.TemporaryDirectory() as dest_dir):
+
+            os.chmod(dest_dir, 0o333)
+
+            result = run_recursive_mode(src_dir, dest_dir, VERBOSE_FLAG)
+
             assert result.returncode == 0
-
-            entries = _find_subfiles_recursively(root)
-            cnt = 0
-            for full_path, _ in entries:
-                filename, extension = os.path.splitext(full_path)
-                if extension == '.rst':
-                    dest = filename + '.html'
-                    assert os.path.isfile(dest)
-                    assert_succ_render(full_path, dest)
-                    cnt += 1
-
-            assert len(entries) == cnt * 2
+            assert len(re.findall(r'INFO skip file:', result.stdout)) == 2
+            assert re.search('WARNING nothing published', result.stdout)
 
     def test3(_):
-        with (tempfile.TemporaryDirectory() as root):
-            copy_rst_recursive3_to(root)
+        with (TesteeDir('rst_simple') as (src_dir, _), 
+                tempfile.TemporaryDirectory() as dest_dir):
+
+            ban = os.path.join(src_dir, 'rst_simple.rst')
+            os.chmod(ban, 0o000)
+
+            result = run_recursive_mode(src_dir, dest_dir, VERBOSE_FLAG)
+
+            assert result.returncode == 13
+            assert re.search('WARNING nothing published', result.stdout)
+
+
+class TestAlongside:  #  no DESTINATION
+
+    def test1(_):
+        with (TesteeDir('rst_recursive3') as (root, src_files)):
+
             result = run_recursive_mode(root)
             assert result.returncode == 0
 
-            entries = _find_subfiles_recursively(root)
-            cnt = 0
-            for full_path, _ in entries:
-                filename, extension = os.path.splitext(full_path)
-                if extension == '.rst':
-                    dest = filename + '.html'
-                    assert os.path.isfile(dest)
-                    assert_succ_render(full_path, dest)
-                    cnt += 1
-
-            assert len(entries) == cnt * 2
-
-
-
-class OTestBadFilter:  # given filter is not a legal regex expression
-
-    def test1(_):
-        src_dir = '???'
-        filter = r'[a-z'  # illegal
-        result = run_recursive_mode(src_dir, EXPR_FLAG, filter)
-
-        assert result.returncode == 22
-        assert re.search(r'CRITICAL re .+ of FILTER: illegal regex pattern',
-                result.stderr)
-
+            for src in src_files:
+                filename, _ = os.path.splitext(src)
+                dest = os.path.join(filename + '.html')
+                assert_succ_render(src, dest)
 

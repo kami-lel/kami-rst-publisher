@@ -1,36 +1,97 @@
-# TODO
 
 
+import os
+import tempfile
+import re
 
-class OTestSkipInfo:
-    # test when files in src are skipped b/c not matching FILTER
-    # it should log info
+from ... import TesteeDir
+from .. import RST_FLAG, MD_FLAG, EXPR_FLAG, VERBOSE_FLAG, \
+        run_recursive_mode, assert_succ_render
 
-    def test_dft1(_):  # default filter for .rst
-        with (tempfile.TemporaryDirectory() as src_dir,
+
+class TestJustRst:  # only get rsts
+
+    def test1(_):
+        with (TesteeDir('mix') as (src_dir, src_files),
                 tempfile.TemporaryDirectory() as dest_dir):
 
-            shutil.copytree(txt_folder, src_dir, dirs_exist_ok=True)
-            os.chmod(src_dir, 0o755)
+            mlos = [RST_FLAG, 'rst']
+
+            result = run_recursive_mode(src_dir, dest_dir, *mlos, VERBOSE_FLAG)
+            assert result.returncode == 0
+
+            for src in src_files:
+                rel = os.path.relpath(src, src_dir)
+                filename, ext = os.path.splitext(rel)
+                if filename and ext == '.rst':
+                    dest = os.path.realpath(os.path.join(
+                            dest_dir, filename + '.html'))
+                    assert_succ_render(src, dest)
+
+            assert len(re.findall(r'INFO skip file', result.stdout)) == 7
+            assert len(re.findall(r'INFO publish', result.stdout)) == 11
+
+    def test2(_):
+        with (TesteeDir('mix') as (src_dir, src_files),
+                tempfile.TemporaryDirectory() as dest_dir):
+
+            mlos = [RST_FLAG, '.+\.rst', EXPR_FLAG]
+
+            result = run_recursive_mode(src_dir, dest_dir, *mlos, VERBOSE_FLAG)
+            assert result.returncode == 0
+
+            for src in src_files:
+                rel = os.path.relpath(src, src_dir)
+                filename, ext = os.path.splitext(rel)
+                if filename and ext == '.rst':
+                    dest = os.path.realpath(os.path.join(
+                            dest_dir, filename + '.html'))
+                    assert_succ_render(src, dest)
+
+            assert len(re.findall(r'INFO skip file', result.stdout)) == 7
+            assert len(re.findall(r'INFO publish', result.stdout)) == 11
+
+
+class TestJustMd:  # only get mds
+
+    def test1(_):
+        with (TesteeDir('mix') as (src_dir, src_files),
+                tempfile.TemporaryDirectory() as dest_dir):
+
+            mlos = [MD_FLAG, 'md']
+
+            result = run_recursive_mode(src_dir, dest_dir, *mlos, VERBOSE_FLAG)
+            assert result.returncode == 0
+
+            for src in src_files:
+                rel = os.path.relpath(src, src_dir)
+                filename, ext = os.path.splitext(rel)
+                if filename and ext == '.md':
+                    dest = os.path.realpath(os.path.join(
+                            dest_dir, filename + '.html'))
+                    assert_succ_render(src, dest)
+
+            assert len(re.findall(r'INFO skip file', result.stdout)) == 15
+            assert len(re.findall(r'INFO publish', result.stdout)) == 3
+
+
+class TestNoMLO:  # no MLO provided, thus run use default exts
+
+    def test1(_):
+        with (TesteeDir('mix') as (src_dir, src_files),
+                tempfile.TemporaryDirectory() as dest_dir):
 
             result = run_recursive_mode(src_dir, dest_dir, VERBOSE_FLAG)
-
             assert result.returncode == 0
-            assert len(re.findall(r'INFO skip file:', result.stdout)) == 2
-            assert re.search('WARNING nothing published', result.stdout)
 
-    def test1(_):  # customized suffix
-        with (tempfile.TemporaryDirectory() as src_dir,
-                tempfile.TemporaryDirectory() as dest_dir):
+            for src in src_files:
+                rel = os.path.relpath(src, src_dir)
+                filename, ext = os.path.splitext(rel)
+                if filename and ext in ('.rst', '.md'):
+                    dest = os.path.realpath(os.path.join(
+                            dest_dir, filename + '.html'))
+                    assert_succ_render(src, dest)
 
-            copy_rst_basic_to(src_dir)
-            change_all_files_extension(src_dir, 'txt')
-            copy_rst_basic_to(src_dir)
-
-            result = run_recursive_mode(src_dir, dest_dir,
-                    EXPR_FLAG, TXT_FILTER, VERBOSE_FLAG)
-
-            assert result.returncode == 0
-            assert len(re.findall(r'INFO skip file: ', result.stdout)) == 2
-            assert len(re.findall(r'INFO publish: ', result.stdout)) == 2
+            assert len(re.findall(r'INFO skip file', result.stdout)) == 4
+            assert len(re.findall(r'INFO publish', result.stdout)) == 14
 

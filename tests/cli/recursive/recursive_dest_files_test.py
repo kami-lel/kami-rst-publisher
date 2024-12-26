@@ -7,7 +7,6 @@ i.e. test function of ``_test_dest_files`` in ``cli_recursive``
 
 
 import tempfile
-import shutil
 import re
 import os
 

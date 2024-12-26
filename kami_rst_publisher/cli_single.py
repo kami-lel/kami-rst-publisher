@@ -26,20 +26,20 @@ def cli_single_mode_main(src_arg, dest_arg, suffix,
 
     # test access to dest_path, and create the file if non-existent
     _test_dest_path_access(dest_path, dest_arg, dest_info)
+    language, parser_name = \
+        mlo_config.get_language_parser_name(src_path, src_arg)
 
     # perform render
     publish_file(source_path=src_path,
             destination_path=dest_path,
-            parser_name=
-                    mlo_config .get_parser_name_single_or_web_server_mode(
-                    src_path, src_arg),
+            parser_name=parser_name,
             writer_name=WRITER_NAME,
             settings_overrides=create_settings_overrides(render_preset))
 
     append_publisher_version_to_file(dest_path)
 
     logging.getLogger(PROGRAM_NAME).info(
-            "finish: {}\n\t->{}".format(src_arg, dest_info))
+            "{}\t-{}->\n\t{}".format(src_arg, language, dest_info))
 
 
 def _determine_dest_path(dest_arg, src_path, suffix):

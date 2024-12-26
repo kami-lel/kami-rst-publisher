@@ -12,15 +12,24 @@ testees_folder = Path(__file__).parent / 'testees'
 class TesteeDir(object):
 
     DEPENDENCIES = {
-            'rst_recursive1': ['rst_simple',
-                    'rst_comprehensive1', 'rst_comprehensive2'], 
-            'rst_recursive2': ['rst_simple',
-                    'rst_comprehensive1', 'rst_comprehensive2',
-                    'rst_recursive1'], 
-            'rst_recursive3': ['rst_simple',
-                    'rst_comprehensive1', 'rst_comprehensive2',
-                    'rst_recursive1', 'rst_recursive2'], 
-            }
+'rst_recursive1': [
+        'rst_simple', 'rst_comprehensive1', 'rst_comprehensive2'
+        ], 
+'rst_recursive2': [
+        'rst_simple', 'rst_comprehensive1', 'rst_comprehensive2',
+        'rst_recursive1'
+        ], 
+'rst_recursive3': [
+        'rst_simple', 'rst_comprehensive1', 'rst_comprehensive2',
+        'rst_recursive1', 'rst_recursive2'
+        ], 
+'mix': [
+        'rst_simple', 'rst_comprehensive1', 'rst_comprehensive2',
+        'rst_recursive1', 'rst_recursive2', 'rst_recursive3',
+        'md_simple', 'md_comprehensive', 'md_extended',
+        'txt'
+        ], 
+    }
 
     def __init__(self, *args):
         self.args = args

@@ -34,8 +34,7 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
 
         result = publish_string(raw_content,
                 parser_name=mlo_config_cache
-                        .get_parser_name_single_or_web_server_mode(
-                        src_path, src_arg_cache),
+                        .get_parser_name(src_path, src_arg_cache),
                 writer_name=WRITER_NAME,
                 settings_overrides=settings_overrides)
 
@@ -59,7 +58,12 @@ def cli_web_server_mode_main(src_arg, port, mlo_config, render_preset):
 
     # create http server
     address = ('', port)
-    httpd = HTTPServer(address, CustomHTTPRequestHandler)
+    try:
+        httpd = HTTPServer(address, CustomHTTPRequestHandler)
+
+    except OSError as err:
+        logger.critical(err.strerror + ": {}".format(address))
+        exit(err.errno)
 
     # create url
     url = r'http://localhost:{}'.format(httpd.server_address[1])
@@ -69,7 +73,6 @@ def cli_web_server_mode_main(src_arg, port, mlo_config, render_preset):
         print('Access rendered page by:\n\t{}'.format(url))
         httpd.serve_forever()
 
-    # FIXME catch exception: OSError: [Errno 98] Address already in use
     finally:
         httpd.server_close()
         logger.debug('finish: cli_web_server_mode_main')

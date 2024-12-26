@@ -2,30 +2,30 @@
 
 ## versions
 
-### 3-5
+### 4-0
 
 version message
 
 ```
-3-5: TODO
+4-0: add Markdown support
 ```
-
-- fix bug in CLI regarding options `-p` and `-D`
 
 changes in stylesheets:
 
 - use relative fontsize for literal, such that it may appears in title, headings, & list
 - make hyperlink to footnote superscripts
 
-chagne re CLI:
+change re **CLI**:
 
-- change publisher version appending logic, append a file
+- fix bug in CLI regarding options `-p` and `-D`
+- add support for render **Markdown** as source:
 
-add support for render **Markdown** as source:
+    - utilize 3-rd party parser `myst-docutils`
+    - reorganize `tests/` for new tests and tests for md
+    - add MLOs `--rst` and `--md`
+    - function of  `-e` is changed to make it possible for rst & md render
 
-- utilize 3-rd party parser `myst-docutils`
-- reorganize `tests/` for new tests and tests for md
-- add options `--rst` and `--md`, replacing `-e`
+- change publisher version appending logic, content of file `./kami_rst_publisher/assets/publisher_version_appendix.html` is added after render as HTML comment
 
 
 

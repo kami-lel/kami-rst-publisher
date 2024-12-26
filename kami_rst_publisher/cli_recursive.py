@@ -5,8 +5,6 @@ implment recursive mode of kami_rst_publisher CLI
 
 import logging
 import os
-import re
-import errno
 
 from docutils.core import publish_file
 
@@ -42,7 +40,7 @@ dest_arg=\t{}
 dest_root=\t{}""".format(src_arg, src_root, dest_arg, dest_root))
 
     # discover & test files in source
-    src_file_paths, src_file_relpaths, parsers_names, err_no = \
+    src_file_paths, src_file_relpaths, languages, parsers_names, err_no = \
             _create_src_file_paths_and_rel2root(src_root, mlo_config)
 
     # create a list of dest_file_path
@@ -52,12 +50,13 @@ dest_root=\t{}""".format(src_arg, src_root, dest_arg, dest_root))
     debug_log_path_prefix = "paths created & parsers:\n"
 
     debug_log_path_content = \
-"""{} -{}-> {}
+"""{} -{}[{}]-> {}
 \t  {}
 \t->{}"""
     logger.debug(debug_log_path_prefix + '\n'.join(
             debug_log_path_content.format(*paths) for paths
-            in zip(src_file_relpaths, parsers_names, dest_file_relpaths,
+            in zip(src_file_relpaths,
+                    languages, parsers_names, dest_file_relpaths,
                     src_file_paths, dest_file_paths)))
 
     logger.debug('test & create destination directory structure')
@@ -70,6 +69,7 @@ dest_root=\t{}""".format(src_arg, src_root, dest_arg, dest_root))
     logger.debug('publish html files')
     _publish_per_file(render_preset,
         src_file_paths, src_file_relpaths,
+        languages, parsers_names,
         dest_file_paths, dest_file_relpaths)
 
     stat['discover_file'] = len(src_file_paths)
@@ -109,6 +109,7 @@ def _create_src_file_paths_and_rel2root(src_root, mlo_config):
 
     src_file_paths = []
     relpaths2root = []
+    languages = []
     parsers_names = []
     err_no = 0
 
@@ -120,10 +121,10 @@ def _create_src_file_paths_and_rel2root(src_root, mlo_config):
             rel = os.path.relpath(src, src_root)
             test_result = _test_src_file_read(src, rel)
 
-            parser = mlo_config.select_src_file_and_get_parser(
-                    filename, rel)
+            language_parser_name = \
+                    mlo_config.select_and_get_language_parser_name(filename)
 
-            if not parser:
+            if language_parser_name is None:
                 # not matching expression arg
                 logger.info("skip file: {}".format(rel))
                 stat['skip_file'] += 1
@@ -132,11 +133,13 @@ def _create_src_file_paths_and_rel2root(src_root, mlo_config):
                 # save the discover file only if can read from it
                 src_file_paths.append(src)
                 relpaths2root.append(rel)
-                parsers_names.append(parser)
+                lang, pn = language_parser_name
+                languages.append(lang)
+                parsers_names.append(pn)
             else:
                 err_no = test_result
 
-    return src_file_paths, relpaths2root, parsers_names, err_no
+    return src_file_paths, relpaths2root, languages, parsers_names, err_no
 
 
 def _handle_src_os_walk(err):
@@ -270,18 +273,18 @@ def _test_dest_files_write(dest_file_paths, dest_file_relpaths, dest_root):
 
 def _publish_per_file(render_preset,
         src_file_paths, src_file_relpaths,
+        languages, parsers_names,
         dest_file_paths, dest_file_relpaths):
     """
     perform actual rendering of files by calling ``docutils.core.publish_file``
     """
     global logger
 
-    # HACK parser_name=determine_parser(),
-    parser_name = 'reStructuredText'
     settings_overrides=create_settings_overrides(render_preset)
 
-    for src, src_rel, dest, dest_rel in zip(
+    for src, src_rel, lang, parser_name, dest, dest_rel in zip(
             src_file_paths, src_file_relpaths,
+            languages, parsers_names,
             dest_file_paths, dest_file_relpaths):
 
         publish_file(source_path=src,
@@ -292,5 +295,6 @@ def _publish_per_file(render_preset,
 
         append_publisher_version_to_file(dest)
 
-        logger.info("publish: {}\t-> {}".format(src_rel, dest_rel))
+        logger.info("publish: {}\t-{}->\t{}".format(
+                src_rel, lang, dest_rel))
 

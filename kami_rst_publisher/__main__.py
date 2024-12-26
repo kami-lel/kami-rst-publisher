@@ -1,15 +1,48 @@
 """personalized rST publisher based on docutils but with extra roles & directives
 
-- single mode: given a SOURCE file, publish a HTML file
-- recursive mode: recusrively publish all files in SOURCE folder
-- web server mode: given a SOURCE file, start a local web server to show it
-"""
+mode:
 
+- single mode: given a SOURCE file, publish a HTML file
+- recursive mode: publish recursively discovered files in SOURCE folder
+- web server mode: given a SOURCE file, start a local web server to show its
+  content
+
+Markup Language Options (MLO) consists of --rst and --md, which set markup
+language for parsing the SOURCE file(s)
+
+MLO in single/web server mode:
+
+- 0 MLO: parse SOURCE file based by file extension (case-insensitive):
+
+    - .rst: parsed as reStructuredText
+    - .md: parsed as Markdown
+
+- 1 MLO: parse SOURCE file in this MLO (regardless of file extension)
+- 2~ MLO: illegal
+
+MLO in recursive mode:
+
+- 0 MLO: discover files in SOURCE and determine parser based on file extension
+  (case-insensitive):
+
+    - .rst: discovered and parsed as reStructuredText
+    - .md: discovered and parsed as Markdown
+    - others: skipped
+
+- 1~ MLO: each MLO must be followed with 1~ FILTER, each FILTER set conditions
+  to discover files in SOURCE
+
+FILTER interpretation:
+
+- default: inteprete FILTER as file extension, case-insensitive
+- with -e/--regex-expression: interpret FILTER as regex pattern for matching
+  entire filename (e.g. test.rst of ./abc/def/test.rst)
+"""
 
 # todo -d option to add date
 # e.g. -d 13 means add .#[02022-03-05] as suffix
 # todo superscript/subscript in md bad format
-# todo md code issue
+# todo md code literal issue
 
 
 import logging
@@ -25,7 +58,7 @@ from .cli_web_server import WEB_SERVER_DEFAULT_PORT, \
         cli_web_server_mode_main
 from .cli_utils import PROGRAM_NAME, VERBOSITY2LOGGING_LEVEL, \
         CustomizedLogHandler, arg_render_preset_choices
-from .cli_mlo import MarkupLanguageOptionConfiguration
+from .cli_mlo import MLOConfigSingleWebServerMode, MLOConfigRecursiveMode
 
 
 psr = ArgumentParser(prog=PROGRAM_NAME,
@@ -47,7 +80,7 @@ if absent, rendered files will be saved alongside SOURCE""")
 # options
 psr.add_argument('-r', '--recursive',
         action='store_true',
-        help='enable recursive mode, v.s.')
+        help='enable recursive mode, v.s. for mode')
 
 psr.add_argument('-s', '--suffix',
         nargs='?',
@@ -65,25 +98,25 @@ psr.add_argument('-w', '--web-server',
         const=WEB_SERVER_DEFAULT_PORT,
         type=int,
         metavar='PORT',
-        help='enable web server mode, v.s.')
+        help='enable web server mode, v.s. for mlode')
 
 psr.add_argument('--md',
         action='extend',
         nargs='*',
         type=str,
         metavar='FILTER',
-        help='Markdown as MLO')  # TODO
+        help='Markdown MLO, v.s. for MLO')
 
 psr.add_argument('--rst',
         action='extend',
         nargs='*',
         type=str,
         metavar='FILTER',
-        help='reStructuredText, MLO')  # TODO
+        help='reStructuredText MLO, v.s. for MLO')
 
 psr.add_argument('-e', '--regex-expression',
         action='store_true',
-        help='enable recursive mode, v.s.')  # TODO
+        help='interprete FILTERS as regex pattern, v.s.')
 
 psr.add_argument('-p', '--render-preset',
         action='store',
@@ -118,22 +151,23 @@ if __name__ == "__main__":
     # convert args
     render_preset = args.dark or args.render_preset
 
-    mlo_config = MarkupLanguageOptionConfiguration(
-            rst_arg=args.rst, md_arg=args.md,
-            use_regex=args.regex_expression)
-
     if args.web_server:
-        mlo_config.initialize(is_single_or_web_server_mode=True)
+        mlo_config = MLOConfigSingleWebServerMode(
+                rst_arg=args.rst, md_arg=args.md)
         cli_web_server_mode_main(args.SOURCE, args.web_server,
                 mlo_config, render_preset)
 
+
     elif args.recursive:
-        mlo_config.initialize(is_single_or_web_server_mode=False)
+        mlo_config = MLOConfigRecursiveMode(
+                rst_arg=args.rst, md_arg=args.md,
+                use_regex=args.regex_expression)
         cli_recursive_mode_main(args.SOURCE, args.DESTINATION,
                 args.suffix, mlo_config, render_preset)
 
     else:  # single mode
-        mlo_config.initialize(is_single_or_web_server_mode=True)
+        mlo_config = MLOConfigSingleWebServerMode(
+                rst_arg=args.rst, md_arg=args.md)
         cli_single_mode_main(args.SOURCE, args.DESTINATION,
                 args.suffix, mlo_config, render_preset)
 
