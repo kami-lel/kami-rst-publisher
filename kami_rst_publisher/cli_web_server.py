@@ -29,12 +29,14 @@ class CustomHTTPRequestHandler(BaseHTTPRequestHandler):
 
         src_path = normalize_src_arg_and_test_access(src_arg_cache)
 
+        _, parser_name = \
+            mlo_config_cache.get_language_parser_name(src_path, src_arg_cache)
+
         with open(src_path, 'r') as src_file:
             raw_content = src_file.read()
 
         result = publish_string(raw_content,
-                parser_name=mlo_config_cache
-                        .get_parser_name(src_path, src_arg_cache),
+                parser_name=parser_name,
                 writer_name=WRITER_NAME,
                 settings_overrides=settings_overrides)
 
