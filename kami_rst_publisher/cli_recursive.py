@@ -3,23 +3,19 @@ implment recursive mode of kami_rst_publisher CLI
 """
 
 
-DEFAULT_FILTER = r'.+\.rst'
-
-
 import logging
 import os
-import re
-import errno
 
 from docutils.core import publish_file
 
-from .cli_single import RENDERED_FILE_EXTENSION, PUBLISH_FILE_WRITER_NAME
-from .cli_utils import PROGRAM_NAME, \
-        determine_parser, create_settings_overrides
+from .cli_single import RENDERED_FILE_EXTENSION
+from .cli_utils import PROGRAM_NAME, WRITER_NAME, \
+        create_settings_overrides, \
+        append_publisher_version_to_file
 
 
-def cli_recursive_mode_main(src_arg, dest_arg, filter,
-        suffix, render_preset):
+def cli_recursive_mode_main(src_arg, dest_arg,
+        suffix, mlo_config, render_preset):
     # cache for used in _handle_os_walk_err
     global src_root_cache
     global src_arg_cache
@@ -44,26 +40,24 @@ dest_arg=\t{}
 dest_root=\t{}""".format(src_arg, src_root, dest_arg, dest_root))
 
     # discover & test files in source
-    compiled_filter = _test_expression_option_filter(filter)
-    
-    src_file_paths, src_file_relpaths, err_no = \
-            _create_src_file_paths_and_rel2root(src_root, compiled_filter)
+    src_file_paths, src_file_relpaths, languages, parsers_names, err_no = \
+            _create_src_file_paths_and_rel2root(src_root, mlo_config)
 
     # create a list of dest_file_path
     dest_file_paths, dest_file_relpaths = _create_dest_file_paths(
             src_file_relpaths, dest_root, suffix)
 
-    debug_log_path_prefix = \
-"""paths created:
-"""
-    debug_log_path_content = \
-"""{}\t{}
--> {}\t{}"""
+    debug_log_path_prefix = "paths created & parsers:\n"
 
+    debug_log_path_content = \
+"""{} -{}[{}]-> {}
+\t  {}
+\t->{}"""
     logger.debug(debug_log_path_prefix + '\n'.join(
             debug_log_path_content.format(*paths) for paths
-            in zip(src_file_relpaths, src_file_paths,
-                    dest_file_relpaths, dest_file_paths)))
+            in zip(src_file_relpaths,
+                    languages, parsers_names, dest_file_relpaths,
+                    src_file_paths, dest_file_paths)))
 
     logger.debug('test & create destination directory structure')
 
@@ -73,8 +67,9 @@ dest_root=\t{}""".format(src_arg, src_root, dest_arg, dest_root))
     err_no = en_opt or err_no
 
     logger.debug('publish html files')
-    _publish_files(render_preset,
+    _publish_per_file(render_preset,
         src_file_paths, src_file_relpaths,
+        languages, parsers_names,
         dest_file_paths, dest_file_relpaths)
 
     stat['discover_file'] = len(src_file_paths)
@@ -102,17 +97,7 @@ new folders:\t{}""".format(
     exit(err_no)
 
 
-def _test_expression_option_filter(filter):
-    global logger
-    try:
-        return re.compile(filter)
-    except re.error:
-        logger.critical('re {} of FILTER: illegal regex pattern'.format(
-                repr(filter)))
-        exit(errno.EINVAL)
-
-
-def _create_src_file_paths_and_rel2root(src_root, compiled_filter):
+def _create_src_file_paths_and_rel2root(src_root, mlo_config):
     """
     - find all files recursively in ``src_root``
     - discover only files with read permission
@@ -124,9 +109,9 @@ def _create_src_file_paths_and_rel2root(src_root, compiled_filter):
 
     src_file_paths = []
     relpaths2root = []
+    languages = []
+    parsers_names = []
     err_no = 0
-
-    # todo default filter should work w/ all letter cases
 
     # recursively discover files
     for dirpath, _, filesnames in os.walk(src_root,
@@ -136,7 +121,10 @@ def _create_src_file_paths_and_rel2root(src_root, compiled_filter):
             rel = os.path.relpath(src, src_root)
             test_result = _test_src_file_read(src, rel)
 
-            if not compiled_filter.fullmatch(filename):
+            language_parser_name = \
+                    mlo_config.select_and_get_language_parser_name(filename)
+
+            if language_parser_name is None:
                 # not matching expression arg
                 logger.info("skip file: {}".format(rel))
                 stat['skip_file'] += 1
@@ -145,10 +133,13 @@ def _create_src_file_paths_and_rel2root(src_root, compiled_filter):
                 # save the discover file only if can read from it
                 src_file_paths.append(src)
                 relpaths2root.append(rel)
+                lang, pn = language_parser_name
+                languages.append(lang)
+                parsers_names.append(pn)
             else:
                 err_no = test_result
 
-    return src_file_paths, relpaths2root, err_no
+    return src_file_paths, relpaths2root, languages, parsers_names, err_no
 
 
 def _handle_src_os_walk(err):
@@ -280,26 +271,30 @@ def _test_dest_files_write(dest_file_paths, dest_file_relpaths, dest_root):
     return new_dest_file_paths, err_no
 
 
-def _publish_files(render_preset,
+def _publish_per_file(render_preset,
         src_file_paths, src_file_relpaths,
+        languages, parsers_names,
         dest_file_paths, dest_file_relpaths):
     """
     perform actual rendering of files by calling ``docutils.core.publish_file``
     """
     global logger
 
-    parser_name = determine_parser()
     settings_overrides=create_settings_overrides(render_preset)
 
-    for src, src_rel, dest, dest_rel in zip(
+    for src, src_rel, lang, parser_name, dest, dest_rel in zip(
             src_file_paths, src_file_relpaths,
+            languages, parsers_names,
             dest_file_paths, dest_file_relpaths):
 
         publish_file(source_path=src,
                 destination_path=dest,
                 parser_name=parser_name,
-                writer_name=PUBLISH_FILE_WRITER_NAME,
+                writer_name=WRITER_NAME,
                 settings_overrides=settings_overrides)
 
-        logger.info("publish: {}\t-> {}".format(src_rel, dest_rel))
+        append_publisher_version_to_file(dest)
+
+        logger.info("publish: {}\t-{}->\t{}".format(
+                src_rel, lang, dest_rel))
 

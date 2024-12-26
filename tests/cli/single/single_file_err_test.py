@@ -9,7 +9,8 @@ import shutil
 import re
 from pathlib import Path
 
-from cli_test_shared import SUFFIX_FLAG, rst_simple, run_single_mode
+from ... import TesteeDir
+from .. import SUFFIX_FLAG, run_single_mode
 
 
 class TestSrcFileErr:  # err related source file
@@ -52,8 +53,9 @@ class TestSrcFileErr:  # err related source file
 class TestDestFileErr:  # issue w/ destination
 
     def test_non_exs(_):  # given DESTINATION, not suffix
-        with tempfile.TemporaryDirectory() as temp_dir:
-            src = rst_simple
+        with (TesteeDir('rst_simple') as (_, file_paths),
+                tempfile.TemporaryDirectory() as temp_dir):
+            src = file_paths[0]
 
             dest = os.path.realpath(os.path.join(
                     temp_dir, 'non_exist_dir', 'output.html'))
@@ -65,8 +67,9 @@ class TestDestFileErr:  # issue w/ destination
                     result.stderr)
 
     def test_is_dir(_):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            src = rst_simple
+        with (TesteeDir('rst_simple') as (_, file_paths),
+                tempfile.TemporaryDirectory() as temp_dir):
+            src = file_paths[0]
 
             result = run_single_mode(src, temp_dir)
             assert result.returncode == 21
@@ -75,8 +78,9 @@ class TestDestFileErr:  # issue w/ destination
                     result.stderr)
 
     def test_no_perm(_):
-        with tempfile.NamedTemporaryFile(delete=True) as temp_file:
-            src = rst_simple
+        with (TesteeDir('rst_simple') as (_, file_paths),
+                tempfile.NamedTemporaryFile(delete=True) as temp_file):
+            src = file_paths[0]
 
             dest = temp_file.name
             os.chmod(dest, 0o555)  # no write perm
@@ -88,13 +92,14 @@ class TestDestFileErr:  # issue w/ destination
                     result.stderr)
 
     def test_alongside_no_perm(_):  # no given DESTINATION, not suffix
-        with tempfile.TemporaryDirectory() as temp_dir:
-            src = os.path.realpath(os.path.join(temp_dir, 'ipt.rst'))
-            shutil.copy2(rst_simple, src)
+        with (TesteeDir('rst_simple') as (temp_dir, file_paths)):
+            src = file_paths[0]
 
-            dest = os.path.realpath(os.path.join(temp_dir, 'ipt.html'))
+            dest = os.path.realpath(os.path.join(
+                    temp_dir, 'rst_simple.html'))
             with open(dest, 'w'):  # create empty file
                 pass
+
             os.chmod(dest, 0o555)  # no write perm
 
             result = run_single_mode(src)  # no DESTINATION
@@ -104,11 +109,11 @@ class TestDestFileErr:  # issue w/ destination
                     result.stderr)
 
     def test_suffix_no_perm(_):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            src = os.path.realpath(os.path.join(temp_dir, 'ipt.rst'))
-            shutil.copy2(rst_simple, src)
+        with (TesteeDir('rst_simple') as (temp_dir, file_paths)):
+            src = file_paths[0]
 
-            dest = os.path.realpath(os.path.join(temp_dir, 'ipt_suf.html'))
+            dest = os.path.realpath(os.path.join(
+                    temp_dir, 'rst_simple_suf.html'))
             with open(dest, 'w'):  # create empty file
                 pass
             os.chmod(dest, 0o555)  # no write perm

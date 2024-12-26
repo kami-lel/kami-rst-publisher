@@ -14,6 +14,9 @@ Heading 1
 #########
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
+
+.. _`Heading1.Heading2`:
+
 Heading 2
 =========
 Nulla eu nulla quis ligula sollicitudin feugiat.  Vestibulum pulvinar, mauris sed commodo blandit, sem ligula lacinia risus, a faucibus sem magna quis libero.
@@ -39,8 +42,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 ##############
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-`II.2` Heading 2
-================
+Q.v. `Heading1.Heading2`_
+
+`II.2` Heading 2 ``Code info``
+==============================
 Nulla eu nulla quis ligula sollicitudin feugiat.  Vestibulum pulvinar, mauris sed commodo blandit, sem ligula lacinia risus, a faucibus sem magna quis libero.
 
 `II.2.1` Heading 3
@@ -127,7 +132,7 @@ nunc mauris, ``vel lobortis erat`` quis., at lectus. sagittis aliquet nibh a ele
 
 Nam aliquam leo nec sem blandit,
 
-- sit amet efficitur nibh luctus.
+- sit amet efficitur nibh luctus. ``Some Content in Code``
 - Quisque efficitur sem et enim
 
   - iaculis eget ante
@@ -149,7 +154,7 @@ Nullam iaculis commodo augue, et malesuada lectus. Aenean vitae eros gravida, cu
 Nullam [#]_ iaculis commodo [#]_ augue, et [#]_ malesuada lectus. Aenean vitae eros gravida, cursus dui id, lobortis nisi. Donec convallis urna ac urna varius consequat. Praesent ac erat sed dolor dapibus elementum.
 
 (a) Quisque porttitor ex turpis
-(b) vitae ullamcorper est fermentum eget.
+(b) vitae ullamcorper est fermentum eget. [#]_ 
 (c) Cras rutrum elit sit amet commodo blandit. Nulla tincidunt dui neque, sit amet congue magna mollis quis. Vivamus velit nunc, volutpat et risus et, dictum tempus elit. Quisque venenatis neque lobortis turpis ullamcorper posuere.
 
 **Nested** ol:
@@ -264,3 +269,5 @@ fallback e.g. `abc`
 .. [#] lacinia ut neque in, dignissim malesuada lacus
 
 .. [#] *Social History of Alcohol Research* (older volumes) Social History of Alcohol & Drugs (newer volumes), Journal of the Alcohol & Temperance History Group.
+
+.. [#] Footnote in Lists

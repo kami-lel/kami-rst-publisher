@@ -126,7 +126,7 @@ blockquote > *,
 .literal-block, span.literal, /* Literals */
 .system-message > *{
   font-family: "Fira Code Kami", "Courier New";
-  font-size: small;
+  font-size: 80%;
   background-color: #EBF2F0;
   color: #006642;
 }
@@ -193,6 +193,12 @@ section:target > h5, section:target > h6,
 [role="doc-noteref"]:target {
   background-color: #FFE0A6; /* selected hyperlink color */
 }
+
+[role="doc-noteref"] {
+  vertical-align: super;
+}
+
+
 
 
 

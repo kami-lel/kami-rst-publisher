@@ -4,7 +4,6 @@ implment single mode of kami_rst_publisher CLI
 
 
 RENDERED_FILE_EXTENSION = '.html'
-PUBLISH_FILE_WRITER_NAME = 'html5'
 
 
 import os
@@ -12,45 +11,35 @@ import logging
 
 from docutils.core import publish_file
 
-from .cli_utils import PROGRAM_NAME, \
-        determine_parser, create_settings_overrides
+from .cli_utils import PROGRAM_NAME, WRITER_NAME, \
+        create_settings_overrides, \
+        append_publisher_version_to_file, normalize_src_arg_and_test_access
 
 
-def cli_single_mode_main(src_arg, dest_arg, suffix, render_preset):
+def cli_single_mode_main(src_arg, dest_arg, suffix,
+        mlo_config, render_preset):
 
-    src_path = _normalize_src_path_and_test_access(src_arg)
+    src_path = normalize_src_arg_and_test_access(src_arg)
 
     dest_path = _determine_dest_path(dest_arg, src_path, suffix)
     dest_info = dest_arg or dest_path  # used in print messgaes, etc.
 
     # test access to dest_path, and create the file if non-existent
     _test_dest_path_access(dest_path, dest_arg, dest_info)
+    language, parser_name = \
+        mlo_config.get_language_parser_name(src_path, src_arg)
 
     # perform render
-    a = publish_file(source_path=src_arg,
+    publish_file(source_path=src_path,
             destination_path=dest_path,
-            parser_name=determine_parser(),
-            writer_name=PUBLISH_FILE_WRITER_NAME,
+            parser_name=parser_name,
+            writer_name=WRITER_NAME,
             settings_overrides=create_settings_overrides(render_preset))
 
+    append_publisher_version_to_file(dest_path)
+
     logging.getLogger(PROGRAM_NAME).info(
-            "finish: {}\n\t->{}".format(src_arg, dest_info))
-
-
-def _normalize_src_path_and_test_access(src_arg):
-    # normalize source path
-    src_path = os.path.realpath(src_arg)
-
-    # test SOURCE file
-    try:
-        open(src_path, 'r')
-    except OSError as err:
-        logging.getLogger(PROGRAM_NAME).critical(
-                "re {} of SOURCE: {}"
-                .format(src_arg, err.strerror))
-        exit(err.errno)
-
-    return src_path
+            "{}\t-{}->\n\t{}".format(src_arg, language, dest_info))
 
 
 def _determine_dest_path(dest_arg, src_path, suffix):
@@ -84,5 +73,6 @@ def _test_dest_path_access(dest_path, dest_arg, dest_info):
             err_msg = "can not create destination: {}".format(dest_info)
 
         logger.critical(err_msg)
+
         exit(err.errno)
 
