@@ -109,38 +109,9 @@ Run with python::
 
     python3 -m kami_rst_publisher ...
 
-And its *help* file::
+Find out its usage by ``-h``::
 
-    usage: kami_rst_publisher [-h] [-r] [-e FILTER] [-w [PORT]] [-s [SUFFIX]] [-p {dark,light}] [-D] [-v] [-q] SOURCE [DESTINATION]
-
-    personalized rST publisher based on docutils but with extra roles & directives
-
-    - single mode: given a SOURCE file, publish a HTML file
-    - recursive mode: recusrively publish all files in SOURCE folder
-    - web server mode: to be implemented
-
-    positional arguments:
-      SOURCE                SOURCE of raw text, as file/directory path
-      DESTINATION           DESTINATION for rendered files, as file/directory path
-                            if absent, rendered files will be saved alongside SOURCE
-
-    options:
-      -h, --help            show this help message and exit
-      -r, --recursive       enable recursive mode, v.s.
-      -e FILTER, --expression FILTER
-                            with --recursive, use FILTER to select files to be rendered
-                            default to ".+\.rst"
-      -w [PORT], --web-server [PORT]
-                            enable web server mode, v.s.
-      -s [SUFFIX], --suffix [SUFFIX]
-                            append SUFFIX to rendered files
-                            default to ".R"
-                            ignored in single mode and DESTINATION is given
-      -p {dark,light}, --render-preset {dark,light}
-                            set rendering presets
-      -D, --dark            equivalent to --preset dark
-      -v, --verbose
-      -q, --quiet
+    python3 -m kami_rst_publisher -h
 
 
 
