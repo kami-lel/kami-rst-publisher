@@ -214,6 +214,33 @@ Ut enim ad minim veniam
 
 Et vulputate enim erat vestibulum.
 
+## Math Latex
+
+
+Here are some examples of inline LaTeX expressions. Einstein's equation $E = mc^2$ relates energy and mass, while Gauss's law is $ \nabla \cdot \mathbf{E} = \frac{\rho}{\varepsilon_0}$. The Basel problem sum is $ \sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}$, and a fundamental calculus limit is $ \lim_{x \to 0} \frac{\sin x}{x} = 1$. The Pythagorean theorem is shown as $a^2 + b^2 = c^2$.
+
+A simple expression is $x + y = z$.
+
+----
+
+The solutions to a quadratic equation can be found using the quadratic formula:
+
+$$
+x = \frac{ -b \pm \sqrt{b^2 - 4ac} }{2a}
+$$
+
+----
+
+$$
+|A \cup B| = |A| + |B| - |A \cap B| \\
+= n + m - |A \cap B| \\
+\text{If } |A|=n, |B|=m, \text{ and }A,B \text{ are subsets of an } n\text{-element set,} \\
+|A \cap B| = \sum_{k=0}^n \binom{n}{k} \text{ (by binomial expansion)} \\
+\text{and} \sum_{k=0}^n \binom{n}{k} = 2^n \\
+\text{Thus, } |A \cup B| = n + m - 2^{n} \text{ (if } |A|=|B|=n, \text{ and }A,B\text{ are disjoint)}.
+$$
+
+
 ## Technicals
 
 ### Link
