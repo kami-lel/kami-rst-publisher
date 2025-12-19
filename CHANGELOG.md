@@ -261,7 +261,6 @@ commit message:
 
       /* PUBLISHED BY kami-rst-publisher.#2-6 */
 
-> [!NOTE]
 > 02023-10-27
 
 
@@ -308,7 +307,6 @@ commit message:
 
 - minor correction and change in `README.rst`.
 
-> [!NOTE]
 > 02023-10-26
 
 
@@ -342,7 +340,6 @@ re `cli.py`:
 
 - add `-l` to enable rendering with light mode.
 
-> [!NOTE]
 > 02023-06-29
 
 
@@ -367,7 +364,6 @@ commit message:
 
 Change in `rst2html_file.py`: in recursive mode, it used to print all traversed folders in the str() messages. Now it only includes folders that have at least one file rendered.
 
-> [!NOTE]
 > 02023-05-26
 
 
@@ -399,7 +395,6 @@ commit message:
   - rename *repeat mode* to **continuous**.
   - update `README.rst` to explain these usages.
 
-> [!NOTE]
 > 02023-05-25
 
 
@@ -427,7 +422,6 @@ increase dark theme legibility, etc.
 - change in `kami_html5.css` regarding `ol` to use different typefaces for marker & content.
 - minor correction in `README.rst`.
 
-> [!NOTE]
 > 02023-04-27
 
 
