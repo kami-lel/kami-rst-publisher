@@ -39,9 +39,7 @@
 
 
 
-## versions
-
-### 4-1
+## [4.1.0] - 2024-12-26
 
 version message
 
@@ -61,7 +59,7 @@ version message
 
 
 
-### 4-0
+## [4.0.0] - 2024-12-26
 
 version message
 
@@ -99,7 +97,7 @@ change re **CLI**:
 
 
 
-### 3-4
+## [3.4.0] - 2024-12-19
 
 version message
 
@@ -131,7 +129,7 @@ version message
 
 
 
-### 3-3
+## [3.3.0] - 2024-12-11
 
 version message:
 
@@ -171,7 +169,7 @@ version message:
 
 
 
-### 3-2
+## [3.2.0] - 2024-10-07
 
 version message:
 
@@ -191,7 +189,7 @@ version message:
 
 
 
-### 3-1
+## [3.1.0] - 2024-10-07
 
 version message:
 
@@ -214,7 +212,7 @@ version message:
 
 
 
-### 3-0
+## [3.0.0] - 2024-05-09
 
 version message:
 
@@ -247,7 +245,7 @@ version message:
 
 
 
-### 2-6
+## 2-6
 
 commit message:
 
@@ -278,7 +276,7 @@ commit message:
 
 
 
-### 2-5
+## 2-5
 
 commit message:
 
@@ -325,7 +323,7 @@ commit message:
 
 
 
-### 2-4
+## 2-4
 
 commit message:
 
@@ -359,7 +357,7 @@ re `cli.py`:
 
 
 
-### 2-3
+## 2-3
 
 commit message:
 
@@ -384,7 +382,7 @@ Change in `rst2html_file.py`: in recursive mode, it used to print all traversed 
 
 
 
-### 2-2
+## 2-2
 
 commit message:
 
@@ -416,7 +414,7 @@ commit message:
 
 
 
-### 2-1
+## 2-1
 
 increase dark theme legibility, etc.
 
@@ -444,7 +442,7 @@ increase dark theme legibility, etc.
 
 
 
-### 2-0
+## 2-0
 
 version 2.0.
 
@@ -464,7 +462,7 @@ version 2.0.
 
 
 
-### 1-2
+## 1-2
 
 dark & light render.
 
@@ -485,7 +483,7 @@ Split stylesheets into `kami_html5.css` & `kami_dark_green.css`, viz.:
 
 
 
-### 1-1
+## 1-1
 
 - add stylesheets.
 
@@ -501,7 +499,7 @@ Split stylesheets into `kami_html5.css` & `kami_dark_green.css`, viz.:
 
 
 
-### 1-0 - ?
+## 1-0
 
 1st version.
 
