@@ -1,10 +1,41 @@
 # kami-rst-publisher CHANGELOG
 
+[^format]
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## [Unreleased]
 
 ### Added
 
 - hooks-utility as Git Submodule
+
+### Changed
+### Deprecated
+### Removed
+### Fixed
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -470,6 +501,42 @@ Split stylesheets into `kami_html5.css` & `kami_dark_green.css`, viz.:
 
 
 
-### 1-0
+### 1-0 - ?
 
 1st version.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[unreleased]: https://github.com/kami-lel/kaye/compare/v4.1.0...dev
+[4.1.0]: https://github.com/kami-lel/kaye/compare/v4.0.0...v4.1.0
+[4.0.0]: https://github.com/kami-lel/kaye/compare/v3.4.0...v4.0.0
+[3.4.0]: https://github.com/kami-lel/kaye/compare/v3.3.0...v3.4.0
+[3.3.0]: https://github.com/kami-lel/kaye/compare/v3.2.0...v3.3.0
+[3.2.0]: https://github.com/kami-lel/kaye/compare/v3.1.0...v3.2.0
+[3.1.0]: https://github.com/kami-lel/kaye/compare/v3.0.0...v3.1.0
+[3.0.0]: https://github.com/kami-lel/kaye/releases/tag/v3.0.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+[^format]: CHANGELOG format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); Version scheme adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
