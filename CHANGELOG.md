@@ -21,6 +21,9 @@
 - hooks-utility as Git Submodule
 
 ### Changed
+
+- formalize `CHANGELOG.md` format
+
 ### Deprecated
 ### Removed
 ### Fixed
