@@ -1,5 +1,13 @@
 # kami-rst-publisher CHANGELOG
 
+## [Unreleased]
+
+### Added
+
+- hooks-utility as Git Submodule
+
+
+
 ## versions
 
 ### 4-1
